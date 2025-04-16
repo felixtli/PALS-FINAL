@@ -1,0 +1,166 @@
+html, body {
+    color : #fcfcfc;
+    background-color: #1b1b1b;
+    font-family: "Poppins", sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+img {
+    background-color: white;
+}
+
+#main {
+
+    margin-top: 1vh;
+
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 5vh 60.7vh 32vh; /* 97.7 */
+
+    grid-template-areas:
+    "sidebar topbar"
+    "sidebar input"
+    "sidebar input"
+}
+
+#topNav {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.topNavButton {
+    height: 100%;
+    width: 10%;
+
+    line-height: 40px;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+
+    background-color: #1e1e1e;
+}
+
+
+#sideNav {
+    grid-area: sidebar;
+    background-color: #1b1b1b;
+    border-right: 4px solid #1e1e1e;
+
+    display: flex;
+    flex-direction: column; 
+    align-items: center; /* Aligns items to vertical center of div */
+}
+
+.navHeader {
+    width: 100%;
+
+    color: white;
+    font-size: 22px;
+
+    display: flex;
+
+    border-bottom: 5px solid #201f1f;
+}
+.navHeader > p {
+    margin-left: 33.5%;
+}
+
+.chatItem {
+    width: 100%;
+
+    border-bottom: 3px solid #201f1f;
+
+    color: white;
+    font-size: 16px;
+}
+.chatItem > p {
+    margin-left: 8px;
+}
+.chatItem:hover {
+    background-color: #232323;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+  
+  
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #454140;
+    border-radius: 8px;
+}
+
+
+
+div.inputArea { /* User input area */
+    grid-area: input;
+    position: relative;
+
+    background-image: linear-gradient(#1b1b1b, #1a1a1a); 
+
+    border-top: #1e1e1e 1px solid;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: top; /* Aligns items to horizontal center of div */
+    align-items: center; /* Aligns items to vertical center of div */
+
+}
+
+
+textarea { /* User text input area */
+    
+    height: 35px;
+
+    width: 95%;
+    height: 95%;
+
+    margin-left: 8px;
+
+    padding: 8px;
+
+    border:1.5px solid #413e3d;
+    border-radius: 4px;
+    background-color: #131313;
+
+    color: #f8f8f8;
+    font-family: "Consolas";
+    font-size: 14px;
+
+    resize: none;
+}
+
+textarea:focus { /* User text input when box is clicked */
+    outline: none !important;
+    border: 2px solid #4e4947;
+}
+
+input[type=button] { /* User submit button */
+    height: 35px;
+    width: 800px;
+
+    margin-left: 4px;
+    margin-top: 8px;
+
+    border-radius: 2%;
+
+    color: white;
+    background-color: #131313;
+    border: solid 1px transparent;
+
+}
+
+input[type=button]:hover { /* User submit button hover */
+    border-radius: 2%;
+    border-color: #ff3b3be0;
+}
+

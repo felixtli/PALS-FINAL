@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="{% static 'CSS/submitStyle.css' %}">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>PALS</title>
+    </head>
+
+    <body>
+        
+        <div id = "main">
+            <div id="sideNav">
+                <div class="navHeader">
+                    <p> PALS </p>
+                </div>
+                <div class="chatItem">
+                    <p> Example 1</p>
+                </div>
+                <div class="chatItem">
+                    <p> Example 2</p>
+                </div>
+                <div class="chatItem">
+                    <p> Example 3</p>
+                </div>
+            </div>
+
+            <div id="topNav">
+                <a href = "codesubmission" class="topNavButton"> Chat </a>
+                <a href = "codesubmission" class="topNavButton"> Code </a>
+            </div>
+
+            <div class = "inputArea">
+                <textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" id="response" name="response" data-user-input="{{ user_input }}" rows="14" cols="10" wrap="soft"></textarea>
+                <form onclick = "customAlert()">
+                    {% csrf_token %}
+                <input id="response_button" type="button" value="→"><br>
+                </form>
+            </div>    
+        </div>
+        
+
+        
+        <script src="{% static 'JS/submission.js' %}">
+        </script>
+    </body>
+
+</html>
