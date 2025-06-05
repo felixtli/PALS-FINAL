@@ -1,29 +1,15 @@
-# unfinished chatbot
+import ollama
 
-"""import transformers
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import torch
+# Initialize the Ollama Client
+client = ollama.Client()
 
-model_id = "meta-llama/Llama-3.2-1B"
-# Load tokenizer and model directly from Hugging Face
-tokenizer = AutoTokenizer.from_pretrained(model_id, use_auth_token=True, use_fast=False)
+# Define model and prompt
+model = "llama3.2"
+prompt = "What is Standard Meta Language?"
 
-# Defines transformer pipeline (our model)
-pipeline = transformers.pipeline(
-    "question-answering",
-    model=model_id,
-    torch_dtype=torch.float16,
-    device_map="auto",
-)
-# Chat
+def generateResponse(prompt):
+    # Generate model response
+    response = client.generate(model=model, prompt=prompt)
 
-def nextResponse(request):
-
-    # Chat
-    sequences = pipeline(
-        'What is StandardML?\n',
-        truncation=False,
-        max_length=400,
-    )
-
-    print(sequences[0]['generated_text'])"""
+    # Return generated response
+    return (response.response)
