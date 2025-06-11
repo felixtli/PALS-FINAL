@@ -9,13 +9,12 @@ from .chatbot import generateResponse
 from .forms import StyledUserCreationForm, StyledAuthenticationForm
 from django.contrib.auth import login
 
-def home(request):
+def home(request): # Unfinished home page
     return render(request, "studentSystem/index.html")
 
 
-def codeSubmit(request):
+def codeSubmit(request): # Unfinished code submission page
     return render(request, "studentSystem/codeSubmit.html")
-
 
 def signupView(request):
     if request.method == "POST":

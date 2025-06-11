@@ -15,7 +15,7 @@ class StyledUserCreationForm(UserCreationForm): # Custom subclass of UserCreatio
                 'placeholder': field.label,
             })
 
-class StyledAuthenticationForm(AuthenticationForm):
+class StyledAuthenticationForm(AuthenticationForm): # Custom subclass of AuthenticationForm that allows for CSS customization
     
     def __init__(self, *args, **kwargs):
         super(StyledAuthenticationForm, self).__init__(*args, **kwargs)
