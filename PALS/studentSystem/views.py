@@ -50,13 +50,21 @@ def loginView(request):
         form = StyledAuthenticationForm()
     return render(request, "studentSystem/login.html", { "form" : form})
 
+def createChat (request):
+    currentUser = request.user
+    session = Session.objects.create(user=currentUser)
+    return redirect('chat', id=session.pk)
+
 
 def chat(request, id):
-    session = Session.objects.get(pk = id)
-    chatLog = json.dumps(session.chatLog)
+    session = Session.objects.get(pk = id) # Current session and associated fields
+    chatLog = json.dumps(session.chatLog) # Chats of the current session
+    existingChats = Session.objects.filter(user=session.user).exclude(pk=id) # Other chats asssociated with the user
+
     context = {
         "chatID" : id,
         "chatLog" : chatLog,
+        "existingChats" : existingChats
     }
     print (context)
     return render(request, "studentSystem/chat.html", context)

@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <link rel="stylesheet" href="{% static 'CSS/indexStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/chatStyle.css' %}">
 
     <head>
         <meta charset="utf-8">
@@ -18,14 +18,14 @@
                 <div class="navHeader">
                     <p> PALS </p>
                 </div>
-                <div class="chatItem">
-                    <p> Example 1</p>
-                </div>
-                <div class="chatItem">
-                    <p> Example 2</p>
-                </div>
-                <div class="chatItem">
-                    <p> Example 3</p>
+                {% for chat in existingChats %}
+                    <div class="pastChat">
+                        {{chat}}
+                    </div>
+                {% endfor %}
+
+                <div class="newChat">
+                    <a href="/create-chat/"> New Chat </p>
                 </div>
             </div>
             <div id = "conversationArea">
@@ -45,14 +45,14 @@
         </div>
         
         <script>
-            const myList = JSON.parse('{{ chatLog|safe|escapejs }}');
-            console.log(myList);
+            const chatLog = JSON.parse('{{ chatLog|safe|escapejs }}');
+            console.log(chatLog);
         </script>
         
         <script src="{% static 'JS/chat.js' %}"></script>
 
         <script>
-            loadChat(myList);
+            loadChat(chatLog);
         </script>
         
     </body>
