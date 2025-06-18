@@ -1,15 +1,16 @@
 :root {
     --white: #fcfcfc;
     --white-secondary: #F5F5F5;
-    --gray: #e6e6e6;
+    --gray: #bdbdbd;
+    --dark-gray: #757575;
     --black: #0f0f0f;
-    --black-secondary: #3e3a38;
-    --accent-1: #c444c4;
+    --black-secondary: #33302f;
+    --accent-1: #a78bfa;
 }
 
 html, body {
-    color : var(--black);
-    background-color: var(--white);
+    color : var(--gray);
+    background-color: var(--black-secondary);
     font-family: "Poppins", sans-serif;
     margin: 0px;
     padding: 0px;
@@ -33,9 +34,11 @@ img {
 }
 
 #topNav {
-    height: 5% ;
+    height: 5%;
+    width: 100%;
     display: flex;
     flex-direction: row;
+    border-bottom: 2px solid var(--dark-gray);
 }
 
 .topNavButton {
@@ -45,23 +48,20 @@ img {
     line-height: 40px;
     text-align: center;
     font-size: 18px;
-    color: var(--black);
+    color: var(--white);
     text-decoration: none;
 
-    background-color: var(--white);
+    background-color: var(--black);
 }
 
 
 #sideNav {
     grid-area: sidebar;
-    background-color: var(--white-secondary);
-    border-right: 2.5px solid var(--black-secondary);
-    background: rgb(27, 26, 26);
+    background-image: linear-gradient(var( --black), var(--black-secondary));
+    border-right: 2.5px solid var(--dark-gray);
     color: white;
     font-weight: 600;
     font-size: 1.2em;
-    padding: 15px;
-
     display: flex;
     flex-direction: column; 
     align-items: center; /* Aligns items to vertical center of div */
@@ -69,37 +69,62 @@ img {
 
 .navHeader {
     width: 100%;
-
-    color: var(--black);
+    color: var(--white);
     font-size: 22px;
-
     display: flex;
-
-    border-bottom: 5px solid var(--white-secondary);
+    border-bottom: 2px solid var(--dark-gray);
 }
+
 .navHeader > p {
-    margin-left: 33.5%;
+    margin: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
-.chatItem {
+.pastChatContainer {
     width: 100%;
 
-    border-bottom: 3px solid var(--white-secondary);
+    border-bottom: 3px solid #201f1f;
 
-    color: var(--black);
+    text-decoration: none;
     font-size: 16px;
+    font-weight: normal;
+    color: var(--white-secondary);
 }
-.chatItem > p {
-    margin-left: 10px;
+
+.pastChatContainer:hover {
+    background-color: #232323;
 }
-.chatItem:hover {
-    background-color: var(--gray);
+
+.pastChatLink {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--white-secondary);
+}
+
+.pastChatTitle {
+    margin-left: 8px;
+}
+
+.newChatContainer {
+    margin-top: 8px;
+}
+
+.newChatButton {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.pastChatLink:hover, .newChatButton:hover {
+    color: var(--accent-1);
+    cursor: pointer;
 }
 
 #conversationArea {
     grid-area: chat;
 
-    background-image: linear-gradient(var( --white), var(--white-secondary));
+    background-image: linear-gradient(var( --black), var(--black-secondary));
 
     font-size: 16px;
     overflow: auto;
@@ -130,15 +155,20 @@ div.teacherArea { /* New AI Outputs */
     display: flex;
     flex-direction: column; 
     justify-content: center; /* Aligns items to horizontal center of div */
-    align-items: center; /* Aligns items to vertical center of div */
+    align-items: start; /* Aligns items to vertical center of div */
 
-    border: 2px solid var(--black-secondary);
+    border: 2px solid var(--dark-gray);
     border-radius: 4px;
-    background-color: var(--white-secondary);
+    background-color: #1f1f1f;
 
     padding: 12px;
 
-    color: var(--black);
+    color: var(--white);
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    margin-bottom: 12px;
+
+    border-left: 3.5px solid var(--accent-1);
 }
 
 div.pastResponseArea { /* New User Inputs */
@@ -155,15 +185,17 @@ div.pastResponseArea { /* New User Inputs */
     display: flex;
     flex-direction: column; 
     justify-content: center; /* Aligns items to horizontal center of div */
-    align-items: center; /* Aligns items to vertical center of div */
+    align-items: flex-end; /* Aligns items to vertical center of div */
 
-    border: 2px solid var(--black-secondary);
+    border: 2px solid var(--dark-gray);
     border-radius: 4px;
-    background-color: var(--white-secondary);
+    background-color: #252525;
 
     padding: 12px;
 
-    color: var(--black);
+    color: var(--white);
+
+    border-right: 3.5px solid var(--accent-1);
 }
 
 
@@ -172,9 +204,9 @@ div.inputArea { /* User input area */
 
     position: relative;
 
-    background-color: var(--white-secondary);
+    background-color: var(--black-secondary);
     
-    border-top: var(--gray) 1px solid;
+    border-top: var(--dark-gray) 1px solid;
 
     display: flex;
     flex-direction: row;
@@ -192,22 +224,24 @@ textarea { /* User text input area */
 
     margin-left: 8px;
 
-    border:1.5px solid var(--white-secondary);
+    border: 1px solid var(--black);
     border-radius: 4px;
-    background-color: var(--gray);
+    background-color: var(--black-secondary);
 
-    color: var(--black);
-    font-family: "Poppins", sans-serif;
+    color: var(--gray);
+    font-family: sans-serif;
     font-size: 15px;
 
     padding: 5px;
+
+    box-shadow: 0.5px 3px 8px #00000066;
 
     resize: none;
 }
 
 textarea:focus { /* User text input when box is clicked */
     outline: none !important;
-    border: 2px solid var(--black-secondary);
+    border: 1.5px solid var(--black);
 }
 
 input[type=button] { /* User submit button */
@@ -216,17 +250,17 @@ input[type=button] { /* User submit button */
 
     margin-left: 4px;
 
-    border: 2px solid var(--white);
+    border: 2px solid var(--black-secondary);
     border-radius: 50%;
-    background-color: var(--gray);
+    background-color: var(--black);
 
-    color: var(--black);
+    color: var(--white);
 
 }
 
 input[type=button]:hover { /* User submit button hover */
-    border: 2px solid var(--black-secondary);
+    border: 2px solid var(--accent-1);
     border-radius: 50%;
-    background-color: var(--white-secondary);
+    background-color: var(--black);
 }
 

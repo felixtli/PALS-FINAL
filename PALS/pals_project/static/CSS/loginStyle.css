@@ -11,7 +11,7 @@ body {
 }
 
 .form-container {
-    background-color: rgb(17, 23, 37);
+    background-color: #111725;
     padding: 40px 30px;
     border-radius: 12px;
     width: 360px;
@@ -46,7 +46,7 @@ body {
 
 .input-field:focus {
     outline: none;
-    border-color: rgba(167, 139, 250);
+    border-color: #a78bfa;
 }
 
 .input-field label {

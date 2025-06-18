@@ -19,13 +19,15 @@
                     <p> PALS </p>
                 </div>
                 {% for chat in existingChats %}
-                    <div class="pastChat">
-                        {{chat}}
+                    <div class="pastChatContainer">
+                        <a class="pastChatLink" href="/{{ chat.id }}/chat/">
+                            <p class="pastChatTitle">{{ chat }}</p>
+                        </a>
                     </div>
                 {% endfor %}
 
-                <div class="newChat">
-                    <a href="/create-chat/"> New Chat </p>
+                <div class="newChatContainer">
+                    <a class="newChatButton" href="/create-chat/"> New Chat </p>
                 </div>
             </div>
             <div id = "conversationArea">

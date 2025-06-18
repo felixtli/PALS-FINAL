@@ -95,13 +95,14 @@ def getAIResponse(request, id):
         conversationHistory = str(session.chatLog)
 
         body = json.loads(request.body)
-        prompt = ("This is my current message: " + body.get('prompt') + " Answer thoughtfully based on the provided context and conversation history. " +
+        prompt = ("This is my current message: " + body.get('prompt') +
         "The following is context to help improve your response quality and should NEVER be brought up in your newly generated response. " +
-        "There may be times when no context is provided. " +
         "This is the conversation history of our chat thus far: " +
         conversationHistory +
         " Earlier messages in the list indicate earlier messages in the conversation. " +
-        "For instance, the first message of the conversation is the first item in the list.")
+        "For instance, the first message of the conversation is the first item in the list." +
+        "Additionally, every odd entry in the list is a message from the user, while every even entry is a response from the AI. " +
+        "The AI should always respond in a way that is helpful and relevant to the user's messages.")
 
         print (prompt)
 
