@@ -1,0 +1,2110 @@
+============================================================
+[#1] Code:
+fun sum a b = a + b
+- Ground Truth: Function Definition, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Comparison Operator, Curried Function, Function Definition
+- ✅ Correct:    Arithmetic Operation, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator, Curried Function
+============================================================
+
+============================================================
+[#2] Code:
+fun add a b = a + b
+- Ground Truth: Function Definition, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Comparison Operator, Curried Function, Function Definition
+- ✅ Correct:    Arithmetic Operation, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator, Curried Function
+============================================================
+
+============================================================
+[#3] Code:
+fun sum a b = (a + b)
+- Ground Truth: Function Definition, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Curried Function, Function Definition
+- ✅ Correct:    Arithmetic Operation, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  Curried Function
+============================================================
+
+============================================================
+[#4] Code:
+fun square n = n * n
+- Ground Truth: Function Definition, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Polymorphic Function
+- ✅ Correct:    Arithmetic Operation, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator, Polymorphic Function
+============================================================
+
+============================================================
+[#5] Code:
+fun square n = (n * n)
+- Ground Truth: Function Definition, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Function Definition
+- ✅ Correct:    Arithmetic Operation, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#6] Code:
+fun factorial n =
+  case n of
+       0 => 1
+     | _ => n * factorial(n - 1);
+- Ground Truth: Arithmetic Operation, Function Definition, Pattern Matching, Non Tail Recursion Inefficiency
+- Predicted:    Arithmetic Operation, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
+- ✅ Correct:    Arithmetic Operation, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
+- ❌ Missed:     
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#7] Code:
+fun factorial 0 = 1
+  | factorial n = n * factorial (n - 1);
+- Ground Truth: Function Definition, Pattern Matching, Arithmetic Operation, Non Tail Recursion Inefficiency
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching, Polymorphic Function
+- ✅ Correct:    Arithmetic Operation, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator, Polymorphic Function
+============================================================
+
+============================================================
+[#8] Code:
+fun factorial n =
+  if n = 0 then 1
+  else n * factorial(n - 1);
+- Ground Truth: Function Definition, Conditional Statement, Arithmetic Operation, Comparison Operator, Non Tail Recursion Inefficiency
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Non Tail Recursion Inefficiency
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Non Tail Recursion Inefficiency
+- ❌ Missed:     
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#9] Code:
+fun sum a b =
+  if true then a + b else 0;
+- Ground Truth: Function Definition, Conditional Statement, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Conditional Statement, Curried Function, Function Definition
+- ✅ Correct:    Arithmetic Operation, Conditional Statement, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  Curried Function
+============================================================
+
+============================================================
+[#10] Code:
+fun square n = if true then n * n else 0
+- Ground Truth: Function Definition, Conditional Statement, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Conditional Statement, Function Definition
+- ✅ Correct:    Arithmetic Operation, Conditional Statement, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#11] Code:
+fun isEven n = n mod 2 = 0
+- Ground Truth: Function Definition, Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Polymorphic Function
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  Polymorphic Function
+============================================================
+
+============================================================
+[#12] Code:
+fun isEven n = (n mod 2 = 0)
+- Ground Truth: Function Definition, Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#13] Code:
+fun sum a b =
+  let
+    val s = a + b
+  in
+    s
+  end;
+- Ground Truth: Function Definition, Let Binding, Variable Assignment, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Comparison Operator, Curried Function, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator, Curried Function
+============================================================
+
+============================================================
+[#14] Code:
+fun square n =
+  let
+    val result = n * n
+  in
+    result
+  end;
+- Ground Truth: Function Definition, Let Binding, Variable Assignment, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator
+============================================================
+
+============================================================
+[#15] Code:
+fun square n =
+  let
+    val sq = n * n
+  in
+    sq
+  end;
+- Ground Truth: Function Definition, Let Binding, Variable Assignment, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator
+============================================================
+
+============================================================
+[#16] Code:
+fun isEven n =
+  case n mod 2 of
+      0 => true
+    | _ => false;
+- Ground Truth: Function Definition, Pattern Matching, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Function Definition, Pattern Matching
+- ✅ Correct:    Arithmetic Operation, Function Definition, Pattern Matching
+- ❌ Missed:     
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#17] Code:
+fun max a b = if a >= b then a else b
+- Ground Truth: Function Definition, Conditional Statement, Comparison Operator
+- Predicted:    Conditional Statement, Curried Function, Function Definition
+- ✅ Correct:    Conditional Statement, Function Definition
+- ❌ Missed:     Comparison Operator
+- 🚫 Incorrect:  Curried Function
+============================================================
+
+============================================================
+[#18] Code:
+fun max a b = if a > b then a else b
+- Ground Truth: Function Definition, Conditional Statement, Comparison Operator
+- Predicted:    Conditional Statement, Curried Function, Function Definition
+- ✅ Correct:    Conditional Statement, Function Definition
+- ❌ Missed:     Comparison Operator
+- 🚫 Incorrect:  Curried Function
+============================================================
+
+============================================================
+[#19] Code:
+fun max a b = (if a >= b then a else b)
+- Ground Truth: Function Definition, Conditional Statement, Comparison Operator
+- Predicted:    Conditional Statement, Curried Function, Function Definition
+- ✅ Correct:    Conditional Statement, Function Definition
+- ❌ Missed:     Comparison Operator
+- 🚫 Incorrect:  Curried Function
+============================================================
+
+============================================================
+[#20] Code:
+fun name (input: string option) =
+  "One for " ^
+  getOpt(input, "you") ^
+  ", one for me."
+
+- Ground Truth: Function Definition, Option Type, String Concatenation
+- Predicted:    External Module Usage, Function Definition, Option Type, String Concatenation, Tail Recursion
+- ✅ Correct:    Function Definition, Option Type, String Concatenation
+- ❌ Missed:     
+- 🚫 Incorrect:  External Module Usage, Tail Recursion
+============================================================
+
+============================================================
+[#21] Code:
+fun name (input: string option) =
+    "One for " ^ Option.getOpt (input, "you") ^ ", one for me."
+
+- Ground Truth: Function Definition, Option Type, String Concatenation
+- Predicted:    External Module Usage, Function Definition, Option Type, String Concatenation, Tail Recursion
+- ✅ Correct:    Function Definition, Option Type, String Concatenation
+- ❌ Missed:     
+- 🚫 Incorrect:  External Module Usage, Tail Recursion
+============================================================
+
+============================================================
+[#22] Code:
+fun absVal n = if n >= 0 then n else ~n
+- Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Arithmetic Operation
+- Predicted:    Conditional Statement, Function Definition
+- ✅ Correct:    Conditional Statement, Function Definition
+- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#23] Code:
+fun absVal n = if n < 0 then ~n else n
+- Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Arithmetic Operation
+- Predicted:    Conditional Statement, Function Definition
+- ✅ Correct:    Conditional Statement, Function Definition
+- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#24] Code:
+fun absVal n = (if n < 0 then ~n else n)
+- Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Arithmetic Operation
+- Predicted:    Conditional Statement, Function Definition
+- ✅ Correct:    Conditional Statement, Function Definition
+- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#25] Code:
+fun isEven n =
+  if n mod 2 = 0 then true else false;
+- Ground Truth: Function Definition, Conditional Statement, Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#26] Code:
+fun max a b =
+  case a >= b of
+      true => a
+    | false => b;
+- Ground Truth: Function Definition, Pattern Matching, Comparison Operator
+- Predicted:    Curried Function, Function Definition, Pattern Matching
+- ✅ Correct:    Function Definition, Pattern Matching
+- ❌ Missed:     Comparison Operator
+- 🚫 Incorrect:  Curried Function
+============================================================
+
+============================================================
+[#27] Code:
+fun valid [a: real, b: real, c: real]: bool =
+  a > 0.0 andalso b > 0.0 andalso c > 0.0 andalso a <= b + c andalso b <= a + c andalso c <= a + b
+fun equilateral [a: real, b: real, c: real]: bool =
+  valid([a, b, c]) andalso a <= b andalso a >= b andalso a <= c andalso a >= c
+fun scalene [a: real, b: real, c: real]: bool =
+  valid([a, b, c]) andalso (a < b orelse a > b) andalso (a < c orelse a > c) andalso (b < c orelse b > c)
+fun isosceles (sides: real list): bool =
+  valid(sides) andalso not (scalene(sides))
+
+- Ground Truth: Function Definition, Comparison Operator, Logical Operator, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Multiple Recursive Functions, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Multiple Recursive Functions, Tail Recursion
+============================================================
+
+============================================================
+[#28] Code:
+fun isLeapYear year =
+  year mod 4 = 0 andalso (year mod 100 <> 0 orelse year mod 400 = 0)
+- Ground Truth: Function Definition, Arithmetic Operation, Logical Operator, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Polymorphic Function
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Polymorphic Function
+============================================================
+
+============================================================
+[#29] Code:
+fun isLeapYear year =
+  year mod 4 = 0 andalso year mod 100 <> 0
+  orelse year mod 400 = 0
+
+- Ground Truth: Function Definition, Arithmetic Operation, Logical Operator, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Polymorphic Function
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Polymorphic Function
+============================================================
+
+============================================================
+[#30] Code:
+fun isLeapYear year =
+  let
+    fun divisible n = year mod n = 0
+  in
+    (divisible 4 andalso not (divisible 100)) orelse divisible 400
+  end
+
+- Ground Truth: Function Definition, Let Binding, Arithmetic Operation, Logical Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Comparison Operator, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+============================================================
+
+============================================================
+[#31] Code:
+fun absVal n =
+  case n < 0 of
+      true => ~n
+    | false => n;
+- Ground Truth: Function Definition, Pattern Matching, Comparison Operator, Arithmetic Operation
+- Predicted:    Function Definition, Pattern Matching
+- ✅ Correct:    Function Definition, Pattern Matching
+- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#32] Code:
+fun isEven n =
+  let
+    val r = n mod 2
+  in
+    r = 0
+  end;
+- Ground Truth: Function Definition, Let Binding, Variable Assignment, Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#33] Code:
+fun name (input: string option) =
+  if isSome input
+  then "One for " ^ valOf input ^ ", one for me."
+  else "One for you, one for me."
+
+- Ground Truth: Function Definition, Option Type, Conditional Statement, String Concatenation
+- Predicted:    Conditional Statement, External Module Usage, Function Definition, Option Type, String Concatenation, Tail Recursion
+- ✅ Correct:    Conditional Statement, Function Definition, Option Type, String Concatenation
+- ❌ Missed:     
+- 🚫 Incorrect:  External Module Usage, Tail Recursion
+============================================================
+
+============================================================
+[#34] Code:
+fun isPangram s = List.all(Char.contains(String.map Char.toLower s)) (explode "abcdefghijklmnopqrstuvwxyz")
+- Ground Truth: Function Definition, Basis Library Module Usage, Function Composition
+- Predicted:    Basis Library Module Usage, Comparison Operator, Function Definition
+- ✅ Correct:    Basis Library Module Usage, Function Definition
+- ❌ Missed:     Function Composition
+- 🚫 Incorrect:  Comparison Operator
+============================================================
+
+============================================================
+[#35] Code:
+fun isPangram s = List.all (Char.contains (String.map Char.toLower s)) 
+  (explode "abcdefghijklmnopqrstuvwxyz");
+- Ground Truth: Function Definition, Basis Library Module Usage, Function Composition
+- Predicted:    Basis Library Module Usage, Comparison Operator, Function Definition
+- ✅ Correct:    Basis Library Module Usage, Function Definition
+- ❌ Missed:     Function Composition
+- 🚫 Incorrect:  Comparison Operator
+============================================================
+
+============================================================
+[#36] Code:
+fun isPangram' #"{" _ = true
+  | isPangram' c s = String.isSubstring (str c) s andalso isPangram' (Char.succ c) s
+fun isPangram s = isPangram' #"a" (String.map Char.toLower s)
+- Ground Truth: Function Definition, Pattern Matching, Basis Library Module Usage, Logical Operator, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Basis Library Module Usage, Comparison Operator, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Basis Library Module Usage, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Tail Recursion
+============================================================
+
+============================================================
+[#37] Code:
+fun max a b =
+  let
+    val m = if a >= b then a else b
+  in
+    m
+  end;
+- Ground Truth: Function Definition, Let Binding, Variable Assignment, Conditional Statement, Comparison Operator
+- Predicted:    Conditional Statement, Curried Function, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Comparison Operator
+- 🚫 Incorrect:  Curried Function
+============================================================
+
+============================================================
+[#38] Code:
+fun name (input: string option) =
+  case input of
+     SOME name => "One for " ^ name ^ ", one for me."
+  |  NONE => "One for you, one for me."
+
+- Ground Truth: Function Definition, Option Type, Pattern Matching, String Concatenation
+- Predicted:    External Module Usage, Function Definition, Option Type, Pattern Matching, String Concatenation, Tail Recursion
+- ✅ Correct:    Function Definition, Option Type, Pattern Matching, String Concatenation
+- ❌ Missed:     
+- 🚫 Incorrect:  External Module Usage, Tail Recursion
+============================================================
+
+============================================================
+[#39] Code:
+datatype 'a tree = Empty | Elem of 'a | List of 'a tree list
+fun flatten Empty = []
+  | flatten (Elem n) = [n]
+  | flatten (List []) = []
+  | flatten (List (x::xs'))= flatten x @ flatten (List xs')
+- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency
+- Predicted:    Comparison Operator, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
+- ❌ Missed:     Basis Library Module Usage, Datatype Definition
+- 🚫 Incorrect:  Comparison Operator, Tail Recursion
+============================================================
+
+============================================================
+[#40] Code:
+datatype 'a tree = Empty | Elem of 'a | List of 'a tree list
+fun flatten tree =
+    case tree of
+        Empty => []
+        | Elem x => [x]
+        | List [] => []
+        | List (x::xs) => flatten(x) @ flatten(List xs)
+- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency
+- Predicted:    Comparison Operator, Function Definition, Pattern Matching, Tail Recursion
+- ✅ Correct:    Function Definition, Pattern Matching
+- ❌ Missed:     Basis Library Module Usage, Datatype Definition, Non Tail Recursion Inefficiency
+- 🚫 Incorrect:  Comparison Operator, Tail Recursion
+============================================================
+
+============================================================
+[#41] Code:
+fun factorial n =
+  if n < 0 then raise Domain
+  else if n = 0 then 1
+  else n * factorial(n - 1);
+- Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Exception Raising, Nested Conditional Statement, Arithmetic Operation, Non Tail Recursion Inefficiency
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Non Tail Recursion Inefficiency, Redundancy
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Non Tail Recursion Inefficiency
+- ❌ Missed:     Nested Conditional Statement
+- 🚫 Incorrect:  Redundancy
+============================================================
+
+============================================================
+[#42] Code:
+fun absVal n =
+  let
+    val result = if n < 0 then ~n else n
+  in
+    result
+  end;
+- Ground Truth: Function Definition, Let Binding, Variable Assignment, Conditional Statement, Comparison Operator, Arithmetic Operation
+- Predicted:    Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- 🚫 Incorrect:  
+============================================================
+
+============================================================
+[#43] Code:
+fun abbreviate (phrase: string): string =
+  let
+    fun is_delim c = Char.contains " -_," c
+    val tokens = String.tokens is_delim phrase
+    fun first_char_up word = Char.toUpper (String.sub (word, 0))
+  in
+    String.implode (List.map first_char_up tokens)
+  end;
+
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Basis Library Module Usage, Variable Assignment
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Function Definition, Let Binding, Local Function Definition, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  Anonymous Variable, Arithmetic Operation, Comparison Operator, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion
+============================================================
+
+============================================================
+[#44] Code:
+fun isLeapYear year =
+    if year mod 400 = 0
+    then true
+    else
+        if year mod 100 = 0
+        then false
+        else
+            year mod 4 = 0
+
+- Ground Truth: Arithmetic Operation, Function Definition, Conditional Statement, Comparison Operator, Nested Conditional Statement
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Redundancy
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ❌ Missed:     Nested Conditional Statement
+- 🚫 Incorrect:  Redundancy
+============================================================
+
+============================================================
+[#45] Code:
+datatype 'a tree = Empty | Elem of 'a | List of 'a tree list
+fun fold f e Empty = e
+  | fold f e (Elem x) = f (x, e)
+  | fold f e (List ts) =
+      foldr (fn (t, e') => fold f e' t) e ts
+fun flatten t = fold op:: [] t
+
+- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency
+- Predicted:    Comparison Operator, Curried Function, Function Definition, Lambda Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Function Definition, Lambda Function, Non Tail Recursion Inefficiency, Pattern Matching
+- ❌ Missed:     Basis Library Module Usage, Datatype Definition
+- 🚫 Incorrect:  Comparison Operator, Curried Function, Tail Recursion
+============================================================
+
+============================================================
+[#46] Code:
+datatype 'a tree = Empty | Elem of 'a | List of 'a tree list
+fun flatten tree =
+  case tree of
+    List(l) => foldl (fn (el, acc) => acc@flatten(el)) [] l
+  | Elem(x) => [x]
+  | Empty => []
+- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency
+- Predicted:    Comparison Operator, Function Definition, Lambda Function, Pattern Matching
+- ✅ Correct:    Function Definition, Lambda Function, Pattern Matching
+- ❌ Missed:     Basis Library Module Usage, Datatype Definition, Non Tail Recursion Inefficiency
+- 🚫 Incorrect:  Comparison Operator
+============================================================
+
+============================================================
+[#47] Code:
+fun isValid (a:real, b:real, c:real) =
+    a > 0.0 andalso b > 0.0 andalso c > 0.0
+    andalso a + b > c 
+    andalso a + c > b 
+    andalso b + c > a
+fun equilateral (sides: real list): bool =
+  let val a::b::c::_ = sides
+  in isValid (a,b,c) andalso Real.== (a, b) andalso Real.== (b,c)
+  end 
+fun isosceles (sides: real list): bool =
+  let val a::b::c::_ = sides
+  in isValid (a, b, c) andalso (Real.== (a, b) orelse Real.== (a, c) orelse Real.== (b, c))
+  end
+fun scalene (sides: real list): bool =
+  let val a::b::c::_ = sides
+  in isValid (a,b,c) andalso (Real.!= (a, b) andalso Real.!= (a,c ) andalso Real.!= (b,c ))
+  end
+
+- Ground Truth: Function Definition, Comparison Operator, Logical Operator, Arithmetic Operation, Let Binding, Basis Library Module Usage
+- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, External Module Usage, Function Definition, Let Binding, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding
+- ❌ Missed:     Basis Library Module Usage, Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Tail Recursion, Variable Assignment
+============================================================
+
+============================================================
+[#48] Code:
+type result = {a: int, c: int, g: int, t: int}
+fun nucleotideCounts (strand: string) : result =
+  foldl
+    (fn (x, {a, c, g, t}) =>
+       case x of
+         #"A" => {a = a + 1, c = c, g = g, t = t}
+       | #"C" => {a = a, c = c + 1, g = g, t = t}
+       | #"G" => {a = a, c = c, g = g + 1, t = t}
+       | #"T" => {a = a, c = c, g = g, t = t + 1}
+       | _ => raise Fail "Invalid nucleotide in strand")
+       {a = 0, c = 0, g = 0, t = 0} (String.explode strand)
+- Ground Truth: Function Definition, Basis Library Module Usage, Lambda Function, Pattern Matching, Arithmetic Operation, Exception Raising
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Exception Raising, Function Definition, Lambda Function, Pattern Matching, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Lambda Function, Pattern Matching
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator, Tail Recursion
+============================================================
+
+============================================================
+[#49] Code:
+fun fact n =
+  let
+    fun aux(0, acc) = acc
+      | aux(n, acc) = aux(n - 1, n * acc)
+  in
+    aux(n, 1)
+  end;
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion
+- ❌ Missed:     
+- 🚫 Incorrect:  Local Recursive Function, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#50] Code:
+datatype allergen = Eggs
+                  | Peanuts
+                  | Shellfish
+                  | Strawberries
+                  | Tomatoes
+                  | Chocolate
+                  | Pollen
+                  | Cats
+;
+fun toScore Eggs = 1
+  | toScore Peanuts = 2
+  | toScore Shellfish = 4
+  | toScore Strawberries = 8
+  | toScore Tomatoes = 16
+  | toScore Chocolate = 32
+  | toScore Pollen = 64
+  | toScore Cats = 128
+;
+fun fromScore 1 = Eggs
+  | fromScore 2 = Peanuts
+  | fromScore 4 = Shellfish
+  | fromScore 8 = Strawberries
+  | fromScore 16 = Tomatoes
+  | fromScore 32 = Chocolate
+  | fromScore 64 = Pollen
+  | fromScore 128 = Cats
+;
+fun allergicTo (score: int) (a: allergen): bool =
+  Word.toInt (Word.andb (Word.fromInt score, Word.fromInt (toScore a))) <> 0 andalso score <> 0
+;
+fun allergies (score: int) =
+  List.filter
+    (allergicTo score)
+    (List.tabulate (8, fn a => fromScore (ceil (Math.pow(2.0, Real.fromInt a)))))
+;
+
+- Ground Truth: Datatype Definition, Function Definition, Basis Library Module Usage, Comparison Operator, Logical Operator, Lambda Function, Arithmetic Operation
+- Predicted:    Basis Library Module Usage, Comparison Operator, External Module Usage, Function Definition, Lambda Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function
+- ❌ Missed:     Arithmetic Operation, Datatype Definition, Logical Operator
+- 🚫 Incorrect:  External Module Usage, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+============================================================
+
+============================================================
+[#51] Code:
+fun triangle_inequality (a: real, b: real, c: real) = 
+  a + b >= c andalso b + c >= a andalso a + c >= b
+  andalso not (Real.==(a, 0.0) andalso Real.==(b, 0.0) andalso Real.==(c, 0.0))
+fun equal_sides (a: real, b: real, c: real) = 
+  let 
+    val ab = Real.==(a, b)
+    val ac = Real.==(a, c)
+    val bc = Real.==(b, c)
+  in
+    if ab andalso ac andalso bc then
+      3
+    else if ab orelse ac orelse bc then
+      2
+    else 
+      0
+  end
+fun equilateral (a::b::c::nil) = 
+    triangle_inequality(a, b, c) andalso equal_sides(a, b, c) = 3
+fun isosceles (a::b::c::nil) = 
+    triangle_inequality(a, b, c) andalso equal_sides(a, b, c) > 0
+fun scalene (a::b::c::nil) = 
+    triangle_inequality(a, b, c) andalso equal_sides(a, b, c) = 0
+
+- Ground Truth: Function Definition, Arithmetic Operation, Comparison Operator, Logical Operator, Basis Library Module Usage, Let Binding, Variable Assignment, Conditional Statement
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Let Binding, Multiple Recursive Functions, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Logical Operator
+- 🚫 Incorrect:  External Module Usage, Multiple Recursive Functions, Redundancy, Tail Recursion
+============================================================
+
+============================================================
+[#52] Code:
+fun nucleotideCounts (strand: string): {a: int, c: int, g: int, t: int} =
+  let fun count (#"G", {a, c, g, t}) = {a=a, c=c, g=g+1, t=t}
+        | count (#"A", {a, c, g, t}) = {a=a+1, c=c, g=g, t=t}
+        | count (#"C", {a, c, g, t}) = {a=a, c=c+1, g=g, t=t}
+        | count (#"T", {a, c, g, t}) = {a=a, c=c, g=g, t=t+1}
+        | count _ = raise Fail "Invalid nucleotide in strand"
+  in foldl count {a=0,c=0,g=0,t=0} (explode strand)
+  end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Exception Raising, Basis Library Module Usage
+- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Exception Raising, Function Definition, Let Binding, Local Function Definition, Pattern Matching
+- ❌ Missed:     Basis Library Module Usage
+- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+============================================================
+
+============================================================
+[#53] Code:
+fun qsort(func) =
+  let fun sort [] = []
+      | sort (lhd :: ltl) =
+          sort (List.filter (fn x => func (x, lhd)) ltl)
+        @ [lhd]
+        @ sort (List.filter (fn x => not (func(x, lhd))) ltl)
+  in sort
+  end
+fun listSort lt = qsort (fn(a, b) => a < b) lt
+fun stringSort str = String.implode (listSort (String.explode str))
+fun anagramsFor subject candidates =
+  let
+    val stringUpper = String.map Char.toUpper
+    val upperSuject = stringUpper subject
+    val sortedSubject = stringSort upperSuject
+  in
+    List.filter (fn x => sortedSubject = stringSort(stringUpper(x)) 
+      andalso not (upperSuject = stringUpper(x)) ) candidates
+  end
+- Ground Truth: Function Definition, Let Binding, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency, Comparison Operator, Variable Assignment, Logical Operator
+- Predicted:    Basis Library Module Usage, Comparison Operator, Curried Function, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Non Tail Recursion Inefficiency, Pattern Matching, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Curried Function, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Tail Recursion
+============================================================
+
+============================================================
+[#54] Code:
+fun nucleotideCounts (strand: string): {a: int, c: int, g: int, t: int} =
+  let fun counter (nucleotide, (a, c, g, t)) = 
+        case nucleotide
+          of #"A" => (a + 1, c, g, t)
+           | #"C" => (a, c + 1, g, t)
+           | #"G" => (a, c, g + 1, t)
+           | #"T" => (a, c, g, t + 1)
+           | _    => raise Fail "Invalid nucleotide in strand"
+      val (a, c, g, t) = List.foldl counter (0, 0, 0, 0) (explode strand)
+  in  {a = a, c = c, g = g, t = t}
+  end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Arithmetic Operation, Exception Raising, Variable Assignment, Basis Library Module Usage
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator, Local Recursive Function, Tail Recursion
+============================================================
+
+============================================================
+[#55] Code:
+datatype relation =
+    Equal
+  | Superlist
+  | Sublist
+  | Unequal
+fun contains (hay, niddle) =
+  let fun loop (_, []) = true
+        | loop ([], _) = false
+        | loop (h::hs, n::ns) =
+          h = n andalso loop (hs, ns) 
+          orelse loop (hs, niddle)
+  in loop (hay, niddle)
+  end
+  
+fun sublist (xs, ys): relation =
+  if length xs = length ys andalso contains(xs, ys)
+    then Equal
+  else if contains(xs, ys)
+    then Superlist
+  else if contains(ys, xs)
+    then Sublist
+  else Unequal
+- Ground Truth: Datatype Definition, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Comparison Operator, Logical Operator, Non Tail Recursion Inefficiency, Conditional Statement
+- Predicted:    Anonymous Variable, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Redundancy, Tail Recursion
+- ✅ Correct:    Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
+- ❌ Missed:     Datatype Definition, Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Redundancy, Tail Recursion
+============================================================
+
+============================================================
+[#56] Code:
+fun anagramsFor subject candidates = let
+  val (cs, cs') = (IntArray.array (26, 0), IntArray.array (26, 0))
+  val strcasecmp = let
+    fun compare (c1, c2) = Char.compare (Char.toLower c1, Char.toLower c2)
+  in
+    String.collate compare
+  end
+  fun inc cs c = 
+    if not (Char.isAlpha c) then
+      ()
+    else let
+      val i = ord (Char.toLower c) - ord #"a"
+      val c = IntArray.sub (cs, i)
+    in
+      IntArray.update (cs, i, c + 1)
+    end
+  fun count cs s = CharVector.app (inc cs) s
+  fun isAnagram s = 
+    strcasecmp (s, subject) <> EQUAL andalso (
+      IntArray.modify (fn c => 0) cs;
+      count cs s;
+      IntArray.collate Int.compare (cs, cs') = EQUAL
+    )
+in
+  count cs' subject;
+  List.filter isAnagram candidates
+end
+- Ground Truth: Function Definition, Let Binding, Variable Assignment, Local Function Definition, Basis Library Module Usage, Conditional Statement, Arithmetic Operation, Logical Operator, Lambda Function
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Comparison Operator, Curried Function, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Tail Recursion
+============================================================
+
+============================================================
+[#57] Code:
+fun isArmstrongNumber (number: int): bool =
+  let fun loop f acc 0 = acc
+        | loop f acc n = loop f (f (n mod 10, acc)) (n div 10)
+      val digits = loop (fn (_, acc) => 1 + acc) 0 number
+      fun pow (d, n) = Real.round (Math.pow (Real.fromInt d, Real.fromInt n))
+  in loop (fn (d, acc) => pow (d, digits) + acc) 0 number = number
+  end
+
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Arithmetic Operation, Variable Assignment, Basis Library Module Usage
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Curried Function, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Curried Function, External Module Usage, Lambda Function, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#58] Code:
+local
+  fun recurse (exponent: int) (base: int) (multiplier: int): int =
+    if exponent = 0 then multiplier
+    else recurse (exponent div 2) (base * base) (if exponent mod 2 = 0 then multiplier else base * multiplier)
+in
+  fun power (exponent: int) (base: int): int =
+    recurse exponent base 1
+end
+fun isArmstrongNumber (number: int): bool =
+  let
+    val sum: int list -> int =
+      foldl op+ 0
+    fun recurse (digits: int list) (n: int): bool =
+      if n = 0 then
+        let
+          val count = length digits
+        in
+          number = sum (map (power count) digits)
+        end
+      else
+        recurse ((n mod 10) :: digits) (n div 10)
+  in
+    recurse [] number
+  end
+
+- Ground Truth: Local Function Definition, Function Definition, Conditional Statement, Comparison Operator, Tail Recursion, Arithmetic Operation, Let Binding, Basis Library Module Usage, Variable Assignment
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Tail Recursion, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage
+- 🚫 Incorrect:  Local Binding, Local Recursive Function, Multiple Recursive Functions
+============================================================
+
+============================================================
+[#59] Code:
+fun abbreviate " = "
+  | abbreviate (phrase : string) : string =
+    let
+      val sanitized =
+        implode (List.map (fn c => if c = #"-" then #" " else Char.toUpper(c))
+                          (List.filter (fn c => Char.isAlpha c orelse c = #" "
+                                                               orelse c = #"-")
+                                       (explode phrase)))
+      val tokens = String.tokens (fn c => c = #" ") sanitized
+    in
+      implode (List.map (fn s => String.sub(s, 0)) tokens)
+    end
+
+- Ground Truth: Function Definition, Pattern Matching, Let Binding, Variable Assignment, Basis Library Module Usage, Lambda Function, Conditional Statement, Comparison Operator, Logical Operator  
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Pattern Matching, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Arithmetic Operation, Tail Recursion
+============================================================
+
+============================================================
+[#60] Code:
+datatype allergen = Eggs
+                  | Peanuts
+                  | Shellfish
+                  | Strawberries
+                  | Tomatoes
+                  | Chocolate
+                  | Pollen
+                  | Cats
+fun assoc x [] = NONE
+  | assoc x ((k, v) :: ys) = if x = k then SOME v else assoc x ys
+val score_map = map (fn (k, v) => (k, Word.fromInt v))
+                    [(Eggs, 1), (Peanuts, 2),  (Shellfish, 4), (Strawberries, 8), (Tomatoes, 16), (Chocolate, 32), (Pollen, 64), (Cats, 128)]
+fun allergicTo (score: int) (a: allergen): bool =
+  case assoc a score_map of
+    SOME v => Word.andb (v, Word.fromInt score) = v
+  | NONE => false
+fun allergies (score: int): allergen list =
+  List.mapPartial (fn (k, v) => if Word.andb (v, Word.fromInt score) = v then SOME k else NONE) score_map
+
+- Ground Truth: Datatype Definition, Function Definition, Option Type, Pattern Matching, Non Tail Recursion Inefficiency, Variable Assignment, Conditional Statement, Comparison Operator, Basis Library Module Usage, Lambda Function
+- Predicted:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Variable Assignment
+- ❌ Missed:     Datatype Definition
+- 🚫 Incorrect:  Tail Recursion
+============================================================
+
+============================================================
+[#61] Code:
+(* Define record type for nucleotide counts *)
+type nucleotideCounts = {a: int, c: int, g: int, t: int}
+(* Nucleotide count function *)
+fun nucleotideCounts (strand: string): nucleotideCounts =
+  let
+    (* Validate and count nucleotides *)
+    fun countNucleotides ([], acc) = acc
+      | countNucleotides (c::rest, {a, c=c', g, t}) =
+          case c of
+            #"A" => countNucleotides(rest, {a=a+1, c=c', g=g, t=t})
+          | #"C" => countNucleotides(rest, {a=a, c=c'+1, g=g, t=t})
+          | #"G" => countNucleotides(rest, {a=a, c=c', g=g+1, t=t})
+          | #"T" => countNucleotides(rest, {a=a, c=c', g=g, t=t+1})
+          | _   => raise Fail "Invalid nucleotide in strand"
+  in
+    (* Convert string to character list and process *)
+    countNucleotides(explode strand, {a=0, c=0, g=0, t=0})
+  end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Arithmetic Operation, Exception Raising, Basis Library Module Usage
+- Predicted:    Arithmetic Operation, Comparison Operator, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Exception Raising, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion
+- ❌ Missed:     Basis Library Module Usage
+- 🚫 Incorrect:  Comparison Operator, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#62] Code:
+exception notFound;
+exception cannotSortEmptyList
+fun min (x::[]) = x
+  | min [] = raise cannotSortEmptyList
+  | min (x::y::rest) = if x>y then (min (y::rest)) else (min (x::rest))
+fun removeFirst c [] = raise notFound
+    | removeFirst c (x::xs) = if c = x then xs else x::(removeFirst c xs)
+fun isort [] = []|
+    isort ls = 
+    let val m = min ls
+    in
+      m::(isort (removeFirst m ls ) )
+    end
+(*See omri kleins sort here: https://stackoverflow.com/questions/14411862/standard-sorting-functions-in-sml*)
+fun sort list = foldr (fn (x:char,lst)=> List.filter (fn a => a < x) lst @ [x] @ List.filter (fn a => a >= x) lst ) [] list;
+fun toLowerChars word = ((List.map Char.toLower) o String.explode) word
+fun sortedChars word = (sort o toLowerChars) word
+fun isAnagram w1 w2 =  (sortedChars w1) = (sortedChars w2)
+fun toLower s = (String.implode o toLowerChars) s
+fun anagramsFor subject candidates =
+  case candidates of [] => []
+  | x::xs => if (toLowerChars x = toLowerChars subject) 
+      then (anagramsFor subject xs) 
+      else if (isAnagram subject x) then x::(anagramsFor subject xs) else (anagramsFor subject xs)
+- Ground Truth: Function Definition, Pattern Matching, Exception Raising, Conditional Statement, Comparison Operator, Non Tail Recursion Inefficiency, Let Binding, Variable Assignment, Multiple Recursive Functions, Basis Library Module Usage
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, External Module Usage, Function Definition, Lambda Function, Let Binding, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  Arithmetic Operation, Curried Function, External Module Usage, Lambda Function, Redundancy, Tail Recursion
+============================================================
+
+============================================================
+[#63] Code:
+datatype relation = Equal | Superlist | Sublist | Unequal
+fun sublist (xs, ys): relation =
+  let
+    val xy = isSublist xs ys xs
+    val yx = isSublist ys xs ys
+  in
+    if xy andalso yx then Equal
+    else if xy then Sublist
+    else if yx then Superlist
+    else Unequal
+  end
+and isSublist [] _ _ = true
+  | isSublist _ [] _ = false
+  | isSublist _ _ [] = true
+  | isSublist (x :: xs) (y :: ys) original =
+      x = y andalso isSublist xs ys original
+      orelse isSublist original ys original
+- Ground Truth: Datatype Definition, Function Definition, Let Binding, Variable Assignment, Conditional Statement, Logical Operator, Pattern Matching, Comparison Operator, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Datatype Definition, Logical Operator, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching
+- 🚫 Incorrect:  Anonymous Variable, Redundancy, Tail Recursion
+============================================================
+
+============================================================
+[#64] Code:
+local
+  fun toLetterBit (x: char): word =
+    if Char.isUpper x then Word.<< ((Word.fromInt 1), (Word.fromInt (~65 + Char.ord x)))
+    else if Char.isLower x then Word.<< ((Word.fromInt 1), (Word.fromInt (~97 + Char.ord x)))
+    else (Word.fromInt 0)
+  fun loop (seen: word) (xs: char list): bool =
+    case xs of
+      nil => seen = Word.fromInt 0x3FFFFFF
+    | x :: xs =>
+      loop (Word.orb (seen, toLetterBit x)) xs
+in
+  fun isPangram (s: string): bool =
+    loop (Word.fromInt 0) (explode s)
+end
+- Ground Truth: Local Binding, Function Definition, Local Function Definition, Conditional Statement, Basis Library Module Usage, Arithmetic Operation, Pattern Matching, Tail Recursion
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Local Binding, Multiple Recursive Functions, Pattern Matching, Redundancy, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Local Binding, Pattern Matching, Tail Recursion
+- ❌ Missed:     Local Function Definition
+- 🚫 Incorrect:  Comparison Operator, Multiple Recursive Functions, Redundancy
+============================================================
+
+============================================================
+[#65] Code:
+use "int-utils.sml";
+fun isArmstrongNumber (number: int): bool =
+  number = armstrongSum number
+and armstrongSum (n: int): int =
+  let val width = intWidth n
+      fun sum' (0, sum) = sum
+        | sum' (n, sum) = sum' (n div 10, sum + intPow (n mod 10, width))
+  in  sum' (n, 0)
+  end
+
+- Ground Truth: Use Directive, Function Definition, Multiple Recursive Functions, Let Binding, Variable Assignment, Local Function Definition, Pattern Matching, Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Variable Assignment
+- ❌ Missed:     Multiple Recursive Functions, Use Directive
+- 🚫 Incorrect:  External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+============================================================
+
+============================================================
+[#66] Code:
+datatype allergen = Eggs | Peanuts | Shellfish | Strawberries | Tomatoes | Chocolate | Pollen | Cats
+fun allergicTo (score: int) (a: allergen): bool =
+    let
+        val allergenValue =
+            case a of Eggs => 1
+                    | Peanuts => 2
+                    | Shellfish => 4
+                    | Strawberries => 8
+                    | Tomatoes => 16
+                    | Chocolate => 32
+                    | Pollen => 64
+                    | Cats => 128
+    in
+        IntInf.andb (IntInf.fromInt score, IntInf.fromInt allergenValue) > 0
+    end
+fun allergies (score: int): allergen list =
+  List.filter (fn a => (allergicTo score a)) [Eggs, Peanuts, Shellfish, Strawberries, Tomatoes, Chocolate, Pollen, Cats]
+
+- Ground Truth: Datatype Definition, Function Definition, Let Binding, Variable Assignment, Pattern Matching, Basis Library Module Usage, Comparison Operator, Local Function Definition, Lambda Function
+- Predicted:    Basis Library Module Usage, Comparison Operator, External Module Usage, Function Definition, Lambda Function, Let Binding, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Pattern Matching, Variable Assignment
+- ❌ Missed:     Datatype Definition, Local Function Definition
+- 🚫 Incorrect:  External Module Usage, Tail Recursion
+============================================================
+
+============================================================
+[#67] Code:
+datatype allergen
+       = Eggs
+       | Peanuts
+       | Shellfish
+       | Strawberries
+       | Tomatoes
+       | Chocolate
+       | Pollen
+       | Cats
+fun bitFor Eggs         = 0wx01
+  | bitFor Peanuts      = 0wx02
+  | bitFor Shellfish    = 0wx04
+  | bitFor Strawberries = 0wx08  
+  | bitFor Tomatoes     = 0wx10
+  | bitFor Chocolate    = 0wx20
+  | bitFor Pollen       = 0wx40
+  | bitFor Cats         = 0wx80
+(* Originally the body of the following function was
+   Word.andb(Word.fromInt n, bitFor a) <> 0w0
+   but that seems to trigger a bug in PolyML,
+   which SML is immune to.  If you delete any of the
+   calls to Word.toString below, the result is wrong.
+   But those calls really should not make any difference.
+*)
+fun allergicTo n a =
+    let val n' = Word.fromInt n
+        val a' = bitFor a
+        val j  = Word.andb(n', a')
+        val r  = j <> 0w0
+        fun ignore _ = ()
+     in ignore (Word.toString n');
+        ignore (Word.toString a');
+        ignore (Word.toString j);
+        r
+    end
+fun allergies n =
+    List.filter (fn a => allergicTo n a)
+       [Eggs,Peanuts,Shellfish,Strawberries,Tomatoes,Chocolate,Pollen,Cats]
+
+- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Let Binding, Variable Assignment, Basis Library Module Usage, Comparison Operator, Local Function Definition, Lambda Function
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Curried Function, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, Variable Assignment
+- ❌ Missed:     Datatype Definition
+- 🚫 Incorrect:  Anonymous Variable, Arithmetic Operation, Curried Function, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion
+============================================================
+
+============================================================
+[#68] Code:
+datatype allergen = Eggs
+                  | Peanuts
+                  | Shellfish
+                  | Strawberries
+                  | Tomatoes
+                  | Chocolate
+                  | Pollen
+                  | Cats
+fun dec2bin (x: int): int list =
+        if x <= 1
+                then [x]
+        else  
+                 [(x mod 2)] @ dec2bin (x div 2);
+fun add_index l =
+  let 
+    fun add_index_helper (nil,  _) = nil
+      | add_index_helper (h::tl,i) = (h,i) :: add_index_helper (tl,1+i)
+  in
+     add_index_helper (l,0)
+  end
+fun getfirst(a:int, b:int) = a;
+fun getsecond(a:int, b:int) = b;
+fun mapPositionToAllergen (x: int) = 
+    case x of
+      7 => Cats
+    | 6 => Pollen
+    | 5 => Chocolate
+    | 4 => Tomatoes
+    | 3 => Strawberries
+    | 2 => Shellfish
+    | 1 => Peanuts
+    | _ => Eggs;
+fun getOneEntries l =
+  List.filter(fn e => getfirst(e) = 1) (add_index l)
+fun removeEightPlus l =
+  List.filter(fn e => getsecond(e) < 8) l 
+fun allergies (score: int): allergen list =
+  List.map(fn e => mapPositionToAllergen(getsecond e)) 
+    (removeEightPlus(getOneEntries(dec2bin(score))))
+fun allergicTo (score: int) (a: allergen): bool =
+  List.exists(fn e => a = e) (allergies(score))
+- Ground Truth: Datatype Definition, Function Definition, Conditional Statement, Comparison Operator, Non Tail Recursion Inefficiency, Arithmetic Operation, Let Binding, Local Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
+- ❌ Missed:     Datatype Definition
+- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Tail Recursion
+============================================================
+
+============================================================
+[#69] Code:
+val clean = let
+  fun f c =
+    if c = #"'"
+    then "
+    else
+      if Char.isPunct c
+      then " "
+      else Char.toString c
+in
+  String.translate f
+end
+fun isHyphen c = c = #"-"
+fun isSep c = isHyphen c orelse Char.isSpace c
+val split = String.tokens isSep
+fun initial s = String.sub (s, 0)
+val initials = map initial
+val up = map Char.toUpper
+val abbreviate = implode o up o initials o split o clean
+
+- Ground Truth: Variable Assignment, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Nested Conditional Statement, Basis Library Module Usage, Function Definition, Function Composition
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Polymorphic Function, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Variable Assignment
+- ❌ Missed:     Function Composition, Nested Conditional Statement
+- 🚫 Incorrect:  Arithmetic Operation, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Polymorphic Function, Redundancy, Tail Recursion
+============================================================
+
+============================================================
+[#70] Code:
+infix == (* For some reason this is only necessary for *some* comparision operators *)
+val op== = Real.==
+fun equilateral ([a, b, c]: real list) = (a > 0.0) andalso (a == b) andalso (b == c)
+  | equilateral _ = false
+fun isosceles ([a, b, c]: real list) =
+    let
+      fun pred (x, y, z) = x == y andalso x + y > z andalso z > 0.0
+    in
+      pred (a, b, c) orelse pred (b, c, a) orelse pred (c, a, b)
+    end
+  | isosceles _ = false
+fun scalene ([a, b, c]: real list) =
+    let
+      fun pred (x, y, z) = Real.!= (x, y) andalso x + y > z andalso z > 0.0
+    in
+      pred (a, b, c) andalso pred (b, c, a) andalso pred (c, a, b)
+    end
+  | scalene _ = false
+
+- Ground Truth: Custom Infix Operator, Variable Assignment, Basis Library Module Usage, Function Definition, Comparison Operator, Logical Operator, Pattern Matching, Let Binding, Local Function Definition, Arithmetic Operation
+- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Local Function Definition, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Custom Infix Operator, Logical Operator, Pattern Matching
+- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion
+============================================================
+
+============================================================
+[#71] Code:
+datatype relation =
+    Equal
+  | Superlist
+  | Sublist
+  | Unequal
+local
+  fun isPrefix (listOne: int list, listTwo: int list): bool =
+    case (listOne, listTwo) of
+        (nil, _) => true
+      | (_, nil) => false
+      | (firstOne :: restOne, firstTwo :: restTwo) => firstOne = firstTwo andalso isPrefix (restOne, restTwo)
+  fun isSublist (listOne: int list, listTwo: int list): bool =
+    isPrefix (listOne, listTwo) orelse (listTwo <> nil andalso isSublist (listOne, tl listTwo))
+in
+  fun sublist (listOne: int list, listTwo: int list): relation =
+    if listOne = listTwo then Equal
+    else if isSublist(listOne, listTwo) then Sublist
+    else if isSublist(listTwo, listOne) then Superlist
+    else Unequal
+end
+- Ground Truth: Datatype Definition, Local Binding, Function Definition, Local Function Definition, Pattern Matching, Logical Operator,  Non Tail Recursion Inefficiency, Multiple Recursive Functions, Conditional Statement, Comparison Operator
+- Predicted:    Anonymous Variable, Comparison Operator, Conditional Statement, Function Definition, Local Binding, Multiple Recursive Functions, Pattern Matching, Redundancy, Tail Recursion
+- ✅ Correct:    Comparison Operator, Conditional Statement, Function Definition, Local Binding, Multiple Recursive Functions, Pattern Matching
+- ❌ Missed:     Datatype Definition, Local Function Definition, Logical Operator, Non Tail Recursion Inefficiency
+- 🚫 Incorrect:  Anonymous Variable, Redundancy, Tail Recursion
+============================================================
+
+============================================================
+[#72] Code:
+fun rebase (inBase, outBase, digits) =
+    if inBase  < 2 then NONE else
+    if outBase < 2 then NONE else
+    if List.exists (fn d => d < 0 orelse d >= inBase) digits then NONE else
+    if List.all    (fn d => d = 0)                    digits then NONE else
+    let val inBase  = IntInf.fromInt inBase
+        val outBase = IntInf.fromInt outBase
+        val zero    = IntInf.fromInt 0
+        fun update (d, n) = IntInf.+(IntInf.*(n, inBase), IntInf.fromInt d)
+        fun decode ds = foldl update zero ds
+        fun encode ds n =
+            let val n'  = IntInf.div(n, outBase)
+                val ds' = IntInf.toInt(IntInf.mod(n, outBase)) :: ds
+             in if n' = zero then ds' else encode ds' n'
+            end
+     in SOME (encode [] (decode digits))            
+    end
+
+- Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Option Type, Basis Library Module Usage, Lambda Function, Logical Operator, Let Binding, Variable Assignment, Local Function Definition
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Option Type, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Arithmetic Operation, Curried Function, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion
+============================================================
+
+============================================================
+[#73] Code:
+fun abbreviate (phrase: string): string =
+  let
+    fun abbr _ [] inits = (implode o (List.map Char.toUpper) o List.rev) inits
+      | abbr true (c::cs) inits = (* seeking a the start of a word *)
+          if Char.isAlpha c
+          then abbr false cs (c :: inits)
+          else abbr true  cs inits
+      | abbr false (c::cs) inits = (* seeking the end of a word *)
+          if Char.isAlpha c orelse c = #"'"
+          then abbr false cs inits
+          else abbr true  cs inits
+  in
+    abbr true (explode phrase) []
+  end
+
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Basis Library Module Usage, Function Composition, Pattern Matching, Conditional Statement, Tail Recursion
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion
+- ❌ Missed:     Function Composition
+- 🚫 Incorrect:  Anonymous Variable, Arithmetic Operation, Comparison Operator, Local Recursive Function, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#74] Code:
+fun isValid (isbn: string): bool =
+    let
+	fun chToInt ch = (Char.ord ch) - (Char.ord #"0")
+	fun checkIsbn [] 0 acc = (acc mod 11) = 0
+	  | checkIsbn [] _ _ = false
+	  | checkIsbn _ 0 _  = false
+	  | checkIsbn (#"X"::[]) 1 acc = checkIsbn [] 0 (acc + 10)
+	  | checkIsbn (d::ds) num acc =
+	    if Char.isDigit d
+	    then checkIsbn ds (num - 1) (acc + (num * chToInt d))
+	    else if d = #"-" then checkIsbn ds num acc
+	    else false
+    in
+	checkIsbn (String.explode isbn) 10 0
+    end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Basis Library Module Usage, Arithmetic Operation, Comparison Operator, Pattern Matching, Conditional Statement, Tail Recursion
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Redundancy, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion
+- ❌ Missed:     
+- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Redundancy
+============================================================
+
+============================================================
+[#75] Code:
+use "helpers.sml";
+(* υψώνει τον αριθμό numb^to *)
+val rec pow = fn (numb, to) =>
+  if to = 0
+  then 1
+  else numb * pow (numb, to -1)
+val intToArray = fn x =>
+  let 
+    val numToStr = fn x: int =>
+      rev (explode (Int.toString x))
+    val rec aux = fn x:char list =>
+      if null x
+      then []
+      else ord (hd x) - 48::aux(tl x)
+  in
+    aux(numToStr(x))
+  end
+val rec findPow = fn (number:int, base:int) =>
+  let
+    fun aux x =
+    let 
+      val endiameso = number div  pow(base, x) 
+    in
+      if endiameso = 1
+      then x
+      else
+        if endiameso = 0
+        then x - 1
+        else aux (x+1)
+    end
+  in
+    aux 0
+  end  
+(* return an array from the decimal number to newbase *)
+fun fromDec( number:int, newBase : int) =
+  if number = 0 
+  then [0]
+  else
+let
+  val powerToStart = findPow(number, newBase)
+  val rec nextPower = fn (num:int, x:int) =>
+    if num = 0
+    then [0]
+    else
+    let
+      val mplier =  pow(newBase, x)
+      val toRemove = num div mplier
+    in
+      if x = 0
+      then toRemove::[]
+      else toRemove::nextPower (num - (toRemove * mplier),  x -1)
+    end
+in
+  nextPower(number, powerToStart)
+end
+fun aToInt( base: int, number: int list) =
+let
+  val power = length number -1 (* η μέγιστη δύναμη π.χ σε πίνακα [1,2,3] = ^2*)
+  fun calculateValue (x:int, l:int list) =
+    if x = 0
+    then hd l 
+    else pow(base,x) * hd l + calculateValue( x-1, tl l) 
+in
+  calculateValue (power, number)
+end
+fun rebase (inBase: int, outBase: int, digits: int list): int list option =
+  if not (isValidListInBase (inBase, digits)) 
+     orelse not (checkBases(inBase, outBase)) 
+  then NONE
+  else 
+    if inBase = outBase (* no conversion needed *)
+    then SOME digits
+    else      
+      let
+        val decimalValue = aToInt(inBase, digits) (* convert to decimal value *)
+      in
+        SOME  (fromDec(decimalValue, outBase))
+      end
+
+- Ground Truth: Use Directive, Variable Assignment, Lambda Function, Conditional Statement, Arithmetic Operation, Non Tail Recursion Inefficiency, Let Binding, Basis Library Module Usage, Local Function Definition, Function Definition, Option Type, Nested Conditional Statement, Redundancy, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Redundancy, String Concatenation, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Non Tail Recursion Inefficiency, Option Type, Redundancy, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Nested Conditional Statement, Use Directive
+- 🚫 Incorrect:  External Module Usage, Local Recursive Function, Multiple Recursive Functions, String Concatenation, Tail Recursion
+============================================================
+
+============================================================
+[#76] Code:
+fun isValid (isbn: string): bool =
+  let
+    fun f (#"X", (1, sum)) = (0, 10 + sum)
+      | f (#"-", acc) = acc
+      | f (c, (n, sum)) =
+      if #"0" <= c andalso c <= #"9"
+        then (n - 1, n * (Char.ord c - 48) + sum)
+      else raise Fail "invalid character"
+    val (n, sum) = CharVector.foldl f (10, 0) isbn
+  in
+    n = 0 andalso Int.rem (sum, 11) = 0
+  end
+  handle Fail _ => false
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Conditional Statement, Comparison Operator, Exception Raising, Variable Assignment, Basis Library Module Usage, Logical Operator
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+============================================================
+
+============================================================
+[#77] Code:
+fun rebase (inBase: int, outBase: int, digits: int list): int list option =
+    let fun fromBase acc _ [] = SOME acc
+          | fromBase acc i (d :: ds) =
+            if d < inBase andalso d >= 0 then
+                fromBase (acc + d * i) (i * inBase) ds
+            else
+                NONE
+        fun toBase acc 0 = acc
+          | toBase acc n =
+            toBase (n mod outBase :: acc) (n div outBase)
+    in if inBase > 1 andalso outBase > 1 andalso not (null digits) then
+           case fromBase 0 1 (rev digits) of
+               SOME 0 => NONE
+             | NONE => NONE
+             | SOME n => SOME (toBase [] n)
+       else
+           NONE
+    end
+
+- Ground Truth: Function Definition, Option Type, Let Binding, Local Function Definition, Pattern Matching, Conditional Statement, Comparison Operator, Logical Operator, Tail Recursion, Arithmetic Operation
+- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Option Type, Pattern Matching, Tail Recursion
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, Curried Function, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#78] Code:
+fun inc n = n + 1;
+fun dec n = n - 1;
+fun compound 0 f x = x 
+  | compound n f x = compound (n-1) f (f x)
+fun exp b e = compound e (fn x => b*x) 1;
+fun positive xs =
+  let
+    fun positive' [] p = rev p
+      | positive' (y::ys) p =
+        if y < 0 then
+          positive' ys p
+        else
+          positive' ys (y :: p)
+  in
+    positive' xs []
+  end;
+fun lessThan b d =
+if d >= b then true else false;
+fun rebase (inBase: int, outBase: int, digits: int list) =
+if inBase <= 1 orelse outBase <= 1
+orelse length (positive digits) <> length digits
+orelse List.filter (lessThan inBase) digits <> []
+then NONE else
+let
+  val count = ref (length digits);
+  val index = ref 0;
+  val bt = ref 0;
+  val bo = ref [];
+in
+  while !count > 0 do(
+    bt := !bt + ((exp inBase (!count-1))*List.nth(digits,!index));
+    index := inc(!index);
+    count := dec(!count));
+  while !bt > 0 do(
+    bo := (!bt mod outBase)::(!bo);
+    bt := (!bt div outBase));
+if !bo = [] then NONE else SOME (!bo)
+end;
+
+- Ground Truth: Function Definition, Arithmetic Operation, Pattern Matching, Non Tail Recursion Inefficiency, Lambda Function, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Tail Recursion, Logical Operator, Basis Library Module Usage, Option Type, Variable Assignment, Use Of Refs, Use Of While Loops
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Polymorphic Function, Tail Recursion, Use Of Refs, Use Of While Loops, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion, Use Of Refs, Use Of While Loops, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Curried Function, Local Recursive Function, Multiple Recursive Functions, Polymorphic Function
+============================================================
+
+============================================================
+[#79] Code:
+datatype relation =
+    Equal
+  | Superlist
+  | Sublist
+  | Unequal
+fun isSublist l1 l2 len1 len2 =
+    if len1 > len2 then false
+    else
+        let
+            val sl = List.take (l2, len1)
+        in
+            if sl = l1 then true else isSublist l1 (tl l2) len1 (len2 - 1)
+        end
+fun sublist (listOne: int list, listTwo: int list): relation =
+    let
+        val l1 = length listOne
+        val l2 = length listTwo
+    in
+        if l1 = l2 then
+            if listOne = listTwo then Equal else Unequal
+        else
+            if l1 < l2 then
+                if isSublist listOne listTwo l1 l2 then Sublist else Unequal
+            else if isSublist listTwo listOne l2 l1 then Superlist else Unequal
+    end
+- Ground Truth: Datatype Definition, Function Definition, Conditional Statement, Comparison Operator, Let Binding, Variable Assignment, Basis Library Module Usage, Arithmetic Operation, Tail Recursion, Nested Conditional Statement
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Let Binding, Nested Conditional Statement, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Nested Conditional Statement, Tail Recursion, Variable Assignment
+- ❌ Missed:     Datatype Definition
+- 🚫 Incorrect:  Curried Function, Redundancy
+============================================================
+
+============================================================
+[#80] Code:
+fun decode (phrase: string): string =
+  let
+    fun f (c, (num, acc)) =
+      if #"0" <= c andalso c <= #"9"
+        then (10 * num + Char.ord c - Char.ord #"0", acc)
+      else (0, acc ^ CharVector.tabulate (Int.max (1, num), fn _ => c))
+  in
+    #2 (CharVector.foldl f (0, "") phrase)
+  end
+fun encode (phrase: string): string =
+  let
+    fun f (c, (prev, n, acc)) =
+      if c = prev
+        then (prev, n + 1, acc)
+      else (c, 1, (n, prev) :: acc)
+    val (c, n, acc) = CharVector.foldr f (#"-", 0, []) phrase
+    fun process (0, c) = ""
+      | process (1, c) = String.str c
+      | process (n, c) = Int.toString n ^ String.str c
+  in
+    String.concat (List.map process ((n, c) :: acc))
+  end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Logical Operator, Arithmetic Operation, Basis Library Module Usage, String Concatenation, Lambda Function, Conditional Statement, Variable Assignment, Pattern Matching
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, String Concatenation, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, String Concatenation, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion
+============================================================
+
+============================================================
+[#81] Code:
+fun pow n 0 = 1
+  | pow n m = n * (pow n (m - 1))
+fun isArmstrongNumber (number: int) =
+  let
+    fun sep num digs = if num = 0
+                       then digs
+                       else sep (num div 10) ((num mod 10)::digs)
+   val digits = sep number []
+   val len = List.length digits
+  in
+    foldl (fn (x,a) => a + pow x len) 0 digits = number
+  end
+- Ground Truth: Function Definition, Pattern Matching, Arithmetic Operation, Non Tail Recursion Inefficiency, Let Binding, Local Function Definition, Conditional Statement, Tail Recursion, Local Recursive Function, Variable Assignment, Basis Library Module Usage, Lambda Function
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  Comparison Operator, Curried Function, Multiple Recursive Functions
+============================================================
+
+============================================================
+[#82] Code:
+fun find (haystack: int array, needle: int): int =
+  let
+    fun search(low: int, high: int): int =
+      if low = high
+      then raise Fail "value not in array"
+      else
+        let
+          val index = (low + high) div 2
+          val element = Array.sub(haystack, index)
+        in
+          if needle < element
+          then search(low, index)
+          else if element < needle
+          then search(index + 1, high)
+          else index
+        end
+  in
+    search(0, Array.length(haystack))
+  end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Exception Raising, Variable Assignment, Arithmetic Operation, Basis Library Module Usage, Nested Conditional Statement, Tail Recursion
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Tail Recursion, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Nested Conditional Statement
+- 🚫 Incorrect:  External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy
+============================================================
+
+============================================================
+[#83] Code:
+fun find (haystack: int array, needle: int): int =
+  let fun bsearch low hi =
+        if low = hi then raise Fail "value not in array"
+        else let val mid  = low + (hi - low) div 2
+                 val x = Array.sub (haystack, mid)
+             in if needle < x then bsearch low mid
+                 else if needle > x then bsearch (mid + 1) hi
+                 else mid
+             end
+  in  bsearch 0 (Array.length haystack)
+  end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Exception Raising, Arithmetic Operation, Variable Assignment, Basis Library Module Usage, Nested Conditional Statement, Tail Recursion
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Tail Recursion, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Nested Conditional Statement
+- 🚫 Incorrect:  Curried Function, External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy
+============================================================
+
+============================================================
+[#84] Code:
+fun find (haystack: int array, needle: int): int =
+  let fun aux lo hi =
+        if lo > hi then raise Fail "value not in array"
+        else let val mid  = (lo + hi) div 2
+                 val midElem = Array.sub (haystack, mid)
+             in if needle < midElem then aux lo (mid - 1)
+                 else if needle > midElem then aux (mid + 1) hi
+                 else mid
+             end
+  in aux 0 (Array.length haystack - 1) end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Exception Raising, Arithmetic Operation, Variable Assignment, Basis Library Module Usage, Nested Conditional Statement, Tail Recursion
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Tail Recursion, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Nested Conditional Statement
+- 🚫 Incorrect:  Curried Function, External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy
+============================================================
+
+============================================================
+[#85] Code:
+fun decode (str: string) : string =
+  decodeChars (explode str)
+and decodeChars xs =
+  case takeDigits xs [] of
+    (_, []) => ""
+  | (0, c :: rest) => Char.toString c ^ decodeChars rest
+  | (n, c :: rest) => String.implode (List.tabulate (n, fn _ => c)) ^ decodeChars rest
+and takeDigits [] result = (toInt result, [])
+  | takeDigits (x :: xs) result =
+      if Char.isDigit x then takeDigits xs (x :: result)
+      else (toInt result, x :: xs)
+and toInt xs =
+  getOpt (Int.fromString (String.implode (rev xs)), 0)
+fun encode (str: string) : string =
+  encodeChars (String.explode str)
+and encodeChars (chars: char list) : string =
+  String.concat (map pairToString (foldr updateCount [] chars))
+and pairToString (c, 1) = Char.toString c
+  | pairToString (c, n) = Int.toString n ^ Char.toString c
+and updateCount (c, []) = [(c, 1)]
+  | updateCount (c, (c', s) :: acc) =
+      if c = c' then (c', s + 1) :: acc else (c, 1) :: (c', s) :: acc
+- Ground Truth: Function Definition, Pattern Matching, Basis Library Module Usage, String Concatenation, Lambda Function, Non Tail Recursion Inefficiency, Conditional Statement, Tail Recursion, Option Type, Comparison Operator, Arithmetic Operation, Multiple Recursive Functions
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Pattern Matching, String Concatenation, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Pattern Matching, String Concatenation, Tail Recursion
+- ❌ Missed:     Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type
+- 🚫 Incorrect:  Anonymous Variable, External Module Usage
+============================================================
+
+============================================================
+[#86] Code:
+fun decode (phrase: string): string =
+    (* raise Fail "'decode' is not implemented" *)
+    let
+        fun prepad (a, num, xs) =
+            case num of
+                0 => xs
+              | n => prepad(a, num - 1, a :: xs)
+        fun recompose(pairs, xs) =
+            case pairs of
+                [] => xs
+              | (a, num) :: ps => recompose(ps, prepad (a, num, xs))
+        fun build (x, (count, pairs)) =
+            if #"0" <= x andalso x <= #"9"
+            then (10*count + (Char.ord x) - (Char.ord #"0"), pairs)
+            else (0, (x, if count = 0 then 1 else count) :: pairs)
+        val (_, pairs) = foldl build (0, []) (String.explode phrase)
+        val result = recompose(pairs, [])
+    in
+        String.implode(result)
+    end
+fun encode_one_run (sym, num) = if num > 1
+                                then String.explode (Int.toString num) @ [sym]
+                                else [sym]
+fun encode (phrase: string): string =
+    (* raise Fail "'encode' is not implemented" *)
+    let
+        fun decompose(xs, ds) =
+            case xs of
+                [] => ds
+              | x::xs' => case ds of
+                              [] => decompose(xs', (x, 1) :: ds)
+                            | (y, n)::ds' => if x = y
+                                             then decompose(xs', (y, n+1) :: ds')
+                                             else decompose(xs', (x, 1) :: ds)
+        val pairs = decompose(String.explode phrase, [])
+        val result = foldl (fn (pair, acc) => (encode_one_run pair) @ acc) [] pairs
+    in
+        String.implode(result)
+    end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Arithmetic Operation, Conditional Statement, Comparison Operator, Logical Operator, Basis Library Module Usage, Variable Assignment, Lambda Function
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, Exception Raising, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#87] Code:
+fun pow (base: int, exp: int): int =
+    let
+        fun loop (result, base, exp) =
+            if exp = 0 then result
+            else if exp mod 2 = 1 then loop (result * base, base * base, exp div 2)
+            else loop (result, base * base, exp div 2)
+    in
+        loop (1, base, exp)
+    end
+fun isArmstrongNumber (number: int): bool =
+    if number = 0 then true
+    else
+        let
+            val numDigits = floor (Math.log10 (Real.fromInt number)) + 1
+            fun sumPowers (0, sum) = sum = number
+              | sumPowers (n, sum) =
+                let
+                    val digit = n mod 10
+                    val newSum = sum + pow (digit, numDigits)
+                in
+                    if newSum > number then false
+                    else sumPowers (n div 10, newSum)
+                end
+        in
+            sumPowers (number, 0)
+        end
+
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Arithmetic Operation, Tail Recursion, Variable Assignment, Basis Library Module Usage, Pattern Matching, Multiple Recursive Functions
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Multiple Recursive Functions, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     
+- 🚫 Incorrect:  External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy
+============================================================
+
+============================================================
+[#88] Code:
+local
+  fun count [] result = result
+    | count (#"A" :: rest) (a, c, g, t) = count rest (a + 1, c, g, t)
+    | count (#"C" :: rest) (a, c, g, t) = count rest (a, c + 1, g, t)
+    | count (#"G" :: rest) (a, c, g, t) = count rest (a, c, g + 1, t)
+    | count (#"T" :: rest) (a, c, g, t) = count rest (a, c, g, t + 1)
+    | count _ _ = raise Fail "Invalid nucleotide in strand"
+in
+  fun nucleotideCounts (strand: string): {a: int, c: int, g: int, t: int} =
+    let val (a, c, g, t) = count (explode strand) (0, 0, 0, 0)
+    in  {a = a, c = c, g = g, t = t}
+    end
+end
+- Ground Truth: Local Binding, Function Definition, Local Function Definition, Local Recursive Function, Tail Recursion, Pattern Matching, Arithmetic Operation, Exception Raising, Let Binding, Variable Assignment, Basis Library Module Usage
+- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Exception Raising, Function Definition, Let Binding, Local Binding, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Exception Raising, Function Definition, Let Binding, Local Binding, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Local Function Definition, Local Recursive Function
+- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#89] Code:
+fun isValid isbn = 
+    let (* convert a list of characters to a list of digits in reverse order
+           by ignoring hyphens, converting #"0"..#"9",#"X" to 0..9,10,
+           and returning [] for anything else.
+        *)
+        fun toDigits (#"-"::cs) ds = toDigits cs ds
+          | toDigits (#"X"::cs) ds = toDigits cs (10::ds)
+          | toDigits ( c  ::cs) ds = if c <= #"9" andalso #"0" <= c
+                                     then toDigits cs ((ord c - ord #"0")::ds)
+                                     else []
+          | toDigits      []    ds = ds
+        (* a reversed sequence of "digits" *)
+        val digits = toDigits (explode isbn) []
+        (* the checksum calculation *)
+        fun checksum (d::ds) a i = checksum ds (i*d+a) (i+1)
+          | checksum   []    a _ = a mod 11
+     in length digits = 10 andalso
+        List.all (fn d => d < 10) (tl digits) andalso
+        checksum digits 0 1 = 0
+    end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Conditional Statement, Comparison Operator, Logical Operator, Variable Assignment, Arithmetic Operation, Basis Library Module Usage, Lambda Function
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#90] Code:
+fun find (haystack: int array, needle: int) : int =
+  find' (haystack, needle, 0, Array.length haystack - 1)
+and find' (haystack: int array, needle: int, low: int, high: int) : int =
+  if low > high then
+    raise Fail "value not in array"
+  else
+    let
+      val index: int = low + ((high - low) div 2)
+    in
+      case Int.compare (Array.sub (haystack, index), needle) of
+        EQUAL => index
+      | LESS => find' (haystack, needle, index + 1, high)
+      | GRETER => find' (haystack, needle, low, high - 1)
+    end
+- Ground Truth: Function Definition, Tail Recursion, Multiple Recursive Functions, Arithmetic Operation, Conditional Statement, Comparison Operator, Exception Raising, Let Binding, Variable Assignment, Pattern Matching, Basis Library Module Usage
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, External Module Usage, Function Definition, Let Binding, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Multiple Recursive Functions
+- 🚫 Incorrect:  External Module Usage
+============================================================
+
+============================================================
+[#91] Code:
+fun decode (phrase: string): string =
+  let
+    fun f (c, (num, size, acc)) =
+      if #"0" <= c andalso c <= #"9"
+        then (10 * num + Char.ord c - Char.ord #"0", size, acc)
+      else let val n = Int.max (1, num) in (0, size + n, (n, c) :: acc) end
+    val (_, size, acc) = CharVector.foldl f (0, 0, []) phrase
+    val buf = CharArray.array (size, #"_")
+    fun setRange (_, 0, _) = ()
+      | setRange (i, n, c) = (CharArray.update (buf, i, c); setRange (i + 1, n - 1, c))
+  in
+    List.foldl (fn ((n, c), i) => (setRange (i-n, n, c); i - n)) size acc;
+    CharArray.vector buf
+  end
+fun encode (phrase: string): string =
+  let
+    fun process (0, c) = ""
+      | process (1, c) = String.str c
+      | process (n, c) = Int.toString n ^ String.str c
+    fun f (c, (prev, n, acc)) =
+      if c = prev
+        then (prev, n + 1, acc)
+      else (c, 1, process (n, prev) :: acc)
+    val (c, n, acc) = CharVector.foldr f (#"-", 0, []) phrase
+  in
+    String.concat (process (n, c) :: acc)
+  end
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Logical Operator, Arithmetic Operation, Basis Library Module Usage, Variable Assignment, Pattern Matching, Tail Recursion, Lambda Function, String Concatenation
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, String Concatenation, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, String Concatenation, Tail Recursion, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#92] Code:
+val isValid: string -> bool =
+  let
+    fun digitValue (c: char): int =
+      Char.ord c - Char.ord #"0"
+    val excludeHyphens: char list -> char list =
+      List.filter (fn c => c <> #"-")
+    fun recurse (weight: int) (total: int) (l: char list): bool =
+      case (weight, l) of
+          (0, nil) => total mod 11 = 0
+        | (_, nil) => false
+        | (1, #"X" :: nil) => total mod 11 = 1
+        | (_, c :: rest) => Char.isDigit c andalso recurse (weight - 1) (total + weight * (digitValue c)) rest
+  in
+    recurse 10 0 o excludeHyphens o String.explode
+  end
+- Ground Truth: Variable Assignment, Let Binding, Function Definition, Local Function Definition, Basis Library Module Usage, Arithmetic Operation, Lambda Function, Comparison Operator, Pattern Matching, Logical Operator, Tail Recursion, Function Composition
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     Function Composition, Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#93] Code:
+fun rebase (_, _, []) = NONE
+  | rebase (inBase: int, outBase: int, digits: int list): int list option =
+    let 
+        fun toBase (sofar, 0) = SOME(sofar)
+          | toBase (sofar, dec) = toBase (dec mod outBase :: sofar, dec div outBase)
+    in 
+        if inBase <= 1 orelse outBase <= 1 
+        orelse List.exists (fn d => d < 0 orelse d >= inBase) digits 
+        orelse List.all (fn d => d = 0) digits
+        then NONE
+        else toBase ([], foldl (fn (dec, digit) => digit * inBase + dec) 0 digits)
+    end
+
+- Ground Truth: Function Definition, Option Type, Pattern Matching, Let Binding, Local Function Definition, Tail Recursion, Arithmetic Operation, Conditional Statement, Comparison Operator, Logical Operator, Basis Library Module Usage, Lambda Function
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Option Type, Pattern Matching, Tail Recursion
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+============================================================
+[#94] Code:
+use "list-utils.sml";   (* slice, seq *)
+datatype relation =
+    Equal
+  | Superlist
+  | Sublist
+  | Unequal
+local
+  (* because `list1 = list2` is just too simple *)
+  fun equals (l1: ''a list, l2: ''a list): bool =
+    ListPair.allEq op= (l1, l2)
+  infix equals
+  fun containsList (haystack: ''a list, needle: ''a list): bool =
+    let val len = length needle
+    in  List.exists (fn i => needle equals (slice (haystack, i, len)))
+                    (seq (length haystack - len + 1))
+    end
+  infix containsList
+in
+  fun sublist (listOne: int list, listTwo: int list): relation =
+    if listOne equals listTwo then Equal
+    else if length listOne < length listTwo andalso listTwo containsList listOne then Sublist
+    else if listOne containsList listTwo then Superlist
+    else Unequal
+end
+- Ground Truth: Use Directive, Datatype Definition, Local Binding, Function Definition, Local Function Definition, Basis Library Module Usage, Custom Infix Operator, Let Binding, Variable Assignment, Lambda Function, Arithmetic Operation, Conditional Statement, Comparison Operator, Logical Operator
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Binding, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Binding, Variable Assignment
+- ❌ Missed:     Custom Infix Operator, Datatype Definition, Local Function Definition, Logical Operator, Use Directive
+- 🚫 Incorrect:  External Module Usage, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion
+============================================================
+
+============================================================
+[#95] Code:
+fun anagramsFor subject candidates =
+    let
+        fun prepareString str = List.map (Char.toLower) (String.explode str)
+        val subjectPrep = prepareString subject
+        exception RemoveFailed
+        fun remove x [] = raise RemoveFailed
+          | remove x (y::ys) = if x = y then ys else y :: (remove x ys)
+        fun isAnaImpl [] [] = true
+          | isAnaImpl [] _ = false
+          | isAnaImpl (x::xs) cs = isAnaImpl xs (remove x cs)
+                                   handle RemoveFailed => false
+        fun isAna candidate =
+            let val candidatePrep = prepareString candidate
+            in
+                (isAnaImpl subjectPrep candidatePrep)
+                andalso subjectPrep <> candidatePrep
+            end
+    in
+        List.filter isAna candidates
+    end;
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Basis Library Module Usage, Variable Assignment, Exception Raising, Pattern Matching, Conditional Statement, Non Tail Recursion Inefficiency, Local Recursive Function, Tail Recursion, Multiple Recursive Functions, Logical Operator, Basis Library Module Usage
+- Predicted:    Anonymous Variable, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     Logical Operator
+- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Curried Function
+============================================================
+
+============================================================
+[#96] Code:
+datatype allergen = Eggs
+                  | Peanuts
+                  | Shellfish
+                  | Strawberries
+                  | Tomatoes
+                  | Chocolate
+                  | Pollen
+                  | Cats
+fun |> (a, f) = f a
+infix |>
+local
+  fun completeBinaryDigits binList = 
+    if List.length binList < 8 then 
+      completeBinaryDigits (0::binList)
+    else
+      binList
+  fun helper number acc = 
+    if number=0 then 
+      completeBinaryDigits acc
+    else 
+      helper (number div 2) (number mod 2 :: acc)
+in 
+  fun convertToBinaryInv number = 
+    if number > 256 then helper (number mod 256) []
+    else helper number []
+end
+local
+  val allergiesListValues = [7,6,5,4,3,2,1,0]
+  fun matchAllergies allergy = 
+    case allergy
+    of 0 => Eggs
+    | 1 => Peanuts
+    | 2 => Shellfish
+    | 3 => Strawberries
+    | 4 => Tomatoes
+    | 5 => Chocolate
+    | 6 => Pollen
+    | 7 => Cats
+in  
+  fun listAllergies number = 
+    ListPair.zip (convertToBinaryInv number, allergiesListValues)
+    |> List.map (fn (x,y) => if x=0 then NONE else SOME (x*y))
+    |> List.filter (fn SOME x => true | NONE => false)
+    |> List.map (fn SOME x => matchAllergies x)
+end
+fun allergicTo (score: int) (a: allergen): bool =
+  listAllergies score 
+  |> List.exists (fn n => n = a)
+fun allergies (score: int): allergen list =
+  listAllergies score
+  |> List.rev
+- Ground Truth: Datatype Definition, Custom Infix Operator, Local Binding, Function Definition, Local Function Definition, Conditional Statement, Basis Library Module Usage, Comparison Operator, Tail Recursion, Local Recursive Function, Arithmetic Operation, Variable Assignment, Pattern Matching, Lambda Function, Option Type
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, External Module Usage, Function Definition, Lambda Function, Local Binding, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Local Binding, Option Type, Pattern Matching, Tail Recursion, Variable Assignment
+- ❌ Missed:     Custom Infix Operator, Datatype Definition, Local Function Definition, Local Recursive Function
+- 🚫 Incorrect:  Curried Function, External Module Usage, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+============================================================
+
+
+########################################
+📊 Overall Evaluation Metrics
+- True Positives:  573
+- False Positives: 272
+- False Negatives: 112
+- Precision:       0.68
+- Recall:          0.84
+- F1 Score:        0.75
+########################################
