@@ -1,41 +1,41 @@
 ============================================================
 [#1] Code:
 fun sum a b = a + b
-- Ground Truth: Function Definition, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Comparison Operator, Curried Function, Function Definition
-- ✅ Correct:    Arithmetic Operation, Function Definition
+- Ground Truth: Function Definition, Curried Function, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Curried Function, Function Definition
+- ✅ Correct:    Arithmetic Operation, Curried Function, Function Definition
 - ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator, Curried Function
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
 [#2] Code:
 fun add a b = a + b
-- Ground Truth: Function Definition, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Comparison Operator, Curried Function, Function Definition
-- ✅ Correct:    Arithmetic Operation, Function Definition
+- Ground Truth: Function Definition, Curried Function, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Curried Function, Function Definition
+- ✅ Correct:    Arithmetic Operation, Curried Function, Function Definition
 - ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator, Curried Function
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
 [#3] Code:
 fun sum a b = (a + b)
-- Ground Truth: Function Definition, Arithmetic Operation
+- Ground Truth: Function Definition, Curried Function, Arithmetic Operation
 - Predicted:    Arithmetic Operation, Curried Function, Function Definition
-- ✅ Correct:    Arithmetic Operation, Function Definition
+- ✅ Correct:    Arithmetic Operation, Curried Function, Function Definition
 - ❌ Missed:     
-- 🚫 Incorrect:  Curried Function
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
 [#4] Code:
 fun square n = n * n
 - Ground Truth: Function Definition, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Polymorphic Function
+- Predicted:    Arithmetic Operation, Function Definition
 - ✅ Correct:    Arithmetic Operation, Function Definition
 - ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator, Polymorphic Function
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -54,10 +54,10 @@ fun factorial n =
   case n of
        0 => 1
      | _ => n * factorial(n - 1);
-- Ground Truth: Arithmetic Operation, Function Definition, Pattern Matching, Non Tail Recursion Inefficiency
-- Predicted:    Arithmetic Operation, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
-- ✅ Correct:    Arithmetic Operation, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
-- ❌ Missed:     
+- Ground Truth: Arithmetic Operation, Function Definition, Pattern Matching, Anonymous Variable, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Function Definition, Pattern Matching
+- ✅ Correct:    Anonymous Variable, Arithmetic Operation, Function Definition, Pattern Matching
+- ❌ Missed:     Non Tail Recursion Inefficiency
 - 🚫 Incorrect:  
 ============================================================
 
@@ -66,10 +66,10 @@ fun factorial n =
 fun factorial 0 = 1
   | factorial n = n * factorial (n - 1);
 - Ground Truth: Function Definition, Pattern Matching, Arithmetic Operation, Non Tail Recursion Inefficiency
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching, Polymorphic Function
-- ✅ Correct:    Arithmetic Operation, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
-- ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator, Polymorphic Function
+- Predicted:    Arithmetic Operation, Function Definition
+- ✅ Correct:    Arithmetic Operation, Function Definition
+- ❌ Missed:     Non Tail Recursion Inefficiency, Pattern Matching
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -78,9 +78,9 @@ fun factorial n =
   if n = 0 then 1
   else n * factorial(n - 1);
 - Ground Truth: Function Definition, Conditional Statement, Arithmetic Operation, Comparison Operator, Non Tail Recursion Inefficiency
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Non Tail Recursion Inefficiency
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Non Tail Recursion Inefficiency
-- ❌ Missed:     
+- Predicted:    Arithmetic Operation, Conditional Statement, Function Definition
+- ✅ Correct:    Arithmetic Operation, Conditional Statement, Function Definition
+- ❌ Missed:     Comparison Operator, Non Tail Recursion Inefficiency
 - 🚫 Incorrect:  
 ============================================================
 
@@ -88,11 +88,11 @@ fun factorial n =
 [#9] Code:
 fun sum a b =
   if true then a + b else 0;
-- Ground Truth: Function Definition, Conditional Statement, Arithmetic Operation
+- Ground Truth: Function Definition, Curried Function, Conditional Statement, Arithmetic Operation
 - Predicted:    Arithmetic Operation, Conditional Statement, Curried Function, Function Definition
-- ✅ Correct:    Arithmetic Operation, Conditional Statement, Function Definition
+- ✅ Correct:    Arithmetic Operation, Conditional Statement, Curried Function, Function Definition
 - ❌ Missed:     
-- 🚫 Incorrect:  Curried Function
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -109,19 +109,19 @@ fun square n = if true then n * n else 0
 [#11] Code:
 fun isEven n = n mod 2 = 0
 - Ground Truth: Function Definition, Arithmetic Operation, Comparison Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Polymorphic Function
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
-- ❌ Missed:     
-- 🚫 Incorrect:  Polymorphic Function
+- Predicted:    Arithmetic Operation, Function Definition
+- ✅ Correct:    Arithmetic Operation, Function Definition
+- ❌ Missed:     Comparison Operator
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
 [#12] Code:
 fun isEven n = (n mod 2 = 0)
 - Ground Truth: Function Definition, Arithmetic Operation, Comparison Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
-- ❌ Missed:     
+- Predicted:    Arithmetic Operation, Function Definition
+- ✅ Correct:    Arithmetic Operation, Function Definition
+- ❌ Missed:     Comparison Operator
 - 🚫 Incorrect:  
 ============================================================
 
@@ -133,11 +133,11 @@ fun sum a b =
   in
     s
   end;
-- Ground Truth: Function Definition, Let Binding, Variable Assignment, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Comparison Operator, Curried Function, Function Definition, Let Binding, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
+- Ground Truth: Function Definition, Curried Function, Let Binding, Variable Assignment, Arithmetic Operation
+- Predicted:    Arithmetic Operation, Curried Function, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Curried Function, Function Definition, Let Binding, Variable Assignment
 - ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator, Curried Function
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -149,10 +149,10 @@ fun square n =
     result
   end;
 - Ground Truth: Function Definition, Let Binding, Variable Assignment, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Variable Assignment
+- Predicted:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
 - ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
 - ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -164,10 +164,10 @@ fun square n =
     sq
   end;
 - Ground Truth: Function Definition, Let Binding, Variable Assignment, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Variable Assignment
+- Predicted:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
 - ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
 - ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -176,9 +176,9 @@ fun isEven n =
   case n mod 2 of
       0 => true
     | _ => false;
-- Ground Truth: Function Definition, Pattern Matching, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Function Definition, Pattern Matching
-- ✅ Correct:    Arithmetic Operation, Function Definition, Pattern Matching
+- Ground Truth: Function Definition, Pattern Matching, Arithmetic Operation, Anonymous Variable
+- Predicted:    Anonymous Variable, Arithmetic Operation, Function Definition, Pattern Matching
+- ✅ Correct:    Anonymous Variable, Arithmetic Operation, Function Definition, Pattern Matching
 - ❌ Missed:     
 - 🚫 Incorrect:  
 ============================================================
@@ -186,31 +186,31 @@ fun isEven n =
 ============================================================
 [#17] Code:
 fun max a b = if a >= b then a else b
-- Ground Truth: Function Definition, Conditional Statement, Comparison Operator
-- Predicted:    Conditional Statement, Curried Function, Function Definition
-- ✅ Correct:    Conditional Statement, Function Definition
-- ❌ Missed:     Comparison Operator
-- 🚫 Incorrect:  Curried Function
+- Ground Truth: Function Definition, Curried Function, Conditional Statement, Comparison Operator
+- Predicted:    Comparison Operator, Conditional Statement, Curried Function, Function Definition
+- ✅ Correct:    Comparison Operator, Conditional Statement, Curried Function, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
 [#18] Code:
 fun max a b = if a > b then a else b
-- Ground Truth: Function Definition, Conditional Statement, Comparison Operator
-- Predicted:    Conditional Statement, Curried Function, Function Definition
-- ✅ Correct:    Conditional Statement, Function Definition
-- ❌ Missed:     Comparison Operator
-- 🚫 Incorrect:  Curried Function
+- Ground Truth: Function Definition, Curried Function, Conditional Statement, Comparison Operator
+- Predicted:    Comparison Operator, Conditional Statement, Curried Function, Function Definition
+- ✅ Correct:    Comparison Operator, Conditional Statement, Curried Function, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
 [#19] Code:
 fun max a b = (if a >= b then a else b)
-- Ground Truth: Function Definition, Conditional Statement, Comparison Operator
-- Predicted:    Conditional Statement, Curried Function, Function Definition
-- ✅ Correct:    Conditional Statement, Function Definition
-- ❌ Missed:     Comparison Operator
-- 🚫 Incorrect:  Curried Function
+- Ground Truth: Function Definition, Curried Function, Conditional Statement, Comparison Operator
+- Predicted:    Comparison Operator, Conditional Statement, Curried Function, Function Definition
+- ✅ Correct:    Comparison Operator, Conditional Statement, Curried Function, Function Definition
+- ❌ Missed:     
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -221,10 +221,10 @@ fun name (input: string option) =
   ", one for me."
 
 - Ground Truth: Function Definition, Option Type, String Concatenation
-- Predicted:    External Module Usage, Function Definition, Option Type, String Concatenation, Tail Recursion
+- Predicted:    Function Definition, Option Type, String Concatenation
 - ✅ Correct:    Function Definition, Option Type, String Concatenation
 - ❌ Missed:     
-- 🚫 Incorrect:  External Module Usage, Tail Recursion
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -233,19 +233,19 @@ fun name (input: string option) =
     "One for " ^ Option.getOpt (input, "you") ^ ", one for me."
 
 - Ground Truth: Function Definition, Option Type, String Concatenation
-- Predicted:    External Module Usage, Function Definition, Option Type, String Concatenation, Tail Recursion
+- Predicted:    Function Definition, Option Type, String Concatenation
 - ✅ Correct:    Function Definition, Option Type, String Concatenation
 - ❌ Missed:     
-- 🚫 Incorrect:  External Module Usage, Tail Recursion
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
 [#22] Code:
 fun absVal n = if n >= 0 then n else ~n
 - Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Arithmetic Operation
-- Predicted:    Conditional Statement, Function Definition
-- ✅ Correct:    Conditional Statement, Function Definition
-- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ❌ Missed:     
 - 🚫 Incorrect:  
 ============================================================
 
@@ -253,9 +253,9 @@ fun absVal n = if n >= 0 then n else ~n
 [#23] Code:
 fun absVal n = if n < 0 then ~n else n
 - Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Arithmetic Operation
-- Predicted:    Conditional Statement, Function Definition
-- ✅ Correct:    Conditional Statement, Function Definition
-- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ❌ Missed:     
 - 🚫 Incorrect:  
 ============================================================
 
@@ -263,9 +263,9 @@ fun absVal n = if n < 0 then ~n else n
 [#24] Code:
 fun absVal n = (if n < 0 then ~n else n)
 - Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Arithmetic Operation
-- Predicted:    Conditional Statement, Function Definition
-- ✅ Correct:    Conditional Statement, Function Definition
-- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
+- ❌ Missed:     
 - 🚫 Incorrect:  
 ============================================================
 
@@ -274,9 +274,9 @@ fun absVal n = (if n < 0 then ~n else n)
 fun isEven n =
   if n mod 2 = 0 then true else false;
 - Ground Truth: Function Definition, Conditional Statement, Arithmetic Operation, Comparison Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
-- ❌ Missed:     
+- Predicted:    Arithmetic Operation, Conditional Statement, Function Definition
+- ✅ Correct:    Arithmetic Operation, Conditional Statement, Function Definition
+- ❌ Missed:     Comparison Operator
 - 🚫 Incorrect:  
 ============================================================
 
@@ -286,11 +286,11 @@ fun max a b =
   case a >= b of
       true => a
     | false => b;
-- Ground Truth: Function Definition, Pattern Matching, Comparison Operator
-- Predicted:    Curried Function, Function Definition, Pattern Matching
-- ✅ Correct:    Function Definition, Pattern Matching
-- ❌ Missed:     Comparison Operator
-- 🚫 Incorrect:  Curried Function
+- Ground Truth: Function Definition, Curried Function, Pattern Matching, Comparison Operator
+- Predicted:    Comparison Operator, Curried Function, Function Definition, Pattern Matching
+- ✅ Correct:    Comparison Operator, Curried Function, Function Definition, Pattern Matching
+- ❌ Missed:     
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -305,10 +305,10 @@ fun isosceles (sides: real list): bool =
   valid(sides) andalso not (scalene(sides))
 
 - Ground Truth: Function Definition, Comparison Operator, Logical Operator, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Multiple Recursive Functions, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Multiple Recursive Functions, Tail Recursion
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Logical Operator
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Logical Operator
+- ❌ Missed:     
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -316,10 +316,10 @@ fun isosceles (sides: real list): bool =
 fun isLeapYear year =
   year mod 4 = 0 andalso (year mod 100 <> 0 orelse year mod 400 = 0)
 - Ground Truth: Function Definition, Arithmetic Operation, Logical Operator, Comparison Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Polymorphic Function
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Polymorphic Function
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Logical Operator
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Logical Operator
+- ❌ Missed:     
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -329,10 +329,10 @@ fun isLeapYear year =
   orelse year mod 400 = 0
 
 - Ground Truth: Function Definition, Arithmetic Operation, Logical Operator, Comparison Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Polymorphic Function
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Polymorphic Function
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Logical Operator
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Logical Operator
+- ❌ Missed:     
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -345,10 +345,10 @@ fun isLeapYear year =
   end
 
 - Ground Truth: Function Definition, Let Binding, Arithmetic Operation, Logical Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Comparison Operator, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+- Predicted:    Arithmetic Operation, Function Definition, Let Binding, Logical Operator
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Logical Operator
+- ❌ Missed:     
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -358,9 +358,9 @@ fun absVal n =
       true => ~n
     | false => n;
 - Ground Truth: Function Definition, Pattern Matching, Comparison Operator, Arithmetic Operation
-- Predicted:    Function Definition, Pattern Matching
-- ✅ Correct:    Function Definition, Pattern Matching
-- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Pattern Matching
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Pattern Matching
+- ❌ Missed:     
 - 🚫 Incorrect:  
 ============================================================
 
@@ -373,9 +373,9 @@ fun isEven n =
     r = 0
   end;
 - Ground Truth: Function Definition, Let Binding, Variable Assignment, Arithmetic Operation, Comparison Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Variable Assignment
-- ❌ Missed:     
+- Predicted:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Comparison Operator
 - 🚫 Incorrect:  
 ============================================================
 
@@ -387,20 +387,20 @@ fun name (input: string option) =
   else "One for you, one for me."
 
 - Ground Truth: Function Definition, Option Type, Conditional Statement, String Concatenation
-- Predicted:    Conditional Statement, External Module Usage, Function Definition, Option Type, String Concatenation, Tail Recursion
+- Predicted:    Conditional Statement, Function Definition, Option Type, String Concatenation
 - ✅ Correct:    Conditional Statement, Function Definition, Option Type, String Concatenation
 - ❌ Missed:     
-- 🚫 Incorrect:  External Module Usage, Tail Recursion
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
 [#34] Code:
 fun isPangram s = List.all(Char.contains(String.map Char.toLower s)) (explode "abcdefghijklmnopqrstuvwxyz")
 - Ground Truth: Function Definition, Basis Library Module Usage, Function Composition
-- Predicted:    Basis Library Module Usage, Comparison Operator, Function Definition
+- Predicted:    Basis Library Module Usage, Function Definition
 - ✅ Correct:    Basis Library Module Usage, Function Definition
 - ❌ Missed:     Function Composition
-- 🚫 Incorrect:  Comparison Operator
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -408,10 +408,10 @@ fun isPangram s = List.all(Char.contains(String.map Char.toLower s)) (explode "a
 fun isPangram s = List.all (Char.contains (String.map Char.toLower s)) 
   (explode "abcdefghijklmnopqrstuvwxyz");
 - Ground Truth: Function Definition, Basis Library Module Usage, Function Composition
-- Predicted:    Basis Library Module Usage, Comparison Operator, Function Definition
+- Predicted:    Basis Library Module Usage, Function Definition
 - ✅ Correct:    Basis Library Module Usage, Function Definition
 - ❌ Missed:     Function Composition
-- 🚫 Incorrect:  Comparison Operator
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -419,11 +419,11 @@ fun isPangram s = List.all (Char.contains (String.map Char.toLower s))
 fun isPangram' #"{" _ = true
   | isPangram' c s = String.isSubstring (str c) s andalso isPangram' (Char.succ c) s
 fun isPangram s = isPangram' #"a" (String.map Char.toLower s)
-- Ground Truth: Function Definition, Pattern Matching, Basis Library Module Usage, Logical Operator, Non Tail Recursion Inefficiency
-- Predicted:    Anonymous Variable, Basis Library Module Usage, Comparison Operator, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
-- ✅ Correct:    Basis Library Module Usage, Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Tail Recursion
+- Ground Truth: Function Definition, Anonymous Variable, Pattern Matching, Basis Library Module Usage, Logical Operator, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Basis Library Module Usage, Function Definition, Logical Operator
+- ✅ Correct:    Anonymous Variable, Basis Library Module Usage, Function Definition, Logical Operator
+- ❌ Missed:     Non Tail Recursion Inefficiency, Pattern Matching
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -435,9 +435,9 @@ fun max a b =
     m
   end;
 - Ground Truth: Function Definition, Let Binding, Variable Assignment, Conditional Statement, Comparison Operator
-- Predicted:    Conditional Statement, Curried Function, Function Definition, Let Binding, Variable Assignment
-- ✅ Correct:    Conditional Statement, Function Definition, Let Binding, Variable Assignment
-- ❌ Missed:     Comparison Operator
+- Predicted:    Comparison Operator, Conditional Statement, Curried Function, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     
 - 🚫 Incorrect:  Curried Function
 ============================================================
 
@@ -449,10 +449,10 @@ fun name (input: string option) =
   |  NONE => "One for you, one for me."
 
 - Ground Truth: Function Definition, Option Type, Pattern Matching, String Concatenation
-- Predicted:    External Module Usage, Function Definition, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, String Concatenation, Tail Recursion
+- Predicted:    Function Definition, Option Type, Pattern Matching, String Concatenation
 - ✅ Correct:    Function Definition, Option Type, Pattern Matching, String Concatenation
 - ❌ Missed:     
-- 🚫 Incorrect:  External Module Usage, Non Tail Recursion Inefficiency, Tail Recursion
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -462,11 +462,11 @@ fun flatten Empty = []
   | flatten (Elem n) = [n]
   | flatten (List []) = []
   | flatten (List (x::xs'))= flatten x @ flatten (List xs')
-- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency
-- Predicted:    Comparison Operator, Function Definition, Pattern Matching, Tail Recursion
-- ✅ Correct:    Function Definition, Pattern Matching
-- ❌ Missed:     Basis Library Module Usage, Datatype Definition, Non Tail Recursion Inefficiency
-- 🚫 Incorrect:  Comparison Operator, Tail Recursion
+- Ground Truth: Datatype Definition, Function Definition, Polymorphic Function, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency
+- Predicted:    Datatype Definition, Function Definition, Polymorphic Function
+- ✅ Correct:    Datatype Definition, Function Definition, Polymorphic Function
+- ❌ Missed:     Basis Library Module Usage, Non Tail Recursion Inefficiency, Pattern Matching
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -478,11 +478,11 @@ fun flatten tree =
         | Elem x => [x]
         | List [] => []
         | List (x::xs) => flatten(x) @ flatten(List xs)
-- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency
-- Predicted:    Comparison Operator, Function Definition, Pattern Matching, Tail Recursion
-- ✅ Correct:    Function Definition, Pattern Matching
-- ❌ Missed:     Basis Library Module Usage, Datatype Definition, Non Tail Recursion Inefficiency
-- 🚫 Incorrect:  Comparison Operator, Tail Recursion
+- Ground Truth: Datatype Definition, Function Definition, Polymorphic Function, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency
+- Predicted:    Datatype Definition, Function Definition, Pattern Matching, Polymorphic Function
+- ✅ Correct:    Datatype Definition, Function Definition, Pattern Matching, Polymorphic Function
+- ❌ Missed:     Basis Library Module Usage, Non Tail Recursion Inefficiency
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -492,10 +492,10 @@ fun factorial n =
   else if n = 0 then 1
   else n * factorial(n - 1);
 - Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Exception Raising, Nested Conditional Statement, Arithmetic Operation, Non Tail Recursion Inefficiency
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Non Tail Recursion Inefficiency, Redundancy
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Non Tail Recursion Inefficiency
-- ❌ Missed:     Nested Conditional Statement
-- 🚫 Incorrect:  Redundancy
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Nested Conditional Statement
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Nested Conditional Statement
+- ❌ Missed:     Non Tail Recursion Inefficiency
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -507,9 +507,9 @@ fun absVal n =
     result
   end;
 - Ground Truth: Function Definition, Let Binding, Variable Assignment, Conditional Statement, Comparison Operator, Arithmetic Operation
-- Predicted:    Conditional Statement, Function Definition, Let Binding, Variable Assignment
-- ✅ Correct:    Conditional Statement, Function Definition, Let Binding, Variable Assignment
-- ❌ Missed:     Arithmetic Operation, Comparison Operator
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     
 - 🚫 Incorrect:  
 ============================================================
 
@@ -525,10 +525,10 @@ fun abbreviate (phrase: string): string =
   end;
 
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Basis Library Module Usage, Variable Assignment
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Function Definition, Let Binding, Local Function Definition, Variable Assignment
-- ❌ Missed:     
-- 🚫 Incorrect:  Anonymous Variable, Arithmetic Operation, Comparison Operator, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Function Definition, Let Binding, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Local Function Definition
+- 🚫 Incorrect:  Anonymous Variable, Arithmetic Operation
 ============================================================
 
 ============================================================
@@ -543,10 +543,10 @@ fun isLeapYear year =
             year mod 4 = 0
 
 - Ground Truth: Arithmetic Operation, Function Definition, Conditional Statement, Comparison Operator, Nested Conditional Statement
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Redundancy
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition
-- ❌ Missed:     Nested Conditional Statement
-- 🚫 Incorrect:  Redundancy
+- Predicted:    Arithmetic Operation, Conditional Statement, Function Definition, Nested Conditional Statement
+- ✅ Correct:    Arithmetic Operation, Conditional Statement, Function Definition, Nested Conditional Statement
+- ❌ Missed:     Comparison Operator
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -558,11 +558,11 @@ fun fold f e Empty = e
       foldr (fn (t, e') => fold f e' t) e ts
 fun flatten t = fold op:: [] t
 
-- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency
-- Predicted:    Comparison Operator, Curried Function, Function Definition, Lambda Function, Pattern Matching, Tail Recursion
-- ✅ Correct:    Function Definition, Lambda Function, Pattern Matching
-- ❌ Missed:     Basis Library Module Usage, Datatype Definition, Non Tail Recursion Inefficiency
-- 🚫 Incorrect:  Comparison Operator, Curried Function, Tail Recursion
+- Ground Truth: Datatype Definition, Function Definition, Polymorphic Function, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency
+- Predicted:    Basis Library Module Usage, Curried Function, Datatype Definition, Function Definition, Lambda Function, Polymorphic Function
+- ✅ Correct:    Basis Library Module Usage, Datatype Definition, Function Definition, Lambda Function, Polymorphic Function
+- ❌ Missed:     Non Tail Recursion Inefficiency, Pattern Matching
+- 🚫 Incorrect:  Curried Function
 ============================================================
 
 ============================================================
@@ -573,11 +573,11 @@ fun flatten tree =
     List(l) => foldl (fn (el, acc) => acc@flatten(el)) [] l
   | Elem(x) => [x]
   | Empty => []
-- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency
-- Predicted:    Comparison Operator, Function Definition, Lambda Function, Pattern Matching
-- ✅ Correct:    Function Definition, Lambda Function, Pattern Matching
-- ❌ Missed:     Basis Library Module Usage, Datatype Definition, Non Tail Recursion Inefficiency
-- 🚫 Incorrect:  Comparison Operator
+- Ground Truth: Datatype Definition, Function Definition, Polymorphic Function, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency
+- Predicted:    Basis Library Module Usage, Datatype Definition, Function Definition, Lambda Function, Pattern Matching, Polymorphic Function
+- ✅ Correct:    Basis Library Module Usage, Datatype Definition, Function Definition, Lambda Function, Pattern Matching, Polymorphic Function
+- ❌ Missed:     Non Tail Recursion Inefficiency
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -601,10 +601,10 @@ fun scalene (sides: real list): bool =
   end
 
 - Ground Truth: Function Definition, Comparison Operator, Logical Operator, Arithmetic Operation, Let Binding, Basis Library Module Usage
-- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, External Module Usage, Function Definition, Let Binding, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding
-- ❌ Missed:     Basis Library Module Usage, Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Tail Recursion, Variable Assignment
+- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Logical Operator
+- ❌ Missed:     Basis Library Module Usage
+- 🚫 Incorrect:  Anonymous Variable, Variable Assignment
 ============================================================
 
 ============================================================
@@ -620,11 +620,11 @@ fun nucleotideCounts (strand: string) : result =
        | #"T" => {a = a, c = c, g = g, t = t + 1}
        | _ => raise Fail "Invalid nucleotide in strand")
        {a = 0, c = 0, g = 0, t = 0} (String.explode strand)
-- Ground Truth: Function Definition, Basis Library Module Usage, Lambda Function, Pattern Matching, Arithmetic Operation, Exception Raising
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Exception Raising, Function Definition, Lambda Function, Pattern Matching, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Lambda Function, Pattern Matching
+- Ground Truth: Function Definition, Basis Library Module Usage, Lambda Function, Pattern Matching, Arithmetic Operation, Anonymous Variable, Exception Raising
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Lambda Function, Pattern Matching
+- ✅ Correct:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Lambda Function, Pattern Matching
 - ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator, Tail Recursion
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -637,10 +637,10 @@ fun fact n =
     aux(n, 1)
   end;
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Arithmetic Operation
-- Predicted:    Arithmetic Operation, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion
-- ❌ Missed:     
-- 🚫 Incorrect:  Local Recursive Function, Non Tail Recursion Inefficiency
+- Predicted:    Arithmetic Operation, Function Definition, Let Binding
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding
+- ❌ Missed:     Local Function Definition, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -681,11 +681,11 @@ fun allergies (score: int) =
     (List.tabulate (8, fn a => fromScore (ceil (Math.pow(2.0, Real.fromInt a)))))
 ;
 
-- Ground Truth: Datatype Definition, Function Definition, Basis Library Module Usage, Comparison Operator, Logical Operator, Lambda Function, Arithmetic Operation
-- Predicted:    Basis Library Module Usage, Comparison Operator, External Module Usage, Function Definition, Lambda Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function
-- ❌ Missed:     Arithmetic Operation, Datatype Definition, Logical Operator
-- 🚫 Incorrect:  External Module Usage, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- Ground Truth: Datatype Definition, Function Definition, Curried Function, Basis Library Module Usage, Comparison Operator, Logical Operator, Lambda Function, Arithmetic Operation
+- Predicted:    Basis Library Module Usage, Comparison Operator, Datatype Definition, Function Definition, Lambda Function, Logical Operator
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Datatype Definition, Function Definition, Lambda Function, Logical Operator
+- ❌ Missed:     Arithmetic Operation, Curried Function
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -714,10 +714,10 @@ fun scalene (a::b::c::nil) =
     triangle_inequality(a, b, c) andalso equal_sides(a, b, c) = 0
 
 - Ground Truth: Function Definition, Arithmetic Operation, Comparison Operator, Logical Operator, Basis Library Module Usage, Let Binding, Variable Assignment, Conditional Statement
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Let Binding, Multiple Recursive Functions, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage, Logical Operator
-- 🚫 Incorrect:  External Module Usage, Multiple Recursive Functions, Redundancy, Tail Recursion
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Logical Operator, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage
+- 🚫 Incorrect:  Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -730,11 +730,11 @@ fun nucleotideCounts (strand: string): {a: int, c: int, g: int, t: int} =
         | count _ = raise Fail "Invalid nucleotide in strand"
   in foldl count {a=0,c=0,g=0,t=0} (explode strand)
   end
-- Ground Truth: Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Exception Raising, Basis Library Module Usage
-- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Exception Raising, Function Definition, Let Binding, Local Function Definition, Pattern Matching
-- ❌ Missed:     Basis Library Module Usage
-- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Anonymous Variable, Exception Raising, Basis Library Module Usage
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding
+- ✅ Correct:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding
+- ❌ Missed:     Local Function Definition, Pattern Matching
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -758,11 +758,11 @@ fun anagramsFor subject candidates =
     List.filter (fn x => sortedSubject = stringSort(stringUpper(x)) 
       andalso not (upperSuject = stringUpper(x)) ) candidates
   end
-- Ground Truth: Function Definition, Let Binding, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency, Comparison Operator, Variable Assignment, Logical Operator
-- Predicted:    Basis Library Module Usage, Comparison Operator, Curried Function, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Non Tail Recursion Inefficiency, Pattern Matching, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Curried Function, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Tail Recursion
+- Ground Truth: Function Definition, Polymorphic Function, Let Binding, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency, Comparison Operator, Variable Assignment, Logical Operator
+- Predicted:    Basis Library Module Usage, Comparison Operator, Curried Function, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Non Tail Recursion Inefficiency, Pattern Matching, Polymorphic Function
+- 🚫 Incorrect:  Curried Function
 ============================================================
 
 ============================================================
@@ -779,10 +779,10 @@ fun nucleotideCounts (strand: string): {a: int, c: int, g: int, t: int} =
   in  {a = a, c = c, g = g, t = t}
   end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Arithmetic Operation, Exception Raising, Variable Assignment, Basis Library Module Usage
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Variable Assignment
-- ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator, Local Recursive Function, Tail Recursion
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding, Pattern Matching, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding, Pattern Matching, Variable Assignment
+- ❌ Missed:     Local Function Definition
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -810,10 +810,10 @@ fun sublist (xs, ys): relation =
     then Sublist
   else Unequal
 - Ground Truth: Datatype Definition, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Comparison Operator, Logical Operator, Non Tail Recursion Inefficiency, Conditional Statement
-- Predicted:    Anonymous Variable, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Pattern Matching, Redundancy, Tail Recursion
-- ✅ Correct:    Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Pattern Matching
-- ❌ Missed:     Datatype Definition, Logical Operator, Non Tail Recursion Inefficiency
-- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Redundancy, Tail Recursion
+- Predicted:    Anonymous Variable, Basis Library Module Usage, Conditional Statement, Datatype Definition, Function Definition, Let Binding, Logical Operator, Nested Conditional Statement
+- ✅ Correct:    Conditional Statement, Datatype Definition, Function Definition, Let Binding, Logical Operator
+- ❌ Missed:     Comparison Operator, Local Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
+- 🚫 Incorrect:  Anonymous Variable, Basis Library Module Usage, Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -846,10 +846,10 @@ in
   List.filter isAnagram candidates
 end
 - Ground Truth: Function Definition, Let Binding, Variable Assignment, Local Function Definition, Basis Library Module Usage, Conditional Statement, Arithmetic Operation, Logical Operator, Lambda Function
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Comparison Operator, Curried Function, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Tail Recursion
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Local Function Definition
+- 🚫 Incorrect:  Comparison Operator, Curried Function
 ============================================================
 
 ============================================================
@@ -863,10 +863,10 @@ fun isArmstrongNumber (number: int): bool =
   end
 
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Arithmetic Operation, Variable Assignment, Basis Library Module Usage
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Curried Function, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     
-- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Curried Function, External Module Usage, Lambda Function, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Curried Function, Function Definition, Lambda Function, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Local Function Definition, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable, Curried Function, Lambda Function
 ============================================================
 
 ============================================================
@@ -896,11 +896,11 @@ fun isArmstrongNumber (number: int): bool =
     recurse [] number
   end
 
-- Ground Truth: Local Function Definition, Function Definition, Conditional Statement, Comparison Operator, Tail Recursion, Arithmetic Operation, Let Binding, Basis Library Module Usage, Variable Assignment
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Tail Recursion, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage
-- 🚫 Incorrect:  Local Binding, Local Recursive Function, Multiple Recursive Functions
+- Ground Truth: Local Function Definition, Curried Function, Function Definition, Conditional Statement, Comparison Operator, Tail Recursion, Arithmetic Operation, Let Binding, Basis Library Module Usage, Variable Assignment
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Curried Function, Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Local Binding
 ============================================================
 
 ============================================================
@@ -919,10 +919,10 @@ fun abbreviate " = "
     end
 
 - Ground Truth: Function Definition, Pattern Matching, Let Binding, Variable Assignment, Basis Library Module Usage, Lambda Function, Conditional Statement, Comparison Operator, Logical Operator  
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Pattern Matching, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Arithmetic Operation, Tail Recursion
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Comparison Operator, Pattern Matching
+- 🚫 Incorrect:  Arithmetic Operation
 ============================================================
 
 ============================================================
@@ -946,11 +946,11 @@ fun allergicTo (score: int) (a: allergen): bool =
 fun allergies (score: int): allergen list =
   List.mapPartial (fn (k, v) => if Word.andb (v, Word.fromInt score) = v then SOME k else NONE) score_map
 
-- Ground Truth: Datatype Definition, Function Definition, Option Type, Pattern Matching, Non Tail Recursion Inefficiency, Variable Assignment, Conditional Statement, Comparison Operator, Basis Library Module Usage, Lambda Function
-- Predicted:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Variable Assignment
-- ❌ Missed:     Datatype Definition
-- 🚫 Incorrect:  Tail Recursion
+- Ground Truth: Datatype Definition, Function Definition, Polymorphic Function, Curried Function, Option Type, Pattern Matching, Non Tail Recursion Inefficiency, Variable Assignment, Conditional Statement, Comparison Operator, Basis Library Module Usage, Lambda Function
+- Predicted:    Basis Library Module Usage, Conditional Statement, Datatype Definition, Function Definition, Lambda Function, Pattern Matching, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Datatype Definition, Function Definition, Lambda Function, Pattern Matching, Variable Assignment
+- ❌ Missed:     Comparison Operator, Curried Function, Non Tail Recursion Inefficiency, Option Type, Polymorphic Function
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -974,10 +974,10 @@ fun nucleotideCounts (strand: string): nucleotideCounts =
     countNucleotides(explode strand, {a=0, c=0, g=0, t=0})
   end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Arithmetic Operation, Exception Raising, Basis Library Module Usage
-- Predicted:    Arithmetic Operation, Comparison Operator, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Exception Raising, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion
-- ❌ Missed:     Basis Library Module Usage
-- 🚫 Incorrect:  Comparison Operator, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding, Pattern Matching
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding, Pattern Matching
+- ❌ Missed:     Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -1007,10 +1007,10 @@ fun anagramsFor subject candidates =
       then (anagramsFor subject xs) 
       else if (isAnagram subject x) then x::(anagramsFor subject xs) else (anagramsFor subject xs)
 - Ground Truth: Function Definition, Pattern Matching, Exception Raising, Conditional Statement, Comparison Operator, Non Tail Recursion Inefficiency, Let Binding, Variable Assignment, Multiple Recursive Functions, Basis Library Module Usage
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, External Module Usage, Function Definition, Lambda Function, Let Binding, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Variable Assignment
-- ❌ Missed:     
-- 🚫 Incorrect:  Arithmetic Operation, Curried Function, External Module Usage, Lambda Function, Redundancy, Tail Recursion
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, Function Composition, Function Definition, Lambda Function, Let Binding, Nested Conditional Statement, Pattern Matching, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Pattern Matching, Variable Assignment
+- ❌ Missed:     Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- 🚫 Incorrect:  Arithmetic Operation, Curried Function, Function Composition, Lambda Function, Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -1033,10 +1033,10 @@ and isSublist [] _ _ = true
       x = y andalso isSublist xs ys original
       orelse isSublist original ys original
 - Ground Truth: Datatype Definition, Function Definition, Let Binding, Variable Assignment, Conditional Statement, Logical Operator, Pattern Matching, Comparison Operator, Multiple Recursive Functions, Non Tail Recursion Inefficiency
-- Predicted:    Anonymous Variable, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
-- ❌ Missed:     Datatype Definition, Logical Operator, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching
-- 🚫 Incorrect:  Anonymous Variable, Redundancy, Tail Recursion
+- Predicted:    Anonymous Variable, Conditional Statement, Datatype Definition, Function Definition, Let Binding, Logical Operator, Multiple Recursive Functions, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Conditional Statement, Datatype Definition, Function Definition, Let Binding, Logical Operator, Multiple Recursive Functions, Variable Assignment
+- ❌ Missed:     Comparison Operator, Non Tail Recursion Inefficiency, Pattern Matching
+- 🚫 Incorrect:  Anonymous Variable, Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -1056,10 +1056,10 @@ in
     loop (Word.fromInt 0) (explode s)
 end
 - Ground Truth: Local Binding, Function Definition, Local Function Definition, Conditional Statement, Basis Library Module Usage, Arithmetic Operation, Pattern Matching, Tail Recursion
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Local Binding, Multiple Recursive Functions, Pattern Matching, Redundancy, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Local Binding, Pattern Matching, Tail Recursion
-- ❌ Missed:     Local Function Definition
-- 🚫 Incorrect:  Comparison Operator, Multiple Recursive Functions, Redundancy
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Local Binding, Nested Conditional Statement, Pattern Matching
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Local Binding, Pattern Matching
+- ❌ Missed:     Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Comparison Operator, Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -1075,10 +1075,10 @@ and armstrongSum (n: int): int =
   end
 
 - Ground Truth: Use Directive, Function Definition, Multiple Recursive Functions, Let Binding, Variable Assignment, Local Function Definition, Pattern Matching, Arithmetic Operation, Comparison Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Variable Assignment
-- ❌ Missed:     Multiple Recursive Functions, Use Directive
-- 🚫 Incorrect:  External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+- Predicted:    Arithmetic Operation, Function Definition, Let Binding, Multiple Recursive Functions, Use Directive, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Function Definition, Let Binding, Multiple Recursive Functions, Use Directive, Variable Assignment
+- ❌ Missed:     Comparison Operator, Local Function Definition, Pattern Matching
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -1101,11 +1101,11 @@ fun allergicTo (score: int) (a: allergen): bool =
 fun allergies (score: int): allergen list =
   List.filter (fn a => (allergicTo score a)) [Eggs, Peanuts, Shellfish, Strawberries, Tomatoes, Chocolate, Pollen, Cats]
 
-- Ground Truth: Datatype Definition, Function Definition, Let Binding, Variable Assignment, Pattern Matching, Basis Library Module Usage, Comparison Operator, Local Function Definition, Lambda Function
-- Predicted:    Basis Library Module Usage, Comparison Operator, External Module Usage, Function Definition, Lambda Function, Let Binding, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Pattern Matching, Variable Assignment
-- ❌ Missed:     Datatype Definition, Local Function Definition
-- 🚫 Incorrect:  External Module Usage, Tail Recursion
+- Ground Truth: Datatype Definition, Function Definition, Curried Function, Let Binding, Variable Assignment, Pattern Matching, Basis Library Module Usage, Comparison Operator, Local Function Definition, Lambda Function
+- Predicted:    Basis Library Module Usage, Comparison Operator, Datatype Definition, Function Definition, Lambda Function, Let Binding, Pattern Matching, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Datatype Definition, Function Definition, Lambda Function, Let Binding, Pattern Matching, Variable Assignment
+- ❌ Missed:     Curried Function, Local Function Definition
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -1149,11 +1149,11 @@ fun allergies n =
     List.filter (fn a => allergicTo n a)
        [Eggs,Peanuts,Shellfish,Strawberries,Tomatoes,Chocolate,Pollen,Cats]
 
-- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Let Binding, Variable Assignment, Basis Library Module Usage, Comparison Operator, Local Function Definition, Lambda Function
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Curried Function, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, Variable Assignment
-- ❌ Missed:     Datatype Definition
-- 🚫 Incorrect:  Anonymous Variable, Arithmetic Operation, Curried Function, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion
+- Ground Truth: Datatype Definition, Function Definition, Pattern Matching, Let Binding, Variable Assignment, Basis Library Module Usage, Comparison Operator, Anonymous Variable, Local Function Definition, Lambda Function
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Curried Function, Datatype Definition, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Anonymous Variable, Basis Library Module Usage, Comparison Operator, Datatype Definition, Function Definition, Lambda Function, Let Binding, Variable Assignment
+- ❌ Missed:     Local Function Definition, Pattern Matching
+- 🚫 Incorrect:  Arithmetic Operation, Curried Function, Logical Operator
 ============================================================
 
 ============================================================
@@ -1199,11 +1199,11 @@ fun allergies (score: int): allergen list =
     (removeEightPlus(getOneEntries(dec2bin(score))))
 fun allergicTo (score: int) (a: allergen): bool =
   List.exists(fn e => a = e) (allergies(score))
-- Ground Truth: Datatype Definition, Function Definition, Conditional Statement, Comparison Operator, Non Tail Recursion Inefficiency, Arithmetic Operation, Let Binding, Local Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Non Tail Recursion Inefficiency, Pattern Matching
-- ❌ Missed:     Datatype Definition
-- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Tail Recursion
+- Ground Truth: Datatype Definition, Function Definition, Conditional Statement, Comparison Operator, Non Tail Recursion Inefficiency, Arithmetic Operation, Let Binding, Local Function Definition, Polymorphic Function, Pattern Matching, Curried Function, Basis Library Module Usage, Lambda Function
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Datatype Definition, Function Definition, Lambda Function, Let Binding, Pattern Matching
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Datatype Definition, Function Definition, Lambda Function, Let Binding, Pattern Matching
+- ❌ Missed:     Curried Function, Local Function Definition, Non Tail Recursion Inefficiency, Polymorphic Function
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -1228,10 +1228,10 @@ val up = map Char.toUpper
 val abbreviate = implode o up o initials o split o clean
 
 - Ground Truth: Variable Assignment, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Nested Conditional Statement, Basis Library Module Usage, Function Definition, Function Composition
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Polymorphic Function, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Variable Assignment
-- ❌ Missed:     Function Composition, Nested Conditional Statement
-- 🚫 Incorrect:  Arithmetic Operation, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Polymorphic Function, Redundancy, Tail Recursion
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Composition, Function Definition, Let Binding, Logical Operator, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Function Composition, Function Definition, Let Binding, Nested Conditional Statement, Variable Assignment
+- ❌ Missed:     Comparison Operator, Local Function Definition
+- 🚫 Incorrect:  Arithmetic Operation, Logical Operator
 ============================================================
 
 ============================================================
@@ -1256,10 +1256,10 @@ fun scalene ([a, b, c]: real list) =
   | scalene _ = false
 
 - Ground Truth: Custom Infix Operator, Variable Assignment, Basis Library Module Usage, Function Definition, Comparison Operator, Logical Operator, Pattern Matching, Let Binding, Local Function Definition, Arithmetic Operation
-- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Function Definition, Let Binding, Local Function Definition, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage, Custom Infix Operator, Logical Operator, Pattern Matching
-- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion
+- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Custom Infix Operator, Function Definition, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Custom Infix Operator, Function Definition, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Local Function Definition, Pattern Matching
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -1285,10 +1285,10 @@ in
     else Unequal
 end
 - Ground Truth: Datatype Definition, Local Binding, Function Definition, Local Function Definition, Pattern Matching, Logical Operator,  Non Tail Recursion Inefficiency, Multiple Recursive Functions, Conditional Statement, Comparison Operator
-- Predicted:    Anonymous Variable, Comparison Operator, Conditional Statement, Function Definition, Local Binding, Multiple Recursive Functions, Pattern Matching, Redundancy, Tail Recursion
-- ✅ Correct:    Comparison Operator, Conditional Statement, Function Definition, Local Binding, Multiple Recursive Functions, Pattern Matching
-- ❌ Missed:     Datatype Definition, Local Function Definition, Logical Operator, Non Tail Recursion Inefficiency
-- 🚫 Incorrect:  Anonymous Variable, Redundancy, Tail Recursion
+- Predicted:    Anonymous Variable, Comparison Operator, Conditional Statement, Datatype Definition, Function Definition, Local Binding, Logical Operator, Nested Conditional Statement, Pattern Matching
+- ✅ Correct:    Comparison Operator, Conditional Statement, Datatype Definition, Function Definition, Local Binding, Logical Operator, Pattern Matching
+- ❌ Missed:     Local Function Definition, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- 🚫 Incorrect:  Anonymous Variable, Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -1312,10 +1312,10 @@ fun rebase (inBase, outBase, digits) =
     end
 
 - Ground Truth: Function Definition, Conditional Statement, Comparison Operator, Option Type, Basis Library Module Usage, Lambda Function, Logical Operator, Let Binding, Variable Assignment, Local Function Definition
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Option Type, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Arithmetic Operation, Curried Function, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Lambda Function, Let Binding, Logical Operator, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Local Function Definition, Option Type
+- 🚫 Incorrect:  Arithmetic Operation, Curried Function, Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -1336,10 +1336,10 @@ fun abbreviate (phrase: string): string =
   end
 
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Basis Library Module Usage, Function Composition, Pattern Matching, Conditional Statement, Tail Recursion
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
-- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion
-- ❌ Missed:     Function Composition
-- 🚫 Incorrect:  Anonymous Variable, Arithmetic Operation, Comparison Operator, Local Recursive Function, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Composition, Function Definition, Let Binding, Logical Operator
+- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Function Composition, Function Definition, Let Binding
+- ❌ Missed:     Local Function Definition, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable, Arithmetic Operation, Logical Operator
 ============================================================
 
 ============================================================
@@ -1360,10 +1360,10 @@ fun isValid (isbn: string): bool =
 	checkIsbn (String.explode isbn) 10 0
     end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Basis Library Module Usage, Arithmetic Operation, Comparison Operator, Pattern Matching, Conditional Statement, Tail Recursion
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Redundancy, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion
-- ❌ Missed:     
-- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Redundancy
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Let Binding, Nested Conditional Statement
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Let Binding
+- ❌ Missed:     Comparison Operator, Local Function Definition, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable, Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -1448,10 +1448,10 @@ fun rebase (inBase: int, outBase: int, digits: int list): int list option =
       end
 
 - Ground Truth: Use Directive, Variable Assignment, Lambda Function, Conditional Statement, Arithmetic Operation, Non Tail Recursion Inefficiency, Let Binding, Basis Library Module Usage, Local Function Definition, Function Definition, Option Type, Nested Conditional Statement, Redundancy, Comparison Operator
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Redundancy, String Concatenation, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Non Tail Recursion Inefficiency, Option Type, Redundancy, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage, Nested Conditional Statement, Use Directive
-- 🚫 Incorrect:  External Module Usage, Local Recursive Function, Multiple Recursive Functions, String Concatenation, Tail Recursion
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Nested Conditional Statement, Option Type, String Concatenation, Use Directive, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Nested Conditional Statement, Option Type, Use Directive, Variable Assignment
+- ❌ Missed:     Comparison Operator, Local Function Definition, Non Tail Recursion Inefficiency, Redundancy
+- 🚫 Incorrect:  Logical Operator, String Concatenation
 ============================================================
 
 ============================================================
@@ -1469,11 +1469,11 @@ fun isValid (isbn: string): bool =
     n = 0 andalso Int.rem (sum, 11) = 0
   end
   handle Fail _ => false
-- Ground Truth: Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Conditional Statement, Comparison Operator, Exception Raising, Variable Assignment, Basis Library Module Usage, Logical Operator
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Pattern Matching, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Tail Recursion
+- Ground Truth: Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Conditional Statement, Comparison Operator, Exception Raising, Variable Assignment, Basis Library Module Usage, Logical Operator, Anonymous Variable
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Local Function Definition, Pattern Matching
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -1498,10 +1498,10 @@ fun rebase (inBase: int, outBase: int, digits: int list): int list option =
     end
 
 - Ground Truth: Function Definition, Option Type, Let Binding, Local Function Definition, Pattern Matching, Conditional Statement, Comparison Operator, Logical Operator, Tail Recursion, Arithmetic Operation
-- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Option Type, Pattern Matching, Tail Recursion
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, Curried Function, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Let Binding, Logical Operator, Option Type, Pattern Matching
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Logical Operator, Option Type, Pattern Matching
+- ❌ Missed:     Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable, Curried Function
 ============================================================
 
 ============================================================
@@ -1546,10 +1546,10 @@ if !bo = [] then NONE else SOME (!bo)
 end;
 
 - Ground Truth: Function Definition, Arithmetic Operation, Pattern Matching, Non Tail Recursion Inefficiency, Lambda Function, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Tail Recursion, Logical Operator, Basis Library Module Usage, Option Type, Variable Assignment, Use Of Refs, Use Of While Loops
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Polymorphic Function, Tail Recursion, Use Of Refs, Use Of While Loops, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion, Use Of Refs, Use Of While Loops, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Curried Function, Local Recursive Function, Multiple Recursive Functions, Polymorphic Function
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Local Function Definition, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion, Use Of Refs, Use Of While Loops
+- 🚫 Incorrect:  Curried Function
 ============================================================
 
 ============================================================
@@ -1580,10 +1580,10 @@ fun sublist (listOne: int list, listTwo: int list): relation =
             else if isSublist listTwo listOne l2 l1 then Superlist else Unequal
     end
 - Ground Truth: Datatype Definition, Function Definition, Conditional Statement, Comparison Operator, Let Binding, Variable Assignment, Basis Library Module Usage, Arithmetic Operation, Tail Recursion, Nested Conditional Statement
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Let Binding, Nested Conditional Statement, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Nested Conditional Statement, Tail Recursion, Variable Assignment
-- ❌ Missed:     Datatype Definition
-- 🚫 Incorrect:  Curried Function, Redundancy
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Datatype Definition, Function Definition, Let Binding, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Datatype Definition, Function Definition, Let Binding, Nested Conditional Statement, Variable Assignment
+- ❌ Missed:     Tail Recursion
+- 🚫 Incorrect:  Curried Function
 ============================================================
 
 ============================================================
@@ -1611,10 +1611,10 @@ fun encode (phrase: string): string =
     String.concat (List.map process ((n, c) :: acc))
   end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Logical Operator, Arithmetic Operation, Basis Library Module Usage, String Concatenation, Lambda Function, Conditional Statement, Variable Assignment, Pattern Matching
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, String Concatenation, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, String Concatenation, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Tail Recursion
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, String Concatenation, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, String Concatenation, Variable Assignment
+- ❌ Missed:     Local Function Definition, Pattern Matching
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -1632,10 +1632,10 @@ fun isArmstrongNumber (number: int) =
     foldl (fn (x,a) => a + pow x len) 0 digits = number
   end
 - Ground Truth: Function Definition, Pattern Matching, Arithmetic Operation, Non Tail Recursion Inefficiency, Let Binding, Local Function Definition, Conditional Statement, Tail Recursion, Local Recursive Function, Variable Assignment, Basis Library Module Usage, Lambda Function
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     
-- 🚫 Incorrect:  Comparison Operator, Curried Function, Multiple Recursive Functions
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Curried Function, Function Definition, Lambda Function, Let Binding, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Let Binding, Variable Assignment
+- ❌ Missed:     Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  Curried Function
 ============================================================
 
 ============================================================
@@ -1660,10 +1660,10 @@ fun find (haystack: int array, needle: int): int =
     search(0, Array.length(haystack))
   end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Exception Raising, Variable Assignment, Arithmetic Operation, Basis Library Module Usage, Nested Conditional Statement, Tail Recursion
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Tail Recursion, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage, Nested Conditional Statement
-- 🚫 Incorrect:  External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Logical Operator, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Nested Conditional Statement, Variable Assignment
+- ❌ Missed:     Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Logical Operator
 ============================================================
 
 ============================================================
@@ -1680,10 +1680,10 @@ fun find (haystack: int array, needle: int): int =
   in  bsearch 0 (Array.length haystack)
   end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Exception Raising, Arithmetic Operation, Variable Assignment, Basis Library Module Usage, Nested Conditional Statement, Tail Recursion
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Tail Recursion, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage, Nested Conditional Statement
-- 🚫 Incorrect:  Curried Function, External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, Function Definition, Let Binding, Logical Operator, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Nested Conditional Statement, Variable Assignment
+- ❌ Missed:     Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Curried Function, Logical Operator
 ============================================================
 
 ============================================================
@@ -1699,10 +1699,10 @@ fun find (haystack: int array, needle: int): int =
              end
   in aux 0 (Array.length haystack - 1) end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Exception Raising, Arithmetic Operation, Variable Assignment, Basis Library Module Usage, Nested Conditional Statement, Tail Recursion
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Tail Recursion, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage, Nested Conditional Statement
-- 🚫 Incorrect:  Curried Function, External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, Function Definition, Let Binding, Logical Operator, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Nested Conditional Statement, Variable Assignment
+- ❌ Missed:     Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Curried Function, Logical Operator
 ============================================================
 
 ============================================================
@@ -1730,10 +1730,10 @@ and updateCount (c, []) = [(c, 1)]
   | updateCount (c, (c', s) :: acc) =
       if c = c' then (c', s + 1) :: acc else (c, 1) :: (c', s) :: acc
 - Ground Truth: Function Definition, Pattern Matching, Basis Library Module Usage, String Concatenation, Lambda Function, Non Tail Recursion Inefficiency, Conditional Statement, Tail Recursion, Option Type, Comparison Operator, Arithmetic Operation, Multiple Recursive Functions
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Pattern Matching, String Concatenation, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Pattern Matching, String Concatenation, Tail Recursion
-- ❌ Missed:     Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type
-- 🚫 Incorrect:  Anonymous Variable, External Module Usage
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Multiple Recursive Functions, Pattern Matching, String Concatenation
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Conditional Statement, Function Definition, Lambda Function, Multiple Recursive Functions, Pattern Matching, String Concatenation
+- ❌ Missed:     Comparison Operator, Non Tail Recursion Inefficiency, Option Type, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -1778,10 +1778,10 @@ fun encode (phrase: string): string =
         String.implode(result)
     end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Arithmetic Operation, Conditional Statement, Comparison Operator, Logical Operator, Basis Library Module Usage, Variable Assignment, Lambda Function
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, Exception Raising, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Lambda Function, Let Binding, Logical Operator, Pattern Matching, Polymorphic Function, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Pattern Matching, Variable Assignment
+- ❌ Missed:     Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable, Exception Raising, Polymorphic Function
 ============================================================
 
 ============================================================
@@ -1814,10 +1814,10 @@ fun isArmstrongNumber (number: int): bool =
         end
 
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Arithmetic Operation, Tail Recursion, Variable Assignment, Basis Library Module Usage, Pattern Matching, Multiple Recursive Functions
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Local Function Definition, Multiple Recursive Functions, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     
-- 🚫 Incorrect:  External Module Usage, Local Recursive Function, Non Tail Recursion Inefficiency, Redundancy
+- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Nested Conditional Statement, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Function Definition, Let Binding, Variable Assignment
+- ❌ Missed:     Basis Library Module Usage, Local Function Definition, Multiple Recursive Functions, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  Nested Conditional Statement
 ============================================================
 
 ============================================================
@@ -1835,11 +1835,11 @@ in
     in  {a = a, c = c, g = g, t = t}
     end
 end
-- Ground Truth: Local Binding, Function Definition, Local Function Definition, Local Recursive Function, Tail Recursion, Pattern Matching, Arithmetic Operation, Exception Raising, Let Binding, Variable Assignment, Basis Library Module Usage
-- Predicted:    Anonymous Variable, Arithmetic Operation, Comparison Operator, Exception Raising, Function Definition, Let Binding, Local Binding, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Exception Raising, Function Definition, Let Binding, Local Binding, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage, Local Function Definition, Local Recursive Function
-- 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Non Tail Recursion Inefficiency
+- Ground Truth: Local Binding, Function Definition, Local Function Definition, Local Recursive Function, Tail Recursion, Pattern Matching, Arithmetic Operation, Anonymous Variable, Exception Raising, Let Binding, Variable Assignment, Basis Library Module Usage
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding, Local Binding, Variable Assignment
+- ✅ Correct:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Exception Raising, Function Definition, Let Binding, Local Binding, Variable Assignment
+- ❌ Missed:     Local Function Definition, Local Recursive Function, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  
 ============================================================
 
 ============================================================
@@ -1865,10 +1865,10 @@ fun isValid isbn =
         checksum digits 0 1 = 0
     end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Conditional Statement, Comparison Operator, Logical Operator, Variable Assignment, Arithmetic Operation, Basis Library Module Usage, Lambda Function
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Local Function Definition, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -1888,10 +1888,10 @@ and find' (haystack: int array, needle: int, low: int, high: int) : int =
       | GRETER => find' (haystack, needle, low, high - 1)
     end
 - Ground Truth: Function Definition, Tail Recursion, Multiple Recursive Functions, Arithmetic Operation, Conditional Statement, Comparison Operator, Exception Raising, Let Binding, Variable Assignment, Pattern Matching, Basis Library Module Usage
-- Predicted:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, External Module Usage, Function Definition, Let Binding, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     Basis Library Module Usage, Multiple Recursive Functions
-- 🚫 Incorrect:  External Module Usage
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Logical Operator, Multiple Recursive Functions, Pattern Matching, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Exception Raising, Function Definition, Let Binding, Multiple Recursive Functions, Pattern Matching, Variable Assignment
+- ❌ Missed:     Tail Recursion
+- 🚫 Incorrect:  Logical Operator
 ============================================================
 
 ============================================================
@@ -1924,10 +1924,10 @@ fun encode (phrase: string): string =
     String.concat (process (n, c) :: acc)
   end
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Conditional Statement, Comparison Operator, Logical Operator, Arithmetic Operation, Basis Library Module Usage, Variable Assignment, Pattern Matching, Tail Recursion, Lambda Function, String Concatenation
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, String Concatenation, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, String Concatenation, Tail Recursion, Variable Assignment
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, External Module Usage, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, String Concatenation, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, String Concatenation, Variable Assignment
+- ❌ Missed:     Local Function Definition, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -1948,10 +1948,10 @@ val isValid: string -> bool =
     recurse 10 0 o excludeHyphens o String.explode
   end
 - Ground Truth: Variable Assignment, Let Binding, Function Definition, Local Function Definition, Basis Library Module Usage, Arithmetic Operation, Lambda Function, Comparison Operator, Pattern Matching, Logical Operator, Tail Recursion, Function Composition
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Function Definition, Lambda Function, Let Binding, Local Function Definition, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     Function Composition, Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Function Composition, Function Definition, Lambda Function, Let Binding, Logical Operator, Pattern Matching, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Function Composition, Function Definition, Lambda Function, Let Binding, Logical Operator, Pattern Matching, Variable Assignment
+- ❌ Missed:     Local Function Definition, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -1970,10 +1970,10 @@ fun rebase (_, _, []) = NONE
     end
 
 - Ground Truth: Function Definition, Option Type, Pattern Matching, Let Binding, Local Function Definition, Tail Recursion, Arithmetic Operation, Conditional Statement, Comparison Operator, Logical Operator, Basis Library Module Usage, Lambda Function
-- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Option Type, Pattern Matching, Tail Recursion
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Function Definition, Option Type, Pattern Matching, Tail Recursion
-- ❌ Missed:     Logical Operator
-- 🚫 Incorrect:  Anonymous Variable, Local Recursive Function, Multiple Recursive Functions
+- Predicted:    Anonymous Variable, Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Option Type
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Logical Operator, Option Type
+- ❌ Missed:     Local Function Definition, Pattern Matching, Tail Recursion
+- 🚫 Incorrect:  Anonymous Variable
 ============================================================
 
 ============================================================
@@ -2003,10 +2003,10 @@ in
     else Unequal
 end
 - Ground Truth: Use Directive, Datatype Definition, Local Binding, Function Definition, Local Function Definition, Basis Library Module Usage, Custom Infix Operator, Let Binding, Variable Assignment, Lambda Function, Arithmetic Operation, Conditional Statement, Comparison Operator, Logical Operator
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, External Module Usage, Function Definition, Lambda Function, Let Binding, Local Binding, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Let Binding, Local Binding, Variable Assignment
-- ❌ Missed:     Custom Infix Operator, Datatype Definition, Local Function Definition, Logical Operator, Use Directive
-- 🚫 Incorrect:  External Module Usage, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Redundancy, Tail Recursion
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Custom Infix Operator, Datatype Definition, Function Definition, Lambda Function, Let Binding, Local Binding, Logical Operator, Nested Conditional Statement, Polymorphic Function, Use Directive, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Custom Infix Operator, Datatype Definition, Function Definition, Lambda Function, Let Binding, Local Binding, Logical Operator, Use Directive, Variable Assignment
+- ❌ Missed:     Local Function Definition
+- 🚫 Incorrect:  Nested Conditional Statement, Polymorphic Function
 ============================================================
 
 ============================================================
@@ -2032,9 +2032,9 @@ fun anagramsFor subject candidates =
         List.filter isAna candidates
     end;
 - Ground Truth: Function Definition, Let Binding, Local Function Definition, Basis Library Module Usage, Variable Assignment, Exception Raising, Pattern Matching, Conditional Statement, Non Tail Recursion Inefficiency, Local Recursive Function, Tail Recursion, Multiple Recursive Functions, Logical Operator, Basis Library Module Usage
-- Predicted:    Anonymous Variable, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Exception Raising, Function Definition, Let Binding, Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     Logical Operator
+- Predicted:    Anonymous Variable, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Exception Raising, Function Definition, Let Binding, Logical Operator, Variable Assignment
+- ✅ Correct:    Basis Library Module Usage, Conditional Statement, Exception Raising, Function Definition, Let Binding, Logical Operator, Variable Assignment
+- ❌ Missed:     Local Function Definition, Local Recursive Function, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Pattern Matching, Tail Recursion
 - 🚫 Incorrect:  Anonymous Variable, Comparison Operator, Curried Function
 ============================================================
 
@@ -2091,20 +2091,20 @@ fun allergicTo (score: int) (a: allergen): bool =
 fun allergies (score: int): allergen list =
   listAllergies score
   |> List.rev
-- Ground Truth: Datatype Definition, Custom Infix Operator, Local Binding, Function Definition, Local Function Definition, Conditional Statement, Basis Library Module Usage, Comparison Operator, Tail Recursion, Local Recursive Function, Arithmetic Operation, Variable Assignment, Pattern Matching, Lambda Function, Option Type
-- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, External Module Usage, Function Definition, Lambda Function, Local Binding, Multiple Recursive Functions, Non Tail Recursion Inefficiency, Option Type, Pattern Matching, Tail Recursion, Variable Assignment
-- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Function Definition, Lambda Function, Local Binding, Option Type, Pattern Matching, Tail Recursion, Variable Assignment
-- ❌ Missed:     Custom Infix Operator, Datatype Definition, Local Function Definition, Local Recursive Function
-- 🚫 Incorrect:  Curried Function, External Module Usage, Multiple Recursive Functions, Non Tail Recursion Inefficiency
+- Ground Truth: Datatype Definition, Custom Infix Operator, Local Binding, Function Definition, Local Function Definition, Conditional Statement, Basis Library Module Usage, Comparison Operator, Tail Recursion, Local Recursive Function, Arithmetic Operation, Variable Assignment, Pattern Matching, Curried Function, Lambda Function, Option Type
+- Predicted:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Custom Infix Operator, Datatype Definition, Function Definition, Lambda Function, Local Binding, Pattern Matching, Variable Assignment
+- ✅ Correct:    Arithmetic Operation, Basis Library Module Usage, Comparison Operator, Conditional Statement, Curried Function, Custom Infix Operator, Datatype Definition, Function Definition, Lambda Function, Local Binding, Pattern Matching, Variable Assignment
+- ❌ Missed:     Local Function Definition, Local Recursive Function, Option Type, Tail Recursion
+- 🚫 Incorrect:  
 ============================================================
 
 
 ########################################
 📊 Overall Evaluation Metrics
-- True Positives:  570
-- False Positives: 272
-- False Negatives: 115
-- Precision:       0.68
-- Recall:          0.83
-- F1 Score:        0.75
+- True Positives:  555
+- False Positives: 74
+- False Negatives: 160
+- Precision:       0.88
+- Recall:          0.78
+- F1 Score:        0.83
 ########################################

@@ -1,20 +1,20 @@
 Problem Statement,Code,Features,Numerical Score,Categorical Score
-"""Write a function to calculate the sum of two integers.""",fun sum a b = a + b,"Function Definition, Arithmetic Operation",2,Beginner
-"""Write a function to calculate the sum of two integers.""",fun add a b = a + b,"Function Definition, Arithmetic Operation",2,Beginner
-"""Write a function to calculate the sum of two integers.""",fun sum a b = (a + b),"Function Definition, Arithmetic Operation",2,Beginner
+"""Write a function to calculate the sum of two integers.""",fun sum a b = a + b,"Function Definition, Curried Function, Arithmetic Operation",2,Beginner
+"""Write a function to calculate the sum of two integers.""",fun add a b = a + b,"Function Definition, Curried Function, Arithmetic Operation",2,Beginner
+"""Write a function to calculate the sum of two integers.""",fun sum a b = (a + b),"Function Definition, Curried Function, Arithmetic Operation",2,Beginner
 """Write a function to compute the square of an integer.""",fun square n = n * n,"Function Definition, Arithmetic Operation",2,Beginner
 """Write a function to compute the square of an integer.""",fun square n = (n * n),"Function Definition, Arithmetic Operation",2,Beginner
 """Write a function in Standard ML to compute the factorial of a given non-negative integer. The factorial of 0 is defined to be 1, and for any positive integer n, the factorial is n multiplied by the factorial of n – 1.""","fun factorial n =
   case n of
        0 => 1
-     | _ => n * factorial(n - 1);","Arithmetic Operation, Function Definition, Pattern Matching, Non Tail Recursion Inefficiency",3,Beginner
+     | _ => n * factorial(n - 1);","Arithmetic Operation, Function Definition, Pattern Matching, Anonymous Variable, Non Tail Recursion Inefficiency",3,Beginner
 """Write a function in Standard ML to compute the factorial of a given non-negative integer. The factorial of 0 is defined to be 1, and for any positive integer n, the factorial is n multiplied by the factorial of n – 1.""","fun factorial 0 = 1
   | factorial n = n * factorial (n - 1);","Function Definition, Pattern Matching, Arithmetic Operation, Non Tail Recursion Inefficiency",3,Beginner
 """Write a function in Standard ML to compute the factorial of a given non-negative integer. The factorial of 0 is defined to be 1, and for any positive integer n, the factorial is n multiplied by the factorial of n – 1.""","fun factorial n =
   if n = 0 then 1
   else n * factorial(n - 1);","Function Definition, Conditional Statement, Arithmetic Operation, Comparison Operator, Non Tail Recursion Inefficiency",4,Beginner
 """Write a function to calculate the sum of two integers.""","fun sum a b =
-  if true then a + b else 0;","Function Definition, Conditional Statement, Arithmetic Operation",4,Beginner
+  if true then a + b else 0;","Function Definition, Curried Function, Conditional Statement, Arithmetic Operation",4,Beginner
 """Write a function to compute the square of an integer.""",fun square n = if true then n * n else 0,"Function Definition, Conditional Statement, Arithmetic Operation",4,Beginner
 """Write a function to determine if a given integer is even.""",fun isEven n = n mod 2 = 0,"Function Definition, Arithmetic Operation, Comparison Operator",4,Beginner
 """Write a function to determine if a given integer is even.""",fun isEven n = (n mod 2 = 0),"Function Definition, Arithmetic Operation, Comparison Operator",4,Beginner
@@ -23,7 +23,7 @@ Problem Statement,Code,Features,Numerical Score,Categorical Score
     val s = a + b
   in
     s
-  end;","Function Definition, Let Binding, Variable Assignment, Arithmetic Operation",5,Beginner
+  end;","Function Definition, Curried Function, Let Binding, Variable Assignment, Arithmetic Operation",5,Beginner
 """Write a function to compute the square of an integer.""","fun square n =
   let
     val result = n * n
@@ -39,10 +39,10 @@ Problem Statement,Code,Features,Numerical Score,Categorical Score
 """Write a function to determine if a given integer is even.""","fun isEven n =
   case n mod 2 of
       0 => true
-    | _ => false;","Function Definition, Pattern Matching, Arithmetic Operation",5,Beginner
-"""Write a function to find the maximum of two integers.""",fun max a b = if a >= b then a else b,"Function Definition, Conditional Statement, Comparison Operator",5,Beginner
-"""Write a function to find the maximum of two integers.""",fun max a b = if a > b then a else b,"Function Definition, Conditional Statement, Comparison Operator",5,Beginner
-"""Write a function to find the maximum of two integers.""",fun max a b = (if a >= b then a else b),"Function Definition, Conditional Statement, Comparison Operator",5,Beginner
+    | _ => false;","Function Definition, Pattern Matching, Arithmetic Operation, Anonymous Variable",5,Beginner
+"""Write a function to find the maximum of two integers.""",fun max a b = if a >= b then a else b,"Function Definition, Curried Function, Conditional Statement, Comparison Operator",5,Beginner
+"""Write a function to find the maximum of two integers.""",fun max a b = if a > b then a else b,"Function Definition, Curried Function, Conditional Statement, Comparison Operator",5,Beginner
+"""Write a function to find the maximum of two integers.""",fun max a b = (if a >= b then a else b),"Function Definition, Curried Function, Conditional Statement, Comparison Operator",5,Beginner
 """Write a program that creates a sentence of the form """"One for X, one for me."""", based on whether or not a name is given.
 If you know the person's name (e.g. if they're named Do-yun), then you will say: One for Do-yun, one for me.
 If you don't know the person's name, you will say you instead: One for you, one for me.""","fun name (input: string option) =
@@ -63,7 +63,7 @@ If you don't know the person's name, you will say you instead: One for you, one 
 """Write a function to find the maximum of two integers.""","fun max a b =
   case a >= b of
       true => a
-    | false => b;","Function Definition, Pattern Matching, Comparison Operator",6,Beginner
+    | false => b;","Function Definition, Curried Function, Pattern Matching, Comparison Operator",6,Beginner
 """Write a program that determines if a shape is a triangle, and if that triangle is equilateral, isosceles, or scalene.""","fun valid [a: real, b: real, c: real]: bool =
   a > 0.0 andalso b > 0.0 andalso c > 0.0 andalso a <= b + c andalso b <= a + c andalso c <= a + b
 fun equilateral [a: real, b: real, c: real]: bool =
@@ -120,7 +120,7 @@ A pangram is a sentence using every letter of the alphabet at least once. It is 
 
 For this exercise, a sentence is a pangram if it contains each of the 26 letters in the English alphabet.","fun isPangram' #""{"" _ = true
   | isPangram' c s = String.isSubstring (str c) s andalso isPangram' (Char.succ c) s
-fun isPangram s = isPangram' #""a"" (String.map Char.toLower s)","Function Definition, Pattern Matching, Basis Library Module Usage, Logical Operator, Non Tail Recursion Inefficiency",7,Beginner
+fun isPangram s = isPangram' #""a"" (String.map Char.toLower s)","Function Definition, Anonymous Variable, Pattern Matching, Basis Library Module Usage, Logical Operator, Non Tail Recursion Inefficiency",7,Beginner
 """Write a function to find the maximum of two integers.""","fun max a b =
   let
     val m = if a >= b then a else b
@@ -157,7 +157,7 @@ The input example is represented by List [Elem 1, List [Elem 2, Elem 3, Empty, E
 fun flatten Empty = []
   | flatten (Elem n) = [n]
   | flatten (List []) = []
-  | flatten (List (x::xs'))= flatten x @ flatten (List xs')","Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency",8,Beginner
+  | flatten (List (x::xs'))= flatten x @ flatten (List xs')","Datatype Definition, Function Definition, Polymorphic Function, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency",8,Beginner
 "Take a nested array of any depth and return a fully flattened array.
 
 Note that some language tracks may include null-like values in the input array, and the way these values are represented varies by track. Such values should be excluded from the flattened array.
@@ -183,7 +183,7 @@ fun flatten tree =
         Empty => []
         | Elem x => [x]
         | List [] => []
-        | List (x::xs) => flatten(x) @ flatten(List xs)","Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency",8,Beginner
+        | List (x::xs) => flatten(x) @ flatten(List xs)","Datatype Definition, Function Definition, Polymorphic Function, Pattern Matching, Basis Library Module Usage, Non Tail Recursion Inefficiency",8,Beginner
 """Write a function in Standard ML to compute the factorial of a given non-negative integer. The factorial of 0 is defined to be 1, and for any positive integer n, the factorial is n multiplied by the factorial of n – 1.""","fun factorial n =
   if n < 0 then raise Domain
   else if n = 0 then 1
@@ -243,7 +243,7 @@ fun fold f e Empty = e
   | fold f e (List ts) =
       foldr (fn (t, e') => fold f e' t) e ts
 fun flatten t = fold op:: [] t
-","Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency",10,Intermediate
+","Datatype Definition, Function Definition, Polymorphic Function, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency",10,Intermediate
 "Take a nested array of any depth and return a fully flattened array.
 
 Note that some language tracks may include null-like values in the input array, and the way these values are represented varies by track. Such values should be excluded from the flattened array.
@@ -268,7 +268,7 @@ fun flatten tree =
   case tree of
     List(l) => foldl (fn (el, acc) => acc@flatten(el)) [] l
   | Elem(x) => [x]
-  | Empty => []","Datatype Definition, Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency",10,Intermediate
+  | Empty => []","Datatype Definition, Function Definition, Polymorphic Function, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency",10,Intermediate
 """Write a program that determines if a shape is a triangle, and if that triangle is equilateral, isosceles, or scalene.""","fun isValid (a:real, b:real, c:real) =
     a > 0.0 andalso b > 0.0 andalso c > 0.0
     andalso a + b > c 
@@ -306,7 +306,7 @@ fun nucleotideCounts (strand: string) : result =
        | #""G"" => {a = a, c = c, g = g + 1, t = t}
        | #""T"" => {a = a, c = c, g = g, t = t + 1}
        | _ => raise Fail ""Invalid nucleotide in strand"")
-       {a = 0, c = 0, g = 0, t = 0} (String.explode strand)","Function Definition, Basis Library Module Usage, Lambda Function, Pattern Matching, Arithmetic Operation, Exception Raising",12,Intermediate
+       {a = 0, c = 0, g = 0, t = 0} (String.explode strand)","Function Definition, Basis Library Module Usage, Lambda Function, Pattern Matching, Arithmetic Operation, Anonymous Variable, Exception Raising",12,Intermediate
 """Write a function in Standard ML to compute the factorial of a given non-negative integer. The factorial of 0 is defined to be 1, and for any positive integer n, the factorial is n multiplied by the factorial of n – 1.""","fun fact n =
   let
     fun aux(0, acc) = acc
@@ -364,7 +364,7 @@ fun allergies (score: int) =
     (allergicTo score)
     (List.tabulate (8, fn a => fromScore (ceil (Math.pow(2.0, Real.fromInt a)))))
 ;
-","Datatype Definition, Function Definition, Basis Library Module Usage, Comparison Operator, Logical Operator, Lambda Function, Arithmetic Operation",14,Intermediate
+","Datatype Definition, Function Definition, Curried Function, Basis Library Module Usage, Comparison Operator, Logical Operator, Lambda Function, Arithmetic Operation",14,Intermediate
 """Write a program that determines if a shape is a triangle, and if that triangle is equilateral, isosceles, or scalene.""","fun triangle_inequality (a: real, b: real, c: real) = 
   a + b >= c andalso b + c >= a andalso a + c >= b
   andalso not (Real.==(a, 0.0) andalso Real.==(b, 0.0) andalso Real.==(c, 0.0))
@@ -404,7 +404,7 @@ For example:
         | count (#""T"", {a, c, g, t}) = {a=a, c=c, g=g, t=t+1}
         | count _ = raise Fail ""Invalid nucleotide in strand""
   in foldl count {a=0,c=0,g=0,t=0} (explode strand)
-  end","Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Exception Raising, Basis Library Module Usage",14,Intermediate
+  end","Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Anonymous Variable, Exception Raising, Basis Library Module Usage",14,Intermediate
 "Given a target word and one or more candidate words, your task is to find the candidates that are anagrams of the target.
 
 An anagram is a rearrangement of letters to form a new word: for example ""owns"" is an anagram of ""snow"". A word is not its own anagram: for example, ""stop"" is not an anagram of ""stop"".
@@ -431,7 +431,7 @@ fun anagramsFor subject candidates =
   in
     List.filter (fn x => sortedSubject = stringSort(stringUpper(x)) 
       andalso not (upperSuject = stringUpper(x)) ) candidates
-  end","Function Definition, Let Binding, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency, Comparison Operator, Variable Assignment, Logical Operator",14,Intermediate
+  end","Function Definition, Polymorphic Function, Let Binding, Pattern Matching, Basis Library Module Usage, Lambda Function, Non Tail Recursion Inefficiency, Comparison Operator, Variable Assignment, Logical Operator",14,Intermediate
 "DNA is a long chain of other chemicals and the most important are the four nucleotides, adenine, cytosine, guanine and thymine. A single DNA chain can contain billions of these four nucleotides and the order in which they occur is important! We call the order of these nucleotides in a bit of DNA a ""DNA sequence"".
 
 We represent a DNA sequence as an ordered collection of these four nucleotides and a common way to do that is with a string of characters such as ""ATTACG"" for a DNA sequence of 6 nucleotides. 'A' for adenine, 'C' for cytosine, 'G' for guanine, and 'T' for thymine.
@@ -560,7 +560,7 @@ fun isArmstrongNumber (number: int): bool =
   in
     recurse [] number
   end
-","Local Function Definition, Function Definition, Conditional Statement, Comparison Operator, Tail Recursion, Arithmetic Operation, Let Binding, Basis Library Module Usage, Variable Assignment",18,Intermediate
+","Local Function Definition, Curried Function, Function Definition, Conditional Statement, Comparison Operator, Tail Recursion, Arithmetic Operation, Let Binding, Basis Library Module Usage, Variable Assignment",18,Intermediate
 """Write a program that converts a long phrase to it's acronym.
 Punctuation is handled as follows: hyphens are word separators (like whitespace); all other punctuation can be removed from the input.
 
@@ -598,7 +598,7 @@ fun allergicTo (score: int) (a: allergen): bool =
   | NONE => false
 fun allergies (score: int): allergen list =
   List.mapPartial (fn (k, v) => if Word.andb (v, Word.fromInt score) = v then SOME k else NONE) score_map
-","Datatype Definition, Function Definition, Option Type, Pattern Matching, Non Tail Recursion Inefficiency, Variable Assignment, Conditional Statement, Comparison Operator, Basis Library Module Usage, Lambda Function",18,Intermediate
+","Datatype Definition, Function Definition, Polymorphic Function, Curried Function, Option Type, Pattern Matching, Non Tail Recursion Inefficiency, Variable Assignment, Conditional Statement, Comparison Operator, Basis Library Module Usage, Lambda Function",18,Intermediate
 "DNA is a long chain of other chemicals and the most important are the four nucleotides, adenine, cytosine, guanine and thymine. A single DNA chain can contain billions of these four nucleotides and the order in which they occur is important! We call the order of these nucleotides in a bit of DNA a ""DNA sequence"".
 
 We represent a DNA sequence as an ordered collection of these four nucleotides and a common way to do that is with a string of characters such as ""ATTACG"" for a DNA sequence of 6 nucleotides. 'A' for adenine, 'C' for cytosine, 'G' for guanine, and 'T' for thymine.
@@ -754,7 +754,7 @@ fun allergicTo (score: int) (a: allergen): bool =
     end
 fun allergies (score: int): allergen list =
   List.filter (fn a => (allergicTo score a)) [Eggs, Peanuts, Shellfish, Strawberries, Tomatoes, Chocolate, Pollen, Cats]
-","Datatype Definition, Function Definition, Let Binding, Variable Assignment, Pattern Matching, Basis Library Module Usage, Comparison Operator, Local Function Definition, Lambda Function",19,Advanced
+","Datatype Definition, Function Definition, Curried Function, Let Binding, Variable Assignment, Pattern Matching, Basis Library Module Usage, Comparison Operator, Local Function Definition, Lambda Function",19,Advanced
 """Given a person's allergy score, determine whether or not they're allergic to a given item, and their full list of allergies.
 
 An allergy test produces a single numeric score which contains the information about all the allergies the person has (that they were tested for).
@@ -808,7 +808,7 @@ fun allergicTo n a =
 fun allergies n =
     List.filter (fn a => allergicTo n a)
        [Eggs,Peanuts,Shellfish,Strawberries,Tomatoes,Chocolate,Pollen,Cats]
-","Datatype Definition, Function Definition, Pattern Matching, Let Binding, Variable Assignment, Basis Library Module Usage, Comparison Operator, Local Function Definition, Lambda Function",19,Advanced
+","Datatype Definition, Function Definition, Pattern Matching, Let Binding, Variable Assignment, Basis Library Module Usage, Comparison Operator, Anonymous Variable, Local Function Definition, Lambda Function",19,Advanced
 """Given a person's allergy score, determine whether or not they're allergic to a given item, and their full list of allergies.
 
 An allergy test produces a single numeric score which contains the information about all the allergies the person has (that they were tested for).
@@ -864,7 +864,7 @@ fun allergies (score: int): allergen list =
   List.map(fn e => mapPositionToAllergen(getsecond e)) 
     (removeEightPlus(getOneEntries(dec2bin(score))))
 fun allergicTo (score: int) (a: allergen): bool =
-  List.exists(fn e => a = e) (allergies(score))","Datatype Definition, Function Definition, Conditional Statement, Comparison Operator, Non Tail Recursion Inefficiency, Arithmetic Operation, Let Binding, Local Function Definition, Pattern Matching, Basis Library Module Usage, Lambda Function",19,Advanced
+  List.exists(fn e => a = e) (allergies(score))","Datatype Definition, Function Definition, Conditional Statement, Comparison Operator, Non Tail Recursion Inefficiency, Arithmetic Operation, Let Binding, Local Function Definition, Polymorphic Function, Pattern Matching, Curried Function, Basis Library Module Usage, Lambda Function",19,Advanced
 """Write a program that converts a long phrase to it's acronym.
 Punctuation is handled as follows: hyphens are word separators (like whitespace); all other punctuation can be removed from the input.
 
@@ -1133,7 +1133,7 @@ Converting from strings to numbers can be tricky in certain languages. Now, it's
   in
     n = 0 andalso Int.rem (sum, 11) = 0
   end
-  handle Fail _ => false","Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Conditional Statement, Comparison Operator, Exception Raising, Variable Assignment, Basis Library Module Usage, Logical Operator",21,Advanced
+  handle Fail _ => false","Function Definition, Let Binding, Local Function Definition, Arithmetic Operation, Pattern Matching, Conditional Statement, Comparison Operator, Exception Raising, Variable Assignment, Basis Library Module Usage, Logical Operator, Anonymous Variable",21,Advanced
 """Convert a sequence of digits in one base, representing a number, into a sequence of digits in another base, representing the same number.""","fun rebase (inBase: int, outBase: int, digits: int list): int list option =
     let fun fromBase acc _ [] = SOME acc
           | fromBase acc i (d :: ds) =
@@ -1518,7 +1518,7 @@ in
     let val (a, c, g, t) = count (explode strand) (0, 0, 0, 0)
     in  {a = a, c = c, g = g, t = t}
     end
-end","Local Binding, Function Definition, Local Function Definition, Local Recursive Function, Tail Recursion, Pattern Matching, Arithmetic Operation, Exception Raising, Let Binding, Variable Assignment, Basis Library Module Usage",25,Advanced
+end","Local Binding, Function Definition, Local Function Definition, Local Recursive Function, Tail Recursion, Pattern Matching, Arithmetic Operation, Anonymous Variable, Exception Raising, Let Binding, Variable Assignment, Basis Library Module Usage",25,Advanced
 "The ISBN-10 verification process is used to validate book identification numbers. These normally contain dashes and look like: 3-598-21508-8
 
 ISBN
@@ -1817,4 +1817,4 @@ fun allergicTo (score: int) (a: allergen): bool =
   |> List.exists (fn n => n = a)
 fun allergies (score: int): allergen list =
   listAllergies score
-  |> List.rev","Datatype Definition, Custom Infix Operator, Local Binding, Function Definition, Local Function Definition, Conditional Statement, Basis Library Module Usage, Comparison Operator, Tail Recursion, Local Recursive Function, Arithmetic Operation, Variable Assignment, Pattern Matching, Lambda Function, Option Type",35,Advanced
+  |> List.rev","Datatype Definition, Custom Infix Operator, Local Binding, Function Definition, Local Function Definition, Conditional Statement, Basis Library Module Usage, Comparison Operator, Tail Recursion, Local Recursive Function, Arithmetic Operation, Variable Assignment, Pattern Matching, Curried Function, Lambda Function, Option Type",35,Advanced

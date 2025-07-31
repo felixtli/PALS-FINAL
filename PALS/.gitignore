@@ -8,6 +8,7 @@ __pycache__/
 # Environments
 venv/
 .env
+venv_wsl/
 
 # VS Code
 .vscode/
