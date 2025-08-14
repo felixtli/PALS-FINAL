@@ -1,13 +1,25 @@
 <!DOCTYPE html>
+
+{% load static %}
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>HTML 5 Boilerplate</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <script src="index.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PALS Homepage</title>
+  <link rel="stylesheet" href="{% static 'CSS/indexStyle.css' %}">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="text-block">
+        <h1 class="title">Personalized AI Learning System</h1>
+        <p class="subtitle">Enhancing the learning of StandardML through a personalized educational experience.</p>
+        <div class="actions">
+          <a href={% url 'signup' %} class="primary-btn">Sign Up</a>
+          <a href={% url 'login' %} class="secondary-btn">Log In</a>
+        </div>
+    </div>
+  </header>
+</body>
 </html>

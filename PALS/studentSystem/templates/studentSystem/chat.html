@@ -11,30 +11,10 @@
     </head>
 
     <body>
+        {% include "studentSystem/partials/session_navbar.html" %}
         
         <div id = "main">
-
-            <div id="sideNav">
-                <div class="navHeader">
-                    <p> PALS </p>
-                </div>
-                {% for chat in existingChats %}
-                    <div class="pastChatContainer">
-                        <a class="pastChatLink" href="/{{ chat.id }}/chat/">
-                            <p class="pastChatTitle">{{ chat }}</p>
-                        </a>
-                    </div>
-                {% endfor %}
-
-                <div class="newChatContainer">
-                    <a class="newChatButton" href="/create-chat/"> New Chat </p>
-                </div>
-            </div>
             <div id = "conversationArea">
-                <div id="topNav">
-                    <a href = "/" class="topNavButton"> Chat </a>
-                    <a href = "/codesubmission/" class="topNavButton"> Code </a>
-                </div>
             </div>
 
             <div class = "inputArea">

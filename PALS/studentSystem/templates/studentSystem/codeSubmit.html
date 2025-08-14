@@ -1,5 +1,4 @@
 {% load static %}
-<!-- Unfinished code submission page -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,41 +11,38 @@
     </head>
 
     <body>
-        
-        <div id = "main">
-            <div id="sideNav">
-                <div class="navHeader">
-                    <p> PALS </p>
-                </div>
-                <div class="chatItem">
-                    <p> Example 1</p>
-                </div>
-                <div class="chatItem">
-                    <p> Example 2</p>
-                </div>
-                <div class="chatItem">
-                    <p> Example 3</p>
+        {% include "studentSystem/partials/session_navbar.html" %}
+        <div id="main">
+            <div class="input-area-container">
+                <textarea placeholder="Begin response here..." class="input-area" id="code-input-area"></textarea>
+                <div class="input-button-area">
+                    <button class="input-button" id="submit"> Submit </button>
+                    <button class="input-button" id="clear-compiler"> Clear Compiler </button>
+                    <button class="input-button" id="ask-ai"> Ask AI </button>
                 </div>
             </div>
 
-            <div id="topNav">
-                <a href = "/" class="topNavButton"> Chat </a>
-                <a href = "/codesubmission/" class="topNavButton"> Code </a>
-            </div>
+            <div class="problem-compiler-container">
+                <div class="problem-container">
+                    <h1 class="problem-header"> Leap Year </h1>
+                    <p class="problem-description"> A leap year (in the Gregorian calendar) occurs:
 
-            <div class = "inputArea">
-                <textarea autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" id="response" name="response" data-user-input="{{ user_input }}" rows="14" cols="10" wrap="soft"></textarea>
-                <form onclick = "customAlert()">
-                    {% csrf_token %}
-                <input id="response_button" type="button" value="→"><br>
-                </form>
-            </div>    
+                    In every year that is evenly divisible by 4.
+                    Unless the year is evenly divisible by 100, in which case it's only a leap year if the year is also evenly divisible by 400.
+                    Some examples:
+
+                    1997 was not a leap year as it's not divisible by 4.
+                    1900 was not a leap year as it's not divisible by 400.
+                    2000 was a leap year!</p>
+                </div>
+                <div class="compiler-container">
+                    <p class="compiler-output" id="original-compiler-message"> This is the SML Compiler. Your code's output will be shown here. </p>
+                </div>
+            </div>
         </div>
-        
+        <script> window.codeSubmission = {{ codeSubmission|safe }}; </script>
 
-        
-        <script src="{% static 'JS/submission.js' %}">
-        </script>
+        <script src="{% static 'JS/submission.js' %}"></script>
     </body>
 
 </html>

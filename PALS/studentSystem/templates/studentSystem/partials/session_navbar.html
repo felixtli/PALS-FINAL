@@ -1,0 +1,26 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'CSS/navbar.css' %}">
+
+<nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="#" class="brand-link" aria-label="brand">PALS</a>
+        </div>
+
+        <div class="navbar-links">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="/22/codesubmission/" class="nav-link">Code Submission</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/22/chat/" class="nav-link">Chat</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="navbar-actions">
+            <a class="secondary-btn" href="/dashboard/">Dashboard</a>
+            <button class="primary-btn">Log Out</button>
+        </div>
+    </div>
+</nav>

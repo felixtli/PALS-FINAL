@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>HTML 5 Boilerplate</title>
+    <link rel="stylesheet" href="{% static 'CSS/dashboardStyle.css' %}">
+  </head>
+  
+  {% include "studentSystem/partials/session_navbar.html" %}
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>PALS Student Dashboard</h1>
+      </div>
+
+      <div class="content">
+        <p>Welcome! The next problem in your personalized learning pathway is available.</p>
+      </div>
+
+      <a class="btn-primary" href="/22/codesubmission/">View Problem</a>
+
+      <div class="past-problems-container">
+        <h2 class="sub-header">Past Problems</h2>
+        <ul class="past-problems-list">
+          <li class="past-problem-item" tabindex="0" aria-label="Leap Year: Determine if a given year is a leap year." data-summary="Given a year, determine if it's a leap year using the Gregorian rules.">
+            <span class="title">Leap Year</span>
+            <div class="tooltip" role="tooltip">
+              Given a year, determine if it's a leap year using the Gregorian rules.
+            </div>
+          </li>
+          <li class="past-problem-item" tabindex="0" aria-label="Problem 2 summary" data-summary="Summary for problem 2 goes here.">
+            <span class="title">Problem 2</span>
+            <div class="tooltip" role="tooltip">
+              Summary for problem 2 goes here.
+            </div>
+          </li>
+
+        </ul>
+    </div>
+    <script src="index.js"></script>
+  </body>
+
+
+</html>

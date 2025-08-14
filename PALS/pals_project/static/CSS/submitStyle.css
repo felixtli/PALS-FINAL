@@ -1,166 +1,132 @@
-html, body {
-    color : #fcfcfc;
-    background-color: #1b1b1b;
-    font-family: "Poppins", sans-serif;
-    margin: 0px;
-    padding: 0px;
-}
+/* Define Color Variables */
+:root {
+  --primary-color: rgb(15, 15, 20);
+  --primary-color-light: rgb(18, 18, 23);
+  --primary-color-dark: rgb(12, 12, 18);
+  --secondary-color: rgba(255, 255, 255, 0.03);
+  --secondary-color-dark: rgba(33, 33, 41, 0.15);
+  --text-color: #fff;
+  --secondary-text-color: #ffffffd3;
+  --tertiary-color: rgb(37, 37, 37);
+  --highlight: rgba(255, 0, 102, 0.171);
+  --highlight-2: rgba(255, 23, 116, 0.76);
+  --highlight-green: rgba(32, 187, 89, 0.747);
+  --highlight-yellow: rgba(234, 179, 8, 0.76);
+  --highlight-red: rgba(239, 68, 68, 0.76);
 
-
-img {
-    background-color: white;
+  --navbar-height: 65px;
+  --gap: 1rem;
+  --border: #e2e8f0;
+  --focus-outline: 2px solid #2563eb;
 }
 
 #main {
-
-    margin-top: 1vh;
-
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    grid-template-rows: 5vh 60.7vh 32vh; /* 97.7 */
-
-    grid-template-areas:
-    "sidebar topbar"
-    "sidebar input"
-    "sidebar input"
-}
-
-#topNav {
-    height: 100%;
+    background-image: linear-gradient(var( --primary-color), var(--secondary-color));
+    height: 91.35vh;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
 }
 
-.topNavButton {
+.input-area-container {
     height: 100%;
-    width: 10%;
-
-    line-height: 40px;
-    text-align: center;
-    font-size: 18px;
-    color: white;
-    text-decoration: none;
-
-    background-color: #1e1e1e;
+    width: 55%;
 }
 
-
-#sideNav {
-    grid-area: sidebar;
-    background-color: #1b1b1b;
-    border-right: 4px solid #1e1e1e;
-
-    display: flex;
-    flex-direction: column; 
-    align-items: center; /* Aligns items to vertical center of div */
-}
-
-.navHeader {
+.input-area {
+    height: 92%;
     width: 100%;
+    background-color: linear-gradient(var(--primary-color), var(--secondary-color-dark));
+    color: var(--text-color);
+    padding: 10px 12px;
+    font-size: 1.05rem;
+    border: none;  
+    resize: none;
+    outline: none;
+    border: 3px solid var(--primary-color-light);
+}
 
-    color: white;
-    font-size: 22px;
+.input-area:focus { /* User text input when box is clicked */
+    border: 3px solid var(--highlight);
+}
 
+.input-button-area {
+  width: 100%;
+  height: 8%;
+  padding: 10px;
+  background-color: linear-gradient(var(--primary-color), var(--secondary-color-dark));
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: right;
+  gap: 4px;
+}
+
+.input-button {
+    width: 15%;
+    height: 100%;
+    font-size: 1.05rem;
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color: var(--secondary-text-color);
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.25s;
+}
+
+#submit {
+    background-color: var(--highlight-2);
+}
+
+#ask-ai:hover, #clear-compiler:hover {
+    background-color: var(--highlight);
+}
+
+.problem-compiler-container {
+    height: 100%;
+    width: 45%;
     display: flex;
-
-    border-bottom: 5px solid #201f1f;
-}
-.navHeader > p {
-    margin-left: 33.5%;
+    flex-direction: column;
 }
 
-.chatItem {
-    width: 100%;
-
-    border-bottom: 3px solid #201f1f;
-
-    color: white;
-    font-size: 16px;
-}
-.chatItem > p {
-    margin-left: 8px;
-}
-.chatItem:hover {
-    background-color: #232323;
+.problem-container {
+    padding: 15px 20px;
+    background-color: linear-gradient(var(--secondary-color-dark), var(--secondary-color));
 }
 
+.problem-header {
+    font-size: 1.8rem;
+}
+
+.problem-description {
+    font-size: 1rem;
+    margin-top: 3px;
+}
+
+.compiler-container {
+    height: 100%;
+    font-family: monospace;
+    background-color: var(--primary-color);
+    font-size: 0.95rem;
+    border-top: 2px solid var(--primary-color-light);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: scroll;
+}
+
+.compiler-output {
+    padding: 12px 15px;
+    border-top: 4px dashed var(--tertiary-color);
+}
 
 /* width */
 ::-webkit-scrollbar {
     width: 8px;
 }
-  
-  
-  /* Handle */
+/* Handle */
 ::-webkit-scrollbar-thumb {
     background: #454140;
     border-radius: 8px;
 }
-
-
-
-div.inputArea { /* User input area */
-    grid-area: input;
-    position: relative;
-
-    background-image: linear-gradient(#1b1b1b, #1a1a1a); 
-
-    border-top: #1e1e1e 1px solid;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: top; /* Aligns items to horizontal center of div */
-    align-items: center; /* Aligns items to vertical center of div */
-
-}
-
-
-textarea { /* User text input area */
-    
-    height: 35px;
-
-    width: 95%;
-    height: 95%;
-
-    margin-left: 8px;
-
-    padding: 8px;
-
-    border:1.5px solid #413e3d;
-    border-radius: 4px;
-    background-color: #131313;
-
-    color: #f8f8f8;
-    font-family: "Consolas";
-    font-size: 14px;
-
-    resize: none;
-}
-
-textarea:focus { /* User text input when box is clicked */
-    outline: none !important;
-    border: 2px solid #4e4947;
-}
-
-input[type=button] { /* User submit button */
-    height: 35px;
-    width: 800px;
-
-    margin-left: 4px;
-    margin-top: 8px;
-
-    border-radius: 2%;
-
-    color: white;
-    background-color: #131313;
-    border: solid 1px transparent;
-
-}
-
-input[type=button]:hover { /* User submit button hover */
-    border-radius: 2%;
-    border-color: #ff3b3be0;
-}
-

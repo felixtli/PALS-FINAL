@@ -64,13 +64,6 @@ function autoResize() { /* Automatically adjusts height of text input field base
   this.style.height = this.scrollHeight + 'px';
 }
 
-/* Gets feedback from hidden feedback element on page and sends it to designated feedback page */
-function getFeedback() {
-  feedbackText = document.getElementById("feedbackHolder").innerHTML;
-  
-  let url = `interview/feedback/?feedbackText=${encodeURIComponent(feedbackText)}`;
-  window.location.href = url;  
-}
 
 function updateChat(id, chat) {
   fetch(`/${id}/chat/add-chat/`, {

@@ -1,0 +1,139 @@
+/* Define Color Variables */
+:root {
+  --primary-color: rgb(15, 15, 20);
+  --secondary-color: rgba(255, 255, 255, 0.03);
+  --text-color: #fff;
+  --tertiary-color: rgba(252, 240, 245, 0.08);
+  --highlight: rgba(255, 0, 102, 0.171);
+  --highlight-2: rgba(255, 23, 116, 0.76);
+}
+/* Reset and base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background: var(--primary-color);
+  color: #fff;
+  line-height: 1.4;
+  min-height: 100vh;
+}
+
+/* Hero container */
+.hero {
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+/* Main text block */
+.text-block {
+  flex: 1 1 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: var(--secondary-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-top: 12rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: var(--highlight);
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.primary-btn {
+  padding: 18px 24px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--highlight-2);
+  color: #fff;
+  text-decoration: none;
+  transform: 1.5s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+/* hover / focus grow */
+.primary-btn:hover,
+.primary-btn:focus {
+  transform: scale(1.05);
+  box-shadow: 0 0 6px 2px var(--highlight-2);
+}
+
+/* respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .primary-btn {
+    transition: none;
+  }
+  .primary-btn:hover,
+  .primary-btn:focus {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.secondary-btn {
+  padding: 18px 24px;
+  margin-left: 1rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--tertiary-color);
+  color: #fff;
+  text-decoration: none;
+  transform: 1.5s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+/* hover / focus grow */
+.secondary-btn:hover,
+.secondary-btn:focus {
+  transform: scale(1.05);
+  box-shadow: 0 0 6px 2px var(--tertiary-color);
+}
+
+/* respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .secondary-btn {
+    transition: none;
+  }
+  .secondary-btn:focus,
+  .secondary-btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+

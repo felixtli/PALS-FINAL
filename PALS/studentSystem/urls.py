@@ -5,9 +5,11 @@ urlpatterns = [
     path("", views.home, name="home"), # Homepages
     path("signup/", views.signupView, name="signup"), # Signup screen
     path("login/", views.loginView, name="login"), # Login screen
+    path("dashboard/", views.dashboard, name="dashboard"), # Dashboard after login
     path('create-chat/', views.createChat, name='createChat'), # Function to create a new chat session
     path("<int:id>/chat/", views.chat, name="chat"), # Each chat session, which takes an argument for the id of the session
-    path("codesubmission/", views.codeSubmit, name="codeSubmit"), # Code submission page
+    path("<int:id>/codesubmission/", views.codeSubmit, name="codeSubmit"), # Code submission page
+    path("compile/", views.runCompile, name="runCompile"), # Function to compile the current code submission
     path('<int:id>/chat/add-chat/', views.updateChat, name='updateChat'), # Function to save a new chat to the database
     path('<int:id>/chat/next-response/', views.getAIResponse, name='nextResponse') # Function to get the next AI response
 ]
