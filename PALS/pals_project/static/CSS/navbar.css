@@ -75,7 +75,6 @@ body {
 
 .nav-link,
 .dropdown-link,
-.primary-btn,
 .secondary-btn {
   background: none;
   border: none;
@@ -90,8 +89,8 @@ body {
   gap: 4px;
 }
 
-.primary-btn:hover {
-  box-shadow: 0 0 6px 1px var(--highlight-2);
+#logout {
+  box-shadow: 0 0 3px 1px var(--highlight-2);
 }
 
 .secondary-btn:hover {
@@ -100,7 +99,6 @@ body {
 
 .nav-link:focus,
 .dropdown-link:focus,
-.primary-btn:focus,
 .secondary-btn:focus {
   outline: var(--focus-outline);
   outline-offset: 2px;
@@ -179,7 +177,6 @@ body {
   align-items: center;
 }
 
-.primary-btn,
 .secondary-btn {
   border: 1px solid var(--quaternary-color);
   padding: 0.75rem 1.25rem;
@@ -188,11 +185,10 @@ body {
   font-weight: 400;
 }
 
-.primary-btn {
+#logout {
   background: var(--highlight-2)
 }
 
-.primary-btn:active,
 .secondary-btn:active {
   transform: scale(0.97);
 }

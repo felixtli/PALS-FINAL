@@ -19,7 +19,7 @@
 
             <div class = "inputArea">
                 <textarea type="text" id="response" name="response" data-user-input="{{ user_input }}" rows="14" cols="10" wrap="soft"></textarea>
-                <form onclick = 'update({{ chatID }})'>
+                <form onclick = 'update({{ session.id }})'>
                     {% csrf_token %}
                 <input id="response_button" type="button" value="↑"><br>
                 </form>

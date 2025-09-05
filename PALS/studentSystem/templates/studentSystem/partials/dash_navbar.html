@@ -4,55 +4,15 @@
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-brand">
-            <a href="#" class="brand-link" aria-label="brand">PALS</a>
+            <a href="{% url 'dashboard' %}" class="brand-link" aria-label="brand">PALS</a>
         </div>
 
         <div class="navbar-links">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Link 1</a>
-                </li>
-                <li class="nav-item has-dropdown">
-                    <button class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                        <span class="chevron">▾</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-item">
-                            <a href="#" class="dropdown-link">Sublink A</a>
-                        </li>
-                        <li class="dropdown-item has-nested">
-                        <button class="dropdown-link nested-toggle">
-                            Nested
-                            <span class="chevron">▸</span>
-                        </button>
-                        <ul class="nested-menu">
-                            <li class="nested-item">
-                                <a href="#" class="nested-link">Deep 1</a>
-                            </li>
-                            <li class="nested-item">
-                                <a href="#" class="nested-link">Deep 2</a>
-                            </li>
-                            <li class="nested-item">
-                                <a href="#" class="nested-link">Deep 3</a>
-                            </li>
-                        </ul>
-                        </li>
-                        <li class="dropdown-item">
-                            <a href="#" class="dropdown-link">Sublink B</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Link 2</a>
-                </li>
-            </ul>
         </div>
 
         <div class="navbar-actions">
-            <button class="primary-btn">Primary</button>
-            <button class="secondary-btn">Secondary</button>
-            <button class="secondary-btn">Log Out</button>
+            <a class="secondary-btn" href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="secondary-btn" id="logout" href="{% url 'logout' %}">Log Out</a>
         </div>
     </div>
 </nav>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>HTML 5 Boilerplate</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="{% static 'CSS/dashboardStyle.css' %}">
   </head>
   
-  {% include "studentSystem/partials/session_navbar.html" %}
+  {% include "studentSystem/partials/dash_navbar.html" %}
 
   <body>
     <div class="container">
@@ -23,27 +23,33 @@
         <p>Welcome! The next problem in your personalized learning pathway is available.</p>
       </div>
 
-      <a class="btn-primary" href="/22/codesubmission/">View Problem</a>
+      <a class="btn-primary" href="/{{currentQuestion.session.pk}}/codesubmission/">View Problem</a>
 
       <div class="past-problems-container">
         <h2 class="sub-header">Past Problems</h2>
         <ul class="past-problems-list">
-          <li class="past-problem-item" tabindex="0" aria-label="Leap Year: Determine if a given year is a leap year." data-summary="Given a year, determine if it's a leap year using the Gregorian rules.">
-            <span class="title">Leap Year</span>
-            <div class="tooltip" role="tooltip">
-              Given a year, determine if it's a leap year using the Gregorian rules.
-            </div>
-          </li>
-          <li class="past-problem-item" tabindex="0" aria-label="Problem 2 summary" data-summary="Summary for problem 2 goes here.">
-            <span class="title">Problem 2</span>
-            <div class="tooltip" role="tooltip">
-              Summary for problem 2 goes here.
-            </div>
-          </li>
-
+          {% for q in past_questions %}
+            <li class="past-problem-item"
+                tabindex="0"
+                aria-label="{{ q.question.question_title }}: {{ q.question.question_description|truncatechars:120 }}"
+                data-summary="{{ q..question.question_description|truncatechars:200 }}">
+              <span class="title">{{ q.question.question_title }}</span>
+              <div class="tooltip" role="tooltip">
+                {{ q.question.question_description }}
+              </div>
+            </li>
+          {% empty %}
+            <span class="no-past-problems">No past problems available.</span>
+          {% endfor %}
         </ul>
     </div>
-    <script src="index.js"></script>
+
+    <script> window.codeSubmission = {{ codeSubmission|safe }}; </script>
+
+    <script> const completedDiagnostic = {{ completed_diagnostic|yesno:"true,false" }};
+    console.log("Completed diagnostic?", completedDiagnostic); </script>
+
+    <script src="{% static 'JS/dashboard.js' %}"></script>
   </body>
 
 

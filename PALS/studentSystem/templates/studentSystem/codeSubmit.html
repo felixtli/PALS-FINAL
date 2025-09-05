@@ -10,37 +10,39 @@
         <title>PALS</title>
     </head>
 
-    <body>
+    <body onload="loadCompiler(window.compilerOutputs)">
         {% include "studentSystem/partials/session_navbar.html" %}
         <div id="main">
             <div class="input-area-container">
                 <textarea placeholder="Begin response here..." class="input-area" id="code-input-area"></textarea>
                 <div class="input-button-area">
                     <button class="input-button" id="submit"> Submit </button>
+                    <button class="input-button" id="test"> Test </button>
                     <button class="input-button" id="clear-compiler"> Clear Compiler </button>
                     <button class="input-button" id="ask-ai"> Ask AI </button>
+                    <a class="input-button" href="/{{session.id}}/tester/"> TEST COMPILER </a>
                 </div>
             </div>
 
             <div class="problem-compiler-container">
                 <div class="problem-container">
-                    <h1 class="problem-header"> Leap Year </h1>
-                    <p class="problem-description"> A leap year (in the Gregorian calendar) occurs:
-
-                    In every year that is evenly divisible by 4.
-                    Unless the year is evenly divisible by 100, in which case it's only a leap year if the year is also evenly divisible by 400.
-                    Some examples:
-
-                    1997 was not a leap year as it's not divisible by 4.
-                    1900 was not a leap year as it's not divisible by 400.
-                    2000 was a leap year!</p>
+                    <h1 class="problem-header"> {{ session.question.question_title }} </h1>
+                    <p class="problem-description"> {{ session.question.question_description }}</p>
                 </div>
                 <div class="compiler-container">
                     <p class="compiler-output" id="original-compiler-message"> This is the SML Compiler. Your code's output will be shown here. </p>
                 </div>
             </div>
         </div>
-        <script> window.codeSubmission = {{ codeSubmission|safe }}; </script>
+
+        {{ codeSubmission|json_script:"code-submission-data" }}
+        {{ session.compilerOutputs|json_script:"compiler-outputs-data" }}
+        
+        <script>
+        window.codeSubmission = JSON.parse(document.getElementById("code-submission-data").textContent);
+        window.compilerOutputs = JSON.parse(document.getElementById("compiler-outputs-data").textContent);
+        </script>
+        <script> window.sessionID = {{ session.id }}; </script>
 
         <script src="{% static 'JS/submission.js' %}"></script>
     </body>

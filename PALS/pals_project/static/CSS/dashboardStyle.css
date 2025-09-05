@@ -28,7 +28,7 @@ body {
   background: var(--primary-color);
   color: #fff;
   line-height: 1.4;
-  min-height: 80vh;
+  min-height: 75vh;
 }
 
 /* Container */
@@ -92,6 +92,7 @@ body {
 }
 
 .past-problem-item {
+  position: relative;
   padding: 0.5rem;
   width: 215px;
   height: 115px;
@@ -123,6 +124,7 @@ body {
   font-size: 1rem;
   line-height: 1.2;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transition: opacity .15s ease;
   z-index: 10;
@@ -142,4 +144,11 @@ body {
 .past-problem-item:hover .tooltip,
 .past-problem-item:focus .tooltip {
   opacity: 1;
+  visibility: visible;
+}
+
+.no-past-problems {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  text-align: center;
 }

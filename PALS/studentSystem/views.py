@@ -2,13 +2,19 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import UserCreationForm
-from .models import Session
+from .models import Session, Profile, Question, QuestionAttempt
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .chatbot import generateResponse
 from .forms import StyledUserCreationForm, StyledAuthenticationForm
-from django.contrib.auth import login
-from .compiler import compileCode
+from django.contrib.auth import login, logout
+from .compiler import compileCode, handler
+from .question_assignment import initialQuestion, assignment
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse, HttpRequest
+from json import JSONDecodeError
+from django.db import transaction
+
 
 def home(request): # Unfinished home page
     return render(request, "studentSystem/index.html")
@@ -20,7 +26,6 @@ def signupView(request): # TODO - Style error messages
             new_user = form.save()
             login(request, new_user) 
 
-            # session = Session.objects.create(user=new_user)
             return redirect("dashboard") # Redirect to the dashboard after signup
         else:
             print(form.errors)  # <-- Add this line
@@ -47,15 +52,55 @@ def loginView(request): # TODO - Style error messages
         form = StyledAuthenticationForm()
     return render(request, "studentSystem/login.html", { "form" : form})
 
+def logoutView(request):
+    logout(request) 
+    return redirect("home") 
+
 def dashboard(request):
     currentUser = request.user
-    sessions = Session.objects.filter(user=currentUser).order_by('id') # Get all sessions for the current user, ordered by creation date
+    currentProfile = Profile.objects.get(user=currentUser) # Get the current user's profile
+
+    sessions = Session.objects.filter(user=currentUser).order_by('-id') # All sessions associated with the user, ordered by most recent
+    pastQuestions = currentProfile.question_history.all().order_by('-pk')
+    nextQuestions = currentProfile.next_questions.all() # All next questions assigned to the user
+
+    if not nextQuestions.exists(): # TODO: Change this condition to be based off of nextQuestions instead
+        initialQuestion(currentProfile)
+        nextQuestions = currentProfile.next_questions.all()
+
+        queuedQuestion = nextQuestions.first()
+        attempt = QuestionAttempt.objects.create(
+            associated_profile=currentProfile,
+            question=queuedQuestion,
+            solved_test_cases=0,
+            session=Session.objects.create(user=currentUser, question=queuedQuestion)
+        )
+        currentProfile.question_history.add(attempt)
+        currentProfile.next_questions.remove(nextQuestions.first()) # Remove the assigned question after adding it to the history
+
+    # TODO: Get the next questions necessary and render them on the dashboard
+    elif nextQuestions.exists():
+        attempt = QuestionAttempt.objects.create(
+            associated_profile=currentProfile,
+            question=nextQuestions.first(),
+            solved_test_cases=0,
+            session=Session.objects.create(user=currentUser, question=nextQuestions.first())
+        )
+        currentProfile.question_history.add(attempt) # Add the new attempt to the user's question history
+        currentProfile.next_questions.remove(nextQuestions.first()) # Remove the assigned question after adding it to the history
+
+    currentQuestion = currentProfile.question_history.latest('created_at')
+    print (currentQuestion)
+
+    pastQuestions = currentProfile.question_history.all().order_by('-pk') [1:] # Exclude the current question from past questions & order by most recent
+
     context = {
         "sessions" : sessions,
-        "user" : currentUser
+        "user" : currentUser,
+        "pastQuestions" : pastQuestions,
+        "currentQuestion" : currentQuestion,
     }
     return render(request, "studentSystem/dashboard.html", context)
-
 
 def createChat (request):
     currentUser = request.user
@@ -68,7 +113,8 @@ def chat(request, id):
     existingChats = Session.objects.filter(user=session.user).exclude(pk=id) # Other chats asssociated with the user
 
     context = {
-        "chatID" : id,
+        "session" : session,
+        "sessionID" : id,
         "chatLog" : chatLog,
         "existingChats" : existingChats
     }
@@ -82,10 +128,12 @@ def updateChat(request, id):
             data = json.loads(request.body)
             new_chat = data.get('chat')
             session = Session.objects.get(pk = id)
+
             if not isinstance(session.chatLog, list):
                 session.chatLog = []
             session.chatLog.append(new_chat) 
             session.save()
+
             return JsonResponse({'status': 'success'})
         except Session.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Item not found'}, status=404)
@@ -113,16 +161,53 @@ def getAIResponse(request, id):
         data = {"message" : AIResponse}
         return JsonResponse(data)
     
-def codeSubmit(request, id): # Unfinished code submission page
-    session = Session.objects.get(pk = id) # Current session and associated fields
-    submission = json.dumps(session.codeSubmission) # Chats of the current session
+def codeSubmit(request, id):
+    session = Session.objects.get(pk = id) 
+    submission = session.codeSubmission
     context = {
-        "codeSubmission" : submission
+        "codeSubmission" : submission,
+        "session" : session,
     }
-    print(session.codeSubmission)
     return render(request, "studentSystem/codeSubmit.html", context)
-    
-def runCompile(request):
+
+def saveSubmission(request, id):
+    session = Session.objects.get(pk = id)
+
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            new_submission = body.get("submission")
+
+            session.codeSubmission = new_submission
+            session.save()
+
+            return JsonResponse({'status': 'success'})
+        except Session.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Item not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+def askAI(request, id):
+    if request.method == "POST":
+        print ("here")
+
+        body = json.loads(request.body)
+
+        print (body)
+        submission = body.get("submission")
+        print (submission)
+        compiler_output = body.get("compiler_output")
+
+        response = generateResponse("Analyze the following StandardML code: " + submission
+                                    +"This what the code currently outputs: " + compiler_output
+                                    +"If there is an error, explain what the error means and how to fix it." + 
+                                    " If there is no error, suggest improvements to the code or optimizations that can be made.")
+        return JsonResponse({"AI_response" : response})
+
+
+def runCompile(request): # TODO - Save compiler output to session
     if request.method == "POST":
         body = json.loads(request.body)
         submission = body.get("submission")
@@ -130,7 +215,25 @@ def runCompile(request):
         print (compiled_output)
         return JsonResponse({"compiled_output" : compiled_output})
     
-        
+def runTestCases(request, id):
+    if request.method == "POST":
+        print("hello there")
+
+        profile = request.user.profile
+        assignment(profile)
+        print (profile.next_questions.all())
+
+        return JsonResponse({"status" : "success"})
+    
+def tester(request, id): # Temporary view for testing compiler features
+    currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
+    nextQuestions = currentProfile.next_questions.all()
+    session = Session.objects.get(pk = id)
+
+    handler(currentProfile, currentProfile.question_history.latest('id'), session=session)
+    return redirect("dashboard")
+
+
 
 
 
