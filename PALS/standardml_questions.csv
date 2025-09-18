@@ -1,0 +1,797 @@
+Problem Title,Problem Description,Difficulty,Target Function,Case 1,Case 2,Case 3,Case 4,Case 5,Case 6,Case 7,Case 8,Case 9,Case 10,Final JSON
+Factorial,"Write a function to compute the factorial of a given non-negative integer. The factorial of 0 is defined to be 1, and for any positive integer n, the factorial is n multiplied by the factorial of n – 1.",Easy,factorial,"[0, 1]","[1, 1]","[2, 2]","[3, 6]","[4, 24]","[5, 120]","[6, 720]","[7, 5040]","[8, 40320]","[10, 3628800]","[
+  {""input"": 0, ""output"": 1},
+  {""input"": 1, ""output"": 1},
+  {""input"": 2, ""output"": 2},
+  {""input"": 3, ""output"": 6},
+  {""input"": 4, ""output"": 24},
+  {""input"": 5, ""output"": 120},
+  {""input"": 6, ""output"": 720},
+  {""input"": 7, ""output"": 5040},
+  {""input"": 8, ""output"": 40320},
+  {""input"": 10, ""output"": 3628800}
+]"
+Sum,Write a function to calculate the sum of two integers.,Easy,sumNumbers,"[[0, 0], 0]","[[1, 2], 3]","[[-1, 1], 0]","[[5, 7], 12]","[[-3, -6], -9]","[[100, 200], 300]","[[123, -23], 100]","[[50, 0], 50]","[[-100, 50], -50]","[[999, 1], 1000]","[
+  {""input"": [0, 0], ""output"": 0},
+  {""input"": [1, 2], ""output"": 3},
+  {""input"": [-1, 1], ""output"": 0},
+  {""input"": [5, 7], ""output"": 12},
+  {""input"": [-3, -6], ""output"": -9},
+  {""input"": [100, 200], ""output"": 300},
+  {""input"": [123, -23], ""output"": 100},
+  {""input"": [50, 0], ""output"": 50},
+  {""input"": [-100, 50], ""output"": -50},
+  {""input"": [999, 1], ""output"": 1000}
+]"
+Absolute Value,Write a function to compute the absolute value of an integer.,Easy,absValue,"[0, 0]","[5, 5]","[-5, 5]","[10, 10]","[-10, 10]","[123, 123]","[-123, 123]","[1, 1]","[-1, 1]","[-999, 999]","[
+  {""input"": 0, ""output"": 0},
+  {""input"": 5, ""output"": 5},
+  {""input"": -5, ""output"": 5},
+  {""input"": 10, ""output"": 10},
+  {""input"": -10, ""output"": 10},
+  {""input"": 123, ""output"": 123},
+  {""input"": -123, ""output"": 123},
+  {""input"": 1, ""output"": 1},
+  {""input"": -1, ""output"": 1},
+  {""input"": -999, ""output"": 999}
+]"
+Square,Write a function to compute the square of an integer.,Easy,square,"[0, 0]","[1, 1]","[-1, 1]","[2, 4]","[-2, 4]","[5, 25]","[-5, 25]","[10, 100]","[-10, 100]","[12, 144]","[
+  {""input"": 0, ""output"": 0},
+  {""input"": 1, ""output"": 1},
+  {""input"": -1, ""output"": 1},
+  {""input"": 2, ""output"": 4},
+  {""input"": -2, ""output"": 4},
+  {""input"": 5, ""output"": 25},
+  {""input"": -5, ""output"": 25},
+  {""input"": 10, ""output"": 100},
+  {""input"": -10, ""output"": 100},
+  {""input"": 12, ""output"": 144}
+]
+"
+Is Even,Write a function to determine if a given integer is even.,Easy,isEven,"[0, true]","[1, false]","[2, true]","[3, false]","[-2, true]","[-3, false]","[10, true]","[11, false]","[100, true]","[101, false]","[
+  {""input"": 0, ""output"": true},
+  {""input"": 1, ""output"": false},
+  {""input"": 2, ""output"": true},
+  {""input"": 3, ""output"": false},
+  {""input"": -2, ""output"": true},
+  {""input"": -3, ""output"": false},
+  {""input"": 10, ""output"": true},
+  {""input"": 11, ""output"": false},
+  {""input"": 100, ""output"": true},
+  {""input"": 101, ""output"": false}
+]
+"
+Max,Write a function to find the maximum of two integers.,Easy,maxNumber,"[[0, 0], 0]","[[1, 2], 2]","[[2, 1], 2]","[[-1, -5], -1]","[[-5, -1], -1]","[[100, 50], 100]","[[50, 100], 100]","[[-10, 10], 10]","[[999, 1000], 1000]","[[1000, 999], 1000]","[
+  {""input"": [0, 0], ""output"": 0},
+  {""input"": [1, 2], ""output"": 2},
+  {""input"": [2, 1], ""output"": 2},
+  {""input"": [-1, -5], ""output"": -1},
+  {""input"": [-5, -1], ""output"": -1},
+  {""input"": [100, 50], ""output"": 100},
+  {""input"": [50, 100], ""output"": 100},
+  {""input"": [-10, 10], ""output"": 10},
+  {""input"": [999, 1000], ""output"": 1000},
+  {""input"": [1000, 999], ""output"": 1000}
+]"
+Two-Fer,"Write a program that creates a sentence of the form ""One for X, one for me."", based on whether or not a name is given.
+If you know the person's name (e.g. if they're named Do-yun), then you will say: One for Do-yun, one for me.
+If you don't know the person's name, you will say you instead: One for you, one for me.",Easy,name,"["""", ""One for you, one for me.""]","[""Alice"", ""One for Alice, one for me.""]","[""Bob"", ""One for Bob, one for me.""]","[""Do-yun"", ""One for Do-yun, one for me.""]","[""   "", ""One for you, one for me.""]","[""ALICE"", ""One for ALICE, one for me.""]","[""Mallory"", ""One for Mallory, one for me.""]","[""Oscar"", ""One for Oscar, one for me.""]","[""Trent"", ""One for Trent, one for me.""]","[""VeryLongNameIndeed"", ""One for VeryLongNameIndeed, one for me.""]","[
+  {""input"": """", ""output"": ""One for you, one for me.""},
+  {""input"": ""Alice"", ""output"": ""One for Alice, one for me.""},
+  {""input"": ""Bob"", ""output"": ""One for Bob, one for me.""},
+  {""input"": ""Do-yun"", ""output"": ""One for Do-yun, one for me.""},
+  {""input"": ""   "", ""output"": ""One for you, one for me.""},
+  {""input"": ""ALICE"", ""output"": ""One for ALICE, one for me.""},
+  {""input"": ""Mallory"", ""output"": ""One for Mallory, one for me.""},
+  {""input"": ""Oscar"", ""output"": ""One for Oscar, one for me.""},
+  {""input"": ""Trent"", ""output"": ""One for Trent, one for me.""},
+  {""input"": ""VeryLongNameIndeed"", ""output"": ""One for VeryLongNameIndeed, one for me.""}
+]"
+Leap Year,Write a program to determine whether a given year is a leap year.,Easy,isLeapYear,"[1996, true]","[2000, true]","[1900, false]","[2004, true]","[2100, false]","[2400, true]","[2021, false]","[2020, true]","[1, false]","[400, true]","[
+  {""input"": 1996, ""output"": true},
+  {""input"": 2000, ""output"": true},
+  {""input"": 1900, ""output"": false},
+  {""input"": 2004, ""output"": true},
+  {""input"": 2100, ""output"": false},
+  {""input"": 2400, ""output"": true},
+  {""input"": 2021, ""output"": false},
+  {""input"": 2020, ""output"": true},
+  {""input"": 1, ""output"": false},
+  {""input"": 400, ""output"": true}
+]"
+Flatten Array,"Take a nested array of any depth and return a fully flattened array.
+
+Note that some language tracks may include null-like values in the input array, and the way these values are represented varies by track. Such values should be excluded from the flattened array.
+
+Additionally, the input may be of a different data type and contain different types, depending on the track.
+
+Check the test suite for details.
+
+Example
+input: [1, [2, 6, null], [[null, [4]], 5]]
+
+output: [1, 2, 6, 4, 5]
+
+You can think of this data structure as a Rose Tree. You are given a data type 'a tree that represents this data structure.
+
+Notes
+
+For this exercise Empty represents null
+The nested list is represented by List [...].
+The input example is represented by List [Elem 1, List [Elem 2, Elem 3, Empty, Elem 4], List [Empty], Elem 5]",Medium,flattenArray,"[[1, [2, 6, null], [[null, [4]], 5]], [1, 2, 6, 4, 5]]","[[[1, 2, [3]], 4], [1, 2, 3, 4]]","[[null, [null, [null]]], []]","[[[1], [[2]], [[[3]]]], [1, 2, 3]]","[[[1, null, 2], 3, [4, [null, 5]]], [1, 2, 3, 4, 5]]","[[[], [1, [2, []]], 3], [1, 2, 3]]","[[[10, 20], [30, [40, null]], 50], [10, 20, 30, 40, 50]]","[[[[""a""], [[""b""]], null], ""c""], [""a"", ""b"", ""c""]]","[[[], []], []]","[[[1, [2, [3, [4, [5]]]]]]], [1, 2, 3, 4, 5]]","[
+  {""input"": [1, [2, 6, null], [[null, [4]], 5]], ""output"": [1, 2, 6, 4, 5]},
+  {""input"": [[1, 2, [3]], 4], ""output"": [1, 2, 3, 4]},
+  {""input"": [null, [null, [null]]], ""output"": []},
+  {""input"": [[1], [[2]], [[[3]]]], ""output"": [1, 2, 3]},
+  {""input"": [[1, null, 2], 3, [4, [null, 5]]], ""output"": [1, 2, 3, 4, 5]},
+  {""input"": [[], [1, [2, []]], 3], ""output"": [1, 2, 3]},
+  {""input"": [[10, 20], [30, [40, null]], 50], ""output"": [10, 20, 30, 40, 50]},
+  {""input"": [[[ ""a""], [[""b""]], null], ""c""], ""output"": [""a"", ""b"", ""c""]},
+  {""input"": [[], []], ""output"": []},
+  {""input"": [[1, [2, [3, [4, [5]]]]]], ""output"": [1, 2, 3, 4, 5]}
+]"
+Pangram,"Your task is to figure out if a sentence is a pangram.
+
+A pangram is a sentence using every letter of the alphabet at least once. It is case insensitive, so it doesn't matter if a letter is lower-case (e.g. k) or upper-case (e.g. K).
+
+For this exercise, a sentence is a pangram if it contains each of the 26 letters in the English alphabet.",Easy,isPangram,"[""The quick brown fox jumps over the lazy dog."", true]","[""The quick brown fox jumps over the lay dog."", false]","[""Sphinx of black quartz, judge my vow."", true]","[""Pack my box with five dozen liquor jugs."", true]","["""", false]","[""Hello, world!"", false]","[""ABCDEFGHIJKLMNOPQRSTUVWXYZ"", true]","[""the_quick_brown-fox jumps over the lazy dog!"", true]","[""Five quacking zephyrs jolt my wax bed."", true]","[""A quick movement of the enemy will jeopardize five gunboats."", false]","[
+  {""input"": ""The quick brown fox jumps over the lazy dog."", ""output"": true},
+  {""input"": ""The quick brown fox jumps over the lay dog."", ""output"": false},
+  {""input"": ""Sphinx of black quartz, judge my vow."", ""output"": true},
+  {""input"": ""Pack my box with five dozen liquor jugs."", ""output"": true},
+  {""input"": """", ""output"": false},
+  {""input"": ""Hello, world!"", ""output"": false},
+  {""input"": ""ABCDEFGHIJKLMNOPQRSTUVWXYZ"", ""output"": true},
+  {""input"": ""the_quick_brown-fox jumps over the lazy dog!"", ""output"": true},
+  {""input"": ""Five quacking zephyrs jolt my wax bed."", ""output"": true},
+  {""input"": ""A quick movement of the enemy will jeopardize five gunboats."", ""output"": false}
+]"
+Bob,"Your task is to determine what Bob will reply to someone when they say something to him or ask him a question.
+
+Bob only ever answers one of five things:
+
+""Sure."" This is his response if you ask him a question, such as ""How are you?"" The convention used for questions is that it ends with a question mark.
+""Whoa, chill out!"" This is his answer if you YELL AT HIM. The convention used for yelling is ALL CAPITAL LETTERS.
+""Calm down, I know what I'm doing!"" This is what he says if you yell a question at him.
+""Fine. Be that way!"" This is how he responds to silence. The convention used for silence is nothing, or various combinations of whitespace characters.
+""Whatever."" This is what he answers to anything else.",Easy,response,"[""How are you?"", ""Sure.""]","[""HELLO!"", ""Whoa, chill out!""]","[""HOW ARE YOU?"", ""Whoa, chill out!""]","[""HOW ARE YOU?"", ""Calm down, I know what I'm doing!""]","["""", ""Fine. Be that way!""]","[""   "", ""Fine. Be that way!""]","[""What's up."", ""Whatever.""]","[""Are you okay???"", ""Sure.""]","[""STOP IT?"", ""Calm down, I know what I'm doing!""]","[""This is fine."", ""Whatever.""]","[
+  {""input"": ""How are you?"", ""output"": ""Sure.""},
+  {""input"": ""HELLO!"", ""output"": ""Whoa, chill out!""},
+  {""input"": ""HOW ARE YOU?"", ""output"": ""Whoa, chill out!""},
+  {""input"": ""HOW ARE YOU?"", ""output"": ""Calm down, I know what I'm doing!""},
+  {""input"": """", ""output"": ""Fine. Be that way!""},
+  {""input"": ""   "", ""output"": ""Fine. Be that way!""},
+  {""input"": ""What's up."", ""output"": ""Whatever.""},
+  {""input"": ""Are you okay???"", ""output"": ""Sure.""},
+  {""input"": ""STOP IT?"", ""output"": ""Calm down, I know what I'm doing!""},
+  {""input"": ""This is fine."", ""output"": ""Whatever.""}
+]"
+Darts,"Calculate the points scored in a single toss of a Darts game.
+
+Darts is a game where players throw darts at a target.
+
+In our particular instance of the game, the target rewards 4 different amounts of points, depending on where the dart lands:
+
+If the dart lands outside the target, player earns no points (0 points).
+If the dart lands in the outer circle of the target, player earns 1 point.
+If the dart lands in the middle circle of the target, player earns 5 points.
+If the dart lands in the inner circle of the target, player earns 10 points.
+
+The outer circle has a radius of 10 units (this is equivalent to the total radius for the entire target), the middle circle a radius of 5 units, and the inner circle a radius of 1. Of course, they are all centered at the same point — that is, the circles are concentric defined by the coordinates (0, 0).
+
+Given a point in the target (defined by its Cartesian coordinates x and y, where x and y are real), calculate the correct score earned by a dart landing at that point.",Easy,scoreCalc,"[[0, 0], 10]","[[0, 0.5], 10]","[[0, 1], 10]","[[0, 2], 5]","[[3, 4], 5]","[[0, 5], 5]","[[7, 7], 1]","[[10, 0], 1]","[[11, 0], 0]","[[-0.5, -0.5], 10]","[
+  {""input"": [0, 0], ""output"": 10},
+  {""input"": [0, 0.5], ""output"": 10},
+  {""input"": [0, 1], ""output"": 10},
+  {""input"": [0, 2], ""output"": 5},
+  {""input"": [3, 4], ""output"": 5},
+  {""input"": [0, 5], ""output"": 5},
+  {""input"": [7, 7], ""output"": 1},
+  {""input"": [10, 0], ""output"": 1},
+  {""input"": [11, 0], ""output"": 0},
+  {""input"": [-0.5, -0.5], ""output"": 10}
+]"
+Difference of Squares,"Find the difference between the square of the sum and the sum of the squares of the first N natural numbers.
+
+---------------------------
+The square of the sum of the first ten natural numbers is (1 + 2 + ... + 10)² = 55² = 3025.
+
+The sum of the squares of the first ten natural numbers is 1² + 2² + ... + 10² = 385.
+
+Hence the difference between the square of the sum of the first ten natural numbers and the sum of the squares of the first ten natural numbers is 3025 - 385 = 2640.",Easy,differenceOfSquares,"[1, 0]","[2, 4]","[3, 22]","[5, 170]","[10, 2640]","[0, 0]","[20, 41230]","[50, 1582700]","[100, 25164150]","[4, 70]","[
+  {""input"": 1, ""output"": 0},
+  {""input"": 2, ""output"": 4},
+  {""input"": 3, ""output"": 22},
+  {""input"": 5, ""output"": 170},
+  {""input"": 10, ""output"": 2640},
+  {""input"": 0, ""output"": 0},
+  {""input"": 20, ""output"": 41230},
+  {""input"": 50, ""output"": 1582700},
+  {""input"": 100, ""output"": 25164150},
+  {""input"": 4, ""output"": 70}
+]"
+Reverse String,"Reversing strings (reading them from right to left, rather than from left to right) is a surprisingly common task in programming.
+
+Your task is to reverse a given string.
+
+Some examples:
+
+Turn ""stressed"" into ""desserts"".
+Turn ""strops"" into ""sports"".
+Turn ""racecar"" into ""racecar"".
+",Easy,reverseStr,"[""stressed"", ""desserts""]","[""strops"", ""sports""]","[""racecar"", ""racecar""]","[""hello"", ""olleh""]","["""", """"]","[""a"", ""a""]","[""12345"", ""54321""]","[""!@#$%"", ""%$#@!""]","[""Able was I"", ""I saw elbA""]","[""Palindrome"", ""emordnilaP""]","[
+  {""input"": ""stressed"", ""output"": ""desserts""},
+  {""input"": ""strops"", ""output"": ""sports""},
+  {""input"": ""racecar"", ""output"": ""racecar""},
+  {""input"": ""hello"", ""output"": ""olleh""},
+  {""input"": """", ""output"": """"},
+  {""input"": ""a"", ""output"": ""a""},
+  {""input"": ""12345"", ""output"": ""54321""},
+  {""input"": ""!@#$%"", ""output"": ""%$#@!""},
+  {""input"": ""Able was I"", ""output"": ""I saw elbA""},
+  {""input"": ""Palindrome"", ""output"": ""emordnilaP""}
+]"
+Raindrops,"Your task is to convert a number into its corresponding raindrop sounds.
+
+If a given number:
+
+is divisible by 3, add ""Pling"" to the result.
+is divisible by 5, add ""Plang"" to the result.
+is divisible by 7, add ""Plong"" to the result.
+is not divisible by 3, 5, or 7, the result should be the number as a string.
+
+Examples
+28 is divisible by 7, but not 3 or 5, so the result would be ""Plong"".
+30 is divisible by 3 and 5, but not 7, so the result would be ""PlingPlang"".
+34 is not divisible by 3, 5, or 7, so the result would be ""34"".",Easy,raindrop,"[28, ""Plong""]","[30, ""PlingPlang""]","[34, ""34""]","[21, ""PlingPlong""]","[35, ""PlangPlong""]","[105, ""PlingPlangPlong""]","[3, ""Pling""]","[5, ""Plang""]","[7, ""Plong""]","[1, ""1""]","[
+  {""input"": 28, ""output"": ""Plong""},
+  {""input"": 30, ""output"": ""PlingPlang""},
+  {""input"": 34, ""output"": ""34""},
+  {""input"": 21, ""output"": ""PlingPlong""},
+  {""input"": 35, ""output"": ""PlangPlong""},
+  {""input"": 105, ""output"": ""PlingPlangPlong""},
+  {""input"": 3, ""output"": ""Pling""},
+  {""input"": 5, ""output"": ""Plang""},
+  {""input"": 7, ""output"": ""Plong""},
+  {""input"": 1, ""output"": ""1""}
+]"
+Count Vowels,"Write a function countVowels that takes a string and returns the number of vowels (a, e, i, o, u) it contains.",Easy,countVowels,"[""hello"", 2]","[""world"", 1]","[""AEIOU"", 5]","[""abcdefghijklmnopqrstuvwxyz"", 5]","["""", 0]","[""bcdfg"", 0]","[""Mississippi"", 4]","[""Beautiful Day"", 6]","[""WHY"", 0]","[""aAaAaA"", 6]","[{""input"": ""hello"", ""output"": 2},
+  {""input"": ""world"", ""output"": 1},
+  {""input"": ""AEIOU"", ""output"": 5},
+  {""input"": ""abcdefghijklmnopqrstuvwxyz"", ""output"": 5},
+  {""input"": """", ""output"": 0},
+  {""input"": ""bcdfg"", ""output"": 0},
+  {""input"": ""Mississippi"", ""output"": 4},
+  {""input"": ""Beautiful Day"", ""output"": 6},
+  {""input"": ""WHY"", ""output"": 0},
+  {""input"": ""aAaAaA"", ""output"": 6}
+]"
+Replace Bad Words,"Write a function censor that replaces every occurrence of the word ""spoiler"" with ""*****"" in a given string.",Easy,censor,"[""This is a spoiler."", ""This is a *****.""]","[""No spoilers here."", ""No *****s here.""]","[""SPOILER ALERT!"", ""***** ALERT!""]","[""Multiple spoiler spoiler."", ""Multiple ***** *****.""]","["""", """"]","[""Just some text."", ""Just some text.""]","[""spoilerSpoiler"", ""spoilerSpoiler""]","[""A spoiler?"", ""A *****?""]","[""spoiler-spoiler"", ""*****-*****""]","[""This spoiler is worse than that spoiler!"", ""This ***** is worse than that *****!""]","[
+  {""input"": ""This is a spoiler."", ""output"": ""This is a *****.""},
+  {""input"": ""No spoilers here."", ""output"": ""No *****s here.""},
+  {""input"": ""SPOILER ALERT!"", ""output"": ""***** ALERT!""},
+  {""input"": ""Multiple spoiler spoiler."", ""output"": ""Multiple ***** *****.""},
+  {""input"": """", ""output"": """"},
+  {""input"": ""Just some text."", ""output"": ""Just some text.""},
+  {""input"": ""spoilerSpoiler"", ""output"": ""spoilerSpoiler""},
+  {""input"": ""A spoiler?"", ""output"": ""A *****?""},
+  {""input"": ""spoiler-spoiler"", ""output"": ""*****-*****""},
+  {""input"": ""This spoiler is worse than that spoiler!"", ""output"": ""This ***** is worse than that *****!""}
+]"
+Sum of Digits,"Write a function digitSum that computes the sum of all digits in a number.
+(Example: 12345 → 15)",Easy,digitSum,"[12345, 15]","[0, 0]","[9, 9]","[11111, 5]","[2468, 20]","[13579, 25]","[99999, 45]","[1001, 2]","[9081726354, 45]","[-123, 6]","[
+  {""input"": 12345, ""output"": 15},
+  {""input"": 0, ""output"": 0},
+  {""input"": 9, ""output"": 9},
+  {""input"": 11111, ""output"": 5},
+  {""input"": 2468, ""output"": 20},
+  {""input"": 13579, ""output"": 25},
+  {""input"": 99999, ""output"": 45},
+  {""input"": 1001, ""output"": 2},
+  {""input"": 9081726354, ""output"": 45},
+  {""input"": -123, ""output"": 6}
+]"
+Simple Dice Game,"Write a function rollOutcome that takes two dice rolls (d1, d2) and:
+
+Returns ""Win"" if the sum is 7 or 11.
+
+Returns ""Lose"" if the sum is 2, 3, or 12.
+
+Otherwise returns ""Keep rolling"".",Easy,rollOutcome,"[[3, 4], ""Win""]","[[5, 6], ""Win""]","[[1, 1], ""Lose""]","[[1, 2], ""Lose""]","[[6, 6], ""Lose""]","[[2, 2], ""Keep rolling""]","[[4, 5], ""Keep rolling""]","[[6, 5], ""Win""]","[[2, 3], ""Keep rolling""]","[[0, 7], ""Keep rolling""]","[
+  {""input"": [3, 4], ""output"": ""Win""},
+  {""input"": [5, 6], ""output"": ""Win""},
+  {""input"": [1, 1], ""output"": ""Lose""},
+  {""input"": [1, 2], ""output"": ""Lose""},
+  {""input"": [6, 6], ""output"": ""Lose""},
+  {""input"": [2, 2], ""output"": ""Keep rolling""},
+  {""input"": [4, 5], ""output"": ""Keep rolling""},
+  {""input"": [6, 5], ""output"": ""Win""},
+  {""input"": [2, 3], ""output"": ""Keep rolling""},
+  {""input"": [0, 7], ""output"": ""Keep rolling""}
+]"
+Remove Negatives,Write a function removeNegatives that takes a list of integers and returns a list with only the non-negative ones.,Easy,removeNegatives,"[[1, -2, 3, -4, 5], [1, 3, 5]]","[[-1, -2, -3], []]","[[0, 1, 2], [0, 1, 2]]","[[10, -10, 20, -20], [10, 20]]","[[5], [5]]","[[-5], []]","[[100, -1, 200, -2, 300], [100, 200, 300]]","[[0, 0, -1, -2], [0, 0]]","[[], []]","[[-100, 50, -200, 150], [50, 150]]","[
+  {""input"": [1, -2, 3, -4, 5], ""output"": [1, 3, 5]},
+  {""input"": [-1, -2, -3], ""output"": []},
+  {""input"": [0, 1, 2], ""output"": [0, 1, 2]},
+  {""input"": [10, -10, 20, -20], ""output"": [10, 20]},
+  {""input"": [5], ""output"": [5]},
+  {""input"": [-5], ""output"": []},
+  {""input"": [100, -1, 200, -2, 300], ""output"": [100, 200, 300]},
+  {""input"": [0, 0, -1, -2], ""output"": [0, 0]},
+  {""input"": [], ""output"": []},
+  {""input"": [-100, 50, -200, 150], ""output"": [50, 150]}
+]"
+Distance Between Two Points,"Write a function distance that takes two points (x1, y1) and (x2, y2) and returns their Euclidean distance.",Easy,distance,"[[[0, 0], [0, 0]], 0.0]","[[[0, 0], [3, 4]], 5.0]","[[[1, 2], [1, 2]], 0.0]","[[[2, 3], [5, 7]], 5.0]","[[[-1, -1], [1, 1]], 2.8284271247461903]","[[[0, 0], [1, 1]], 1.4142135623730951]","[[[10, 0], [0, 0]], 10.0]","[[[0, 5], [0, -5]], 10.0]","[[[2.5, 4.5], [5.5, 1.5]], 4.242640687119285]","[[[123456, 654321], [123450, 654315]], 8.48528137423857]","[
+  {""input"": [[0, 0], [0, 0]], ""output"": 0.0},
+  {""input"": [[0, 0], [3, 4]], ""output"": 5.0},
+  {""input"": [[1, 2], [1, 2]], ""output"": 0.0},
+  {""input"": [[2, 3], [5, 7]], ""output"": 5.0},
+  {""input"": [[-1, -1], [1, 1]], ""output"": 2.8284271247461903},
+  {""input"": [[0, 0], [1, 1]], ""output"": 1.4142135623730951},
+  {""input"": [[10, 0], [0, 0]], ""output"": 10.0},
+  {""input"": [[0, 5], [0, -5]], ""output"": 10.0},
+  {""input"": [[2.5, 4.5], [5.5, 1.5]], ""output"": 4.242640687119285},
+  {""input"": [[123456, 654321], [123450, 654315]], ""output"": 8.48528137423857}
+]"
+Temperature Converter,"Write a function cToF that converts Celsius to Fahrenheit.
+
+Conversion Equation:
+(Number of °C × 9/5) + 32 = Number of °F",Easy,cToF,"[0, 32.0]","[100, 212.0]","[-40, -40.0]","[37, 98.6]","[20, 68.0]","[-273.15, -459.67]","[15.5, 59.9]","[50, 122.0]","[212, 413.6]","[1, 33.8]","[
+  {""input"": 0, ""output"": 32.0},
+  {""input"": 100, ""output"": 212.0},
+  {""input"": -40, ""output"": -40.0},
+  {""input"": 37, ""output"": 98.6},
+  {""input"": 20, ""output"": 68.0},
+  {""input"": -273.15, ""output"": -459.67},
+  {""input"": 15.5, ""output"": 59.9},
+  {""input"": 50, ""output"": 122.0},
+  {""input"": 212, ""output"": 413.6},
+  {""input"": 1, ""output"": 33.8}
+]"
+Movie Ticket Pricing,"Write a function ticketPrice that takes an age and returns the cost:
+
+Age under 12 → $5
+
+Age 12–64 → $10
+
+Age 65+ → $7",Easy,ticketPrice,"[5, 5]","[11, 5]","[12, 10]","[30, 10]","[64, 10]","[65, 7]","[80, 7]","[0, 5]","[-1, 5]","[100, 7]","[
+  {""input"": 5, ""output"": 5},
+  {""input"": 11, ""output"": 5},
+  {""input"": 12, ""output"": 10},
+  {""input"": 30, ""output"": 10},
+  {""input"": 64, ""output"": 10},
+  {""input"": 65, ""output"": 7},
+  {""input"": 80, ""output"": 7},
+  {""input"": 0, ""output"": 5},
+  {""input"": -1, ""output"": 5},
+  {""input"": 100, ""output"": 7}
+]"
+Letter Frequency Counter,"Write a function letterCount that returns how many times a given character appears in a string.
+(Example: letterCount(""banana"", #""a"") → 3)",Easy,letterCount,"[[""banana"", ""a""], 3]","[[""banana"", ""b""], 1]","[[""banana"", ""n""], 2]","[[""apple"", ""p""], 2]","[[""apple"", ""z""], 0]","[["""", ""a""], 0]","[[""aaaaa"", ""a""], 5]","[[""Mississippi"", ""s""], 4]","[[""HELLO"", ""l""], 0]","[[""HELLO"", ""L""], 2]","[
+  {""input"": [""banana"", ""a""], ""output"": 3},
+  {""input"": [""banana"", ""b""], ""output"": 1},
+  {""input"": [""banana"", ""n""], ""output"": 2},
+  {""input"": [""apple"", ""p""], ""output"": 2},
+  {""input"": [""apple"", ""z""], ""output"": 0},
+  {""input"": ["""", ""a""], ""output"": 0},
+  {""input"": [""aaaaa"", ""a""], ""output"": 5},
+  {""input"": [""Mississippi"", ""s""], ""output"": 4},
+  {""input"": [""HELLO"", ""l""], ""output"": 0},
+  {""input"": [""HELLO"", ""L""], ""output"": 2}
+]"
+Run-Length Encoding,"Implement run-length encoding and decoding.
+
+Run-length encoding (RLE) is a simple form of data compression, where runs (consecutive data elements) are replaced by just one data value and count.
+
+For example we can represent the original 53 characters with only 13.
+
+""WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB""  ->  ""12WB12W3B24WB""
+RLE allows the original data to be perfectly reconstructed from the compressed data, which makes it a lossless data compression.
+
+""AABCCCDEEEE""  ->  ""2AB3CD4E""  ->  ""AABCCCDEEEE""
+For simplicity, you can assume that the unencoded string will only contain the letters A through Z (either lower or upper case) and whitespace. This way data to be encoded will never contain any numbers and numbers inside data to be decoded always represent the count for the following character.",Hard,encode,"[""AABCCCDEEEE"", ""2AB3CD4E""]","[""2AB3CD4E"", ""AABCCCDEEEE""]","[""WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB"", ""12WB12W3B24WB""]","[""12WB12W3B24WB"", ""WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB""]","["""", """"]","[""XYZ"", ""XYZ""]","[""2A3B4C"", ""AABBBCCCC""]","[""     "", ""5 ""]","[""AAAAAAAAAAAA"", ""12A""]","[""1A1B1C"", ""ABC""]","[
+  {""input"": ""AABCCCDEEEE"", ""output"": ""2AB3CD4E""},
+  {""input"": ""2AB3CD4E"", ""output"": ""AABCCCDEEEE""},
+  {""input"": ""WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB"", ""output"": ""12WB12W3B24WB""},
+  {""input"": ""12WB12W3B24WB"", ""output"": ""WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB""},
+  {""input"": """", ""output"": """"},
+  {""input"": ""XYZ"", ""output"": ""XYZ""},
+  {""input"": ""2A3B4C"", ""output"": ""AABBBCCCC""},
+  {""input"": ""     "", ""output"": ""5 ""},
+  {""input"": ""AAAAAAAAAAAA"", ""output"": ""12A""},
+  {""input"": ""1A1B1C"", ""output"": ""ABC""}
+]"
+ISBN,"The ISBN-10 verification process is used to validate book identification numbers. These normally contain dashes and look like: 3-598-21508-8
+
+ISBN
+The ISBN-10 format is 9 digits (0 to 9) plus one check character (either a digit or an X only). In the case the check character is an X, this represents the value '10'. These may be communicated with or without hyphens, and can be checked for their validity by the following formula:
+
+(d₁ * 10 + d₂ * 9 + d₃ * 8 + d₄ * 7 + d₅ * 6 + d₆ * 5 + d₇ * 4 + d₈ * 3 + d₉ * 2 + d₁₀ * 1) mod 11 == 0
+If the result is 0, then it is a valid ISBN-10, otherwise it is invalid.
+
+Example
+Let's take the ISBN-10 3-598-21508-8. We plug it in to the formula, and get:
+
+(3 * 10 + 5 * 9 + 9 * 8 + 8 * 7 + 2 * 6 + 1 * 5 + 5 * 4 + 0 * 3 + 8 * 2 + 8 * 1) mod 11 == 0
+Since the result is 0, this proves that our ISBN is valid.
+
+Task
+Given a string the program should check if the provided string is a valid ISBN-10. Putting this into place requires some thinking about preprocessing/parsing of the string prior to calculating the check digit for the ISBN.
+
+The program should be able to verify ISBN-10 both with and without separating dashes.
+
+Caveats
+Converting from strings to numbers can be tricky in certain languages. Now, it's even trickier since the check digit of an ISBN-10 may be 'X' (representing '10'). For instance 3-598-21507-X is a valid ISBN-10.",Hard,isISBN,"[""3-598-21508-8"", true]","[""3-598-21507-X"", true]","[""3598215088"", true]","[""359821507X"", true]","[""3-598-21508-9"", false]","[""3-598-2X507-9"", false]","[""359821507x"", false]","[""3-598-21507-A"", false]","[""3-598-21507"", false]","[""123456789X"", true]","[
+  {""input"": ""3-598-21508-8"", ""output"": true},
+  {""input"": ""3-598-21507-X"", ""output"": true},
+  {""input"": ""3598215088"", ""output"": true},
+  {""input"": ""359821507X"", ""output"": true},
+  {""input"": ""3-598-21508-9"", ""output"": false},
+  {""input"": ""3-598-2X507-9"", ""output"": false},
+  {""input"": ""359821507x"", ""output"": false},
+  {""input"": ""3-598-21507-A"", ""output"": false},
+  {""input"": ""3-598-21507"", ""output"": false},
+  {""input"": ""123456789X"", ""output"": true}
+]"
+Binary Search,"Your task is to implement a binary search algorithm.
+
+A binary search algorithm finds an item in a list by repeatedly splitting it in half, only keeping the half which contains the item we're looking for. It allows us to quickly narrow down the possible locations of our item until we find it, or until we've eliminated all possible locations.
+
+Caution
+Binary search only works when a list has been sorted.
+
+The algorithm looks like this:
+
+Find the middle element of a sorted list and compare it with the item we're looking for.
+If the middle element is our item, then we're done!
+If the middle element is greater than our item, we can eliminate that element and all the elements after it.
+If the middle element is less than our item, we can eliminate that element and all the elements before it.
+If every element of the list has been eliminated then the item is not in the list.
+Otherwise, repeat the process on the part of the list that has not been eliminated.
+Here's an example:
+
+Let's say we're looking for the number 23 in the following sorted list: [4, 8, 12, 16, 23, 28, 32].
+
+We start by comparing 23 with the middle element, 16.
+Since 23 is greater than 16, we can eliminate the left half of the list, leaving us with [23, 28, 32].
+We then compare 23 with the new middle element, 28.
+Since 23 is less than 28, we can eliminate the right half of the list: [23].
+We've found our item.",Hard,binarySearch,"[[[4, 8, 12, 16, 23, 28, 32], 23], 4]","[[[1, 2, 3, 4, 5], 1], 0]","[[[1, 2, 3, 4, 5], 5], 4]","[[[1, 2, 3, 4, 5], 3], 2]","[[[1, 2, 3, 4, 5], 6], -1]","[[[10, 20, 30, 40, 50], 35], -1]","[[[], 5], -1]","[[[42], 42], 0]","[[[1, 3, 5, 7, 9], 2], -1]","[[[2, 4, 6, 8, 10], 8], 3]","[
+  {""input"": [[4, 8, 12, 16, 23, 28, 32], 23], ""output"": 4},
+  {""input"": [[1, 2, 3, 4, 5], 1], ""output"": 0},
+  {""input"": [[1, 2, 3, 4, 5], 5], ""output"": 4},
+  {""input"": [[1, 2, 3, 4, 5], 3], ""output"": 2},
+  {""input"": [[1, 2, 3, 4, 5], 6], ""output"": -1},
+  {""input"": [[10, 20, 30, 40, 50], 35], ""output"": -1},
+  {""input"": [[], 5], ""output"": -1},
+  {""input"": [[42], 42], ""output"": 0},
+  {""input"": [[1, 3, 5, 7, 9], 2], ""output"": -1},
+  {""input"": [[2, 4, 6, 8, 10], 8], ""output"": 3}
+]"
+All Your Base,"Convert a sequence of digits in one base, representing a number, into a sequence of digits in another base, representing the same number.",Medium,rebase,"[([1,0,1], 2, 10), [5]]","[([5], 10, 2), [1,0,1]]","[([0], 10, 2), [0]]","[([3,4], 10, 16), [2,2]]","[([2,2], 16, 10), [3,4]]","[([1,0,0], 10, 10), [1,0,0]]","[([7,7,7], 8, 10), [5,1,1]]","[([1,5], 10, 8), [1,7]]","[([9,9,9], 10, 16), [3,14,7]]","[([1,0,0,0,0], 2, 16), [1,6]]","[
+  {""input"": [[1,0,1], 2, 10], ""output"": [5]},
+  {""input"": [[5], 10, 2], ""output"": [1,0,1]},
+  {""input"": [[0], 10, 2], ""output"": [0]},
+  {""input"": [[3,4], 10, 16], ""output"": [2,2]},
+  {""input"": [[2,2], 16, 10], ""output"": [3,4]},
+  {""input"": [[1,0,0], 10, 10], ""output"": [1,0,0]},
+  {""input"": [[7,7,7], 8, 10], ""output"": [5,1,1]},
+  {""input"": [[1,5], 10, 8], ""output"": [1,7]},
+  {""input"": [[9,9,9], 10, 16], ""output"": [3,14,7]},
+  {""input"": [[1,0,0,0,0], 2, 16], ""output"": [1,6]}
+]"
+Armstrong Number,Determine if a number is an Armstrong Number. An Armstrong number is a number that is the sum of its own digits each raised to the power of the number of digits.,Medium,isArmstrongNumber,"[153, true]","[370, true]","[371, true]","[407, true]","[9474, true]","[9475, false]","[0, true]","[1, true]","[10, false]","[100, false]","[
+  {""input"": 153, ""output"": true},
+  {""input"": 370, ""output"": true},
+  {""input"": 371, ""output"": true},
+  {""input"": 407, ""output"": true},
+  {""input"": 9474, ""output"": true},
+  {""input"": 9475, ""output"": false},
+  {""input"": 0, ""output"": true},
+  {""input"": 1, ""output"": true},
+  {""input"": 10, ""output"": false},
+  {""input"": 100, ""output"": false}
+]"
+Allergies,"Given a person's allergy score, determine whether or not they're allergic to a given item, and their full list of allergies.
+
+An allergy test produces a single numeric score which contains the information about all the allergies the person has (that they were tested for).
+
+The list of items (and their value) that were tested are:
+
+eggs (1)
+peanuts (2)
+shellfish (4)
+strawberries (8)
+tomatoes (16)
+chocolate (32)
+pollen (64)
+cats (128)
+
+So if Tom is allergic to peanuts and chocolate, he gets a score of 34.",Medium,allergyScore,"[[0, ""eggs""], [false, []]]","[[34, ""peanuts""], [true, [""peanuts"", ""chocolate""]]]","[[255, ""cats""], [true, [""eggs"", ""peanuts"", ""shellfish"", ""strawberries"", ""tomatoes"", ""chocolate"", ""pollen"", ""cats""]]]","[[1, ""shellfish""], [false, [""eggs""]]]","[[3, ""eggs""], [true, [""eggs"", ""peanuts""]]]","[[256, ""pollen""], [false, []]]","[[257, ""eggs""], [true, [""eggs""]]]","[[509, ""peanuts""], [false, [""eggs"", ""shellfish"", ""strawberries"", ""tomatoes"", ""chocolate"", ""pollen"", ""cats""]]]","[[8, ""strawberries""], [true, [""strawberries""]]]","[[42, ""cats""], [false, [""peanuts"", ""strawberries"", ""chocolate""]]]","[
+  {""input"": [0, ""eggs""], ""output"": [false, []]},
+  {""input"": [34, ""peanuts""], ""output"": [true, [""peanuts"", ""chocolate""]]},
+  {""input"": [255, ""cats""], ""output"": [true, [""eggs"", ""peanuts"", ""shellfish"", ""strawberries"", ""tomatoes"", ""chocolate"", ""pollen"", ""cats""]]},
+  {""input"": [1, ""shellfish""], ""output"": [false, [""eggs""]]},
+  {""input"": [3, ""eggs""], ""output"": [true, [""eggs"", ""peanuts""]]},
+  {""input"": [256, ""pollen""], ""output"": [false, []]},
+  {""input"": [257, ""eggs""], ""output"": [true, [""eggs""]]},
+  {""input"": [509, ""peanuts""], ""output"": [false, [""eggs"", ""shellfish"", ""strawberries"", ""tomatoes"", ""chocolate"", ""pollen"", ""cats""]]},
+  {""input"": [8, ""strawberries""], ""output"": [true, [""strawberries""]]},
+  {""input"": [42, ""cats""], ""output"": [false, [""peanuts"", ""strawberries"", ""chocolate""]]}
+]"
+Acronym,"Write a program that converts a long phrase to it's acronym.
+Punctuation is handled as follows: hyphens are word separators (like whitespace); all other punctuation can be removed from the input.
+
+Examples:
+As Soon As Possible -> ASAP
+Liquid-crystal display -> LCD
+Thank George It's Friday! -> TGIF",Medium,acronym,"[""As Soon As Possible"", ""ASAP""]","[""Liquid-crystal display"", ""LCD""]","[""Thank George It's Friday!"", ""TGIF""]","[""Personalized AI Learning System"", ""PALS""]","[""First In, First Out"", ""FIFO""]","[""GNU Image Manipulation Program"", ""GIMP""]","[""Complementary metal-oxide semiconductor"", ""CMOS""]","[""Hyper-text Markup Language"", ""HTML""]","[""Federal Bureau of Investigation"", ""FBI""]","[""Self-contained underwater breathing apparatus"", ""SCUBA""]","[
+  {""input"": ""As Soon As Possible"", ""output"": ""ASAP""},
+  {""input"": ""Liquid-crystal display"", ""output"": ""LCD""},
+  {""input"": ""Thank George It's Friday!"", ""output"": ""TGIF""},
+  {""input"": ""Personalized AI Learning System"", ""output"": ""PALS""},
+  {""input"": ""First In, First Out"", ""output"": ""FIFO""},
+  {""input"": ""GNU Image Manipulation Program"", ""output"": ""GIMP""},
+  {""input"": ""Complementary metal-oxide semiconductor"", ""output"": ""CMOS""},
+  {""input"": ""Hyper-text Markup Language"", ""output"": ""HTML""},
+  {""input"": ""Federal Bureau of Investigation"", ""output"": ""FBI""},
+  {""input"": ""Self-contained underwater breathing apparatus"", ""output"": ""SCUBA""}
+]"
+Triangle,"Write a program that determines if a shape is a triangle, and if that triangle is equilateral, isosceles, or scalene.",Medium,triangle,"[[2, 2, 2], ""equilateral""]","[[3, 4, 4], ""isosceles""]","[[4, 3, 4], ""isosceles""]","[[3, 4, 5], ""scalene""]","[[10, 1, 1], ""not a triangle""]","[[5, 5, 8], ""isosceles""]","[[7, 10, 5], ""scalene""]","[[0, 0, 0], ""not a triangle""]","[[5, 5, 5], ""equilateral""]","[[2, 3, 5], ""not a triangle""]","[
+  {""input"": [2, 2, 2], ""output"": ""equilateral""},
+  {""input"": [3, 4, 4], ""output"": ""isosceles""},
+  {""input"": [4, 3, 4], ""output"": ""isosceles""},
+  {""input"": [3, 4, 5], ""output"": ""scalene""},
+  {""input"": [10, 1, 1], ""output"": ""not a triangle""},
+  {""input"": [5, 5, 8], ""output"": ""isosceles""},
+  {""input"": [7, 10, 5], ""output"": ""scalene""},
+  {""input"": [0, 0, 0], ""output"": ""not a triangle""},
+  {""input"": [5, 5, 5], ""output"": ""equilateral""},
+  {""input"": [2, 3, 5], ""output"": ""not a triangle""}
+]"
+DNA,"DNA is a long chain of other chemicals and the most important are the four nucleotides, adenine, cytosine, guanine and thymine. A single DNA chain can contain billions of these four nucleotides and the order in which they occur is important! We call the order of these nucleotides in a bit of DNA a ""DNA sequence"".
+
+We represent a DNA sequence as an ordered collection of these four nucleotides and a common way to do that is with a string of characters such as ""ATTACG"" for a DNA sequence of 6 nucleotides. 'A' for adenine, 'C' for cytosine, 'G' for guanine, and 'T' for thymine.
+
+Given a string representing a DNA sequence, count how many of each nucleotide is present. If the string contains characters that aren't A, C, G, or T then it is invalid and you should signal an error.
+
+For example:
+
+""GATTACA"" -> 'A': 3, 'C': 1, 'G': 1, 'T': 2
+""INVALID"" -> error",Medium,nucleotideCounts,"[""GATTACA"", {""A"": 3, ""C"": 1, ""G"": 1, ""T"": 2}]","["""", {""A"": 0, ""C"": 0, ""G"": 0, ""T"": 0}]","[""AAAA"", {""A"": 4, ""C"": 0, ""G"": 0, ""T"": 0}]","[""CCCC"", {""A"": 0, ""C"": 4, ""G"": 0, ""T"": 0}]","[""GGGG"", {""A"": 0, ""C"": 0, ""G"": 4, ""T"": 0}]","[""TTTT"", {""A"": 0, ""C"": 0, ""G"": 0, ""T"": 4}]","[""ACGT"", {""A"": 1, ""C"": 1, ""G"": 1, ""T"": 1}]","[""AGCTAGC"", {""A"": 2, ""C"": 2, ""G"": 2, ""T"": 1}]","[""INVALID"", ""error""]","[""ACGTX"", ""error""]","[
+  {""input"": ""GATTACA"", ""output"": {""A"": 3, ""C"": 1, ""G"": 1, ""T"": 2}},
+  {""input"": """", ""output"": {""A"": 0, ""C"": 0, ""G"": 0, ""T"": 0}},
+  {""input"": ""AAAA"", ""output"": {""A"": 4, ""C"": 0, ""G"": 0, ""T"": 0}},
+  {""input"": ""CCCC"", ""output"": {""A"": 0, ""C"": 4, ""G"": 0, ""T"": 0}},
+  {""input"": ""GGGG"", ""output"": {""A"": 0, ""C"": 0, ""G"": 4, ""T"": 0}},
+  {""input"": ""TTTT"", ""output"": {""A"": 0, ""C"": 0, ""G"": 0, ""T"": 4}},
+  {""input"": ""ACGT"", ""output"": {""A"": 1, ""C"": 1, ""G"": 1, ""T"": 1}},
+  {""input"": ""AGCTAGC"", ""output"": {""A"": 2, ""C"": 2, ""G"": 2, ""T"": 1}},
+  {""input"": ""INVALID"", ""output"": ""error""},
+  {""input"": ""ACGTX"", ""output"": ""error""}
+]"
+Anagram,"Given a target word and one or more candidate words, your task is to find the candidates that are anagrams of the target.
+
+An anagram is a rearrangement of letters to form a new word: for example ""owns"" is an anagram of ""snow"". A word is not its own anagram: for example, ""stop"" is not an anagram of ""stop"".
+
+The target word and candidate words are made up of one or more ASCII alphabetic characters (A-Z and a-z). Lowercase and uppercase characters are equivalent: for example, ""PoTS"" is an anagram of ""sTOp"", but ""StoP"" is not an anagram of ""sTOp"". The words you need to find should be taken from the candidate words, using the same letter case.
+
+Given the target ""stone"" and the candidate words ""stone"", ""tones"", ""banana"", ""tons"", ""notes"", and ""Seton"", the anagram words you need to find are ""tones"", ""notes"", and ""Seton"".
+
+You must return the anagrams in the same order as they are listed in the candidate words.",Medium,anagrams,"[[""stone"", [""stone"", ""tones"", ""banana"", ""tons"", ""notes"", ""Seton""]], [""tones"", ""notes"", ""Seton""]]","[[""listen"", [""enlists"", ""google"", ""inlets"", ""banana""]], [""inlets""]]","[[""master"", [""stream"", ""pigeon"", ""maters""]], [""stream"", ""maters""]]","[[""stop"", [""pots"", ""stop"", ""tops"", ""spot""]], [""pots"", ""tops"", ""spot""]]","[[""Orchestra"", [""Carthorse"", ""cash"", ""horse""]], [""Carthorse""]]","[[""listen"", [""Silent"", ""enlist"", ""LISTEN""]], [""Silent"", ""enlist""]]","[[""evil"", [""vile"", ""veil"", ""live""]], [""vile"", ""veil"", ""live""]]","[[""abcd"", [""abdc"", ""acbd"", ""bacd"", ""abcd""]], [""abdc"", ""acbd"", ""bacd""]]","[[""hello"", [""olelh"", ""world"", ""HELLO""]], [""olelh""]]","[[""anagram"", [""nagaram"", ""margana"", ""AnAgRaM""]], [""nagaram"", ""margana""]]","[
+  {""input"": [""stone"", [""stone"", ""tones"", ""banana"", ""tons"", ""notes"", ""Seton""]], ""output"": [""tones"", ""notes"", ""Seton""]},
+  {""input"": [""listen"", [""enlists"", ""google"", ""inlets"", ""banana""]], ""output"": [""inlets""]},
+  {""input"": [""master"", [""stream"", ""pigeon"", ""maters""]], ""output"": [""stream"", ""maters""]},
+  {""input"": [""stop"", [""pots"", ""stop"", ""tops"", ""spot""]], ""output"": [""pots"", ""tops"", ""spot""]},
+  {""input"": [""Orchestra"", [""Carthorse"", ""cash"", ""horse""]], ""output"": [""Carthorse""]},
+  {""input"": [""listen"", [""Silent"", ""enlist"", ""LISTEN""]], ""output"": [""Silent"", ""enlist""]},
+  {""input"": [""evil"", [""vile"", ""veil"", ""live""]], ""output"": [""vile"", ""veil"", ""live""]},
+  {""input"": [""abcd"", [""abdc"", ""acbd"", ""bacd"", ""abcd""]], ""output"": [""abdc"", ""acbd"", ""bacd""]},
+  {""input"": [""hello"", [""olelh"", ""world"", ""HELLO""]], ""output"": [""olelh""]},
+  {""input"": [""anagram"", [""nagaram"", ""margana"", ""AnAgRaM""]], ""output"": [""nagaram"", ""margana""]}
+]"
+Sublist,"Given any two lists A and B, determine if:
+
+List A is equal to list B; or
+List A contains list B (A is a superlist of B); or
+List A is contained by list B (A is a sublist of B); or
+None of the above is true, thus lists A and B are unequal
+Specifically, list A is equal to list B if both lists have the same values in the same order. List A is a superlist of B if A contains a contiguous sub-sequence of values equal to B. List A is a sublist of B if B contains a contiguous sub-sequence of values equal to A.
+
+Examples:
+
+If A = [] and B = [] (both lists are empty), then A and B are equal
+If A = [1, 2, 3] and B = [], then A is a superlist of B
+If A = [] and B = [1, 2, 3], then A is a sublist of B
+If A = [1, 2, 3] and B = [1, 2, 3, 4, 5], then A is a sublist of B
+If A = [3, 4, 5] and B = [1, 2, 3, 4, 5], then A is a sublist of B
+If A = [3, 4] and B = [1, 2, 3, 4, 5], then A is a sublist of B
+If A = [1, 2, 3] and B = [1, 2, 3], then A and B are equal
+If A = [1, 2, 3, 4, 5] and B = [2, 3, 4], then A is a superlist of B
+If A = [1, 2, 4] and B = [1, 2, 3, 4, 5], then A and B are unequal
+If A = [1, 2, 3] and B = [1, 3, 2], then A and B are unequal",Medium,listRelation,"[[[], []], ""equal""]","[[[1, 2, 3], []], ""superlist""]","[[[], [1, 2, 3]], ""sublist""]","[[[1, 2, 3], [1, 2, 3, 4, 5]], ""sublist""]","[[[3, 4, 5], [1, 2, 3, 4, 5]], ""sublist""]","[[[3, 4], [1, 2, 3, 4, 5]], ""sublist""]","[[[1, 2, 3], [1, 2, 3]], ""equal""]","[[[1, 2, 3, 4, 5], [2, 3, 4]], ""superlist""]","[[[1, 2, 4], [1, 2, 3, 4, 5]], ""unequal""]","[[[1, 2, 3], [1, 3, 2]], ""unequal""]","[
+  {""input"": [[], []], ""output"": ""equal""},
+  {""input"": [[1, 2, 3], []], ""output"": ""superlist""},
+  {""input"": [[], [1, 2, 3]], ""output"": ""sublist""},
+  {""input"": [[1, 2, 3], [1, 2, 3, 4, 5]], ""output"": ""sublist""},
+  {""input"": [[3, 4, 5], [1, 2, 3, 4, 5]], ""output"": ""sublist""},
+  {""input"": [[3, 4], [1, 2, 3, 4, 5]], ""output"": ""sublist""},
+  {""input"": [[1, 2, 3], [1, 2, 3]], ""output"": ""equal""},
+  {""input"": [[1, 2, 3, 4, 5], [2, 3, 4]], ""output"": ""superlist""},
+  {""input"": [[1, 2, 4], [1, 2, 3, 4, 5]], ""output"": ""unequal""},
+  {""input"": [[1, 2, 3], [1, 3, 2]], ""output"": ""unequal""}
+]"
+Collatz Conjecture,"The Collatz Conjecture:
+Pick any positive integer.
+
+If it's even, divide it by 2.
+If it's odd, multiply it by 3 and add 1.
+Then, repeat these steps with the result, continuing indefinitely.
+
+Curious, you picked number 12 to test and began the journey:
+
+12 ➜ 6 ➜ 3 ➜ 10 ➜ 5 ➜ 16 ➜ 8 ➜ 4 ➜ 2 ➜ 1
+
+---------------------------------------------------------------------------
+Given a positive integer, return the number of steps it takes to reach 1 according to the rules of the Collatz Conjecture.",Medium,numSteps,"[1, 0]","[2, 1]","[3, 7]","[6, 8]","[7, 16]","[12, 9]","[19, 20]","[27, 111]","[100, 25]","[0, ""error""]","[
+  {""input"": 1, ""output"": 0},
+  {""input"": 2, ""output"": 1},
+  {""input"": 3, ""output"": 7},
+  {""input"": 6, ""output"": 8},
+  {""input"": 7, ""output"": 16},
+  {""input"": 12, ""output"": 9},
+  {""input"": 19, ""output"": 20},
+  {""input"": 27, ""output"": 111},
+  {""input"": 100, ""output"": 25},
+  {""input"": 0, ""output"": ""error""}
+]"
+Resistor Color,"If you want to build something using a Raspberry Pi, you'll probably use resistors. For this exercise, you need to know two things about them:
+
+Each resistor has a resistance value.
+Resistors are small - so small in fact that if you printed the resistance value on them, it would be hard to read.
+
+These colors are encoded as follows:
+
+black: 0
+brown: 1
+red: 2
+orange: 3
+yellow: 4
+green: 5
+blue: 6
+violet: 7
+grey: 8
+white: 9
+The goal of this exercise is to create a way:
+- to look up the numerical value associated with a particular color band
+- to list the different band colors",Medium,resistor,"[""black"", 0]","[""brown"", 1]","[""red"", 2]","[""green"", 5]","[""white"", 9]","[""violet"", 7]","[""grey"", 8]","[""blue"", 6]","[""orange"", 3]","[""list"", [""black"",""brown"",""red"",""orange"",""yellow"",""green"",""blue"",""violet"",""grey"",""white""]]","[
+  {""input"": ""black"", ""output"": 0},
+  {""input"": ""brown"", ""output"": 1},
+  {""input"": ""red"", ""output"": 2},
+  {""input"": ""green"", ""output"": 5},
+  {""input"": ""white"", ""output"": 9},
+  {""input"": ""violet"", ""output"": 7},
+  {""input"": ""grey"", ""output"": 8},
+  {""input"": ""blue"", ""output"": 6},
+  {""input"": ""orange"", ""output"": 3},
+  {""input"": ""list"", ""output"": [""black"",""brown"",""red"",""orange"",""yellow"",""green"",""blue"",""violet"",""grey"",""white""]}
+]"
+Wordy,"Instructions
+Parse and evaluate simple math word problems returning the answer as an integer.
+
+Iteration 0 — Numbers
+Problems with no operations simply evaluate to the number given.
+
+What is 5?
+
+Evaluates to 5.
+
+Iteration 1 — Addition
+Add two numbers together.
+
+What is 5 plus 13?
+
+Evaluates to 18.
+
+Handle large numbers and negative numbers.
+
+Iteration 2 — Subtraction, Multiplication and Division
+Now, perform the other three operations.
+
+What is 7 minus 5?
+
+2
+
+What is 6 multiplied by 4?
+
+24
+
+What is 25 divided by 5?
+
+5
+
+Iteration 3 — Multiple Operations
+Handle a set of operations, in sequence.
+
+Since these are verbal word problems, evaluate the expression from left-to-right, ignoring the typical order of operations.
+
+What is 5 plus 13 plus 6?
+
+24
+
+What is 3 plus 2 multiplied by 3?
+
+15 (i.e. not 9)
+
+Iteration 4 — Errors
+The parser should reject:
+
+Unsupported operations (""What is 52 cubed?"")
+Non-math questions (""Who is the President of the United States"")
+Word problems with invalid syntax (""What is 1 plus plus 2?"")",Hard,operationResult,"[""What is 5?"", 5]","[""What is 5 plus 13?"", 18]","[""What is 7 minus 5?"", 2]","[""What is 6 multiplied by 4?"", 24]","[""What is 25 divided by 5?"", 5]","[""What is 5 plus 13 plus 6?"", 24]","[""What is 3 plus 2 multiplied by 3?"", 15]","[""What is 52 cubed?"", ""error""]","[""Who is the President of the United States?"", ""error""]","[""What is 1 plus plus 2?"", ""error""]","[
+  {""input"": ""What is 5?"", ""output"": 5},
+  {""input"": ""What is 5 plus 13?"", ""output"": 18},
+  {""input"": ""What is 7 minus 5?"", ""output"": 2},
+  {""input"": ""What is 6 multiplied by 4?"", ""output"": 24},
+  {""input"": ""What is 25 divided by 5?"", ""output"": 5},
+  {""input"": ""What is 5 plus 13 plus 6?"", ""output"": 24},
+  {""input"": ""What is 3 plus 2 multiplied by 3?"", ""output"": 15},
+  {""input"": ""What is 52 cubed?"", ""output"": ""error""},
+  {""input"": ""Who is the President of the United States?"", ""output"": ""error""},
+  {""input"": ""What is 1 plus plus 2?"", ""output"": ""error""}
+]"
+Pythagorean Triplet,"A Pythagorean triplet is a set of three natural numbers, {a, b, c}, for which,
+
+a² + b² = c²
+and such that,
+
+a < b < c
+For example,
+
+3² + 4² = 5².
+Given an input integer N, find all Pythagorean triplets for which a + b + c = N.
+
+For example, with N = 1000, there is exactly one Pythagorean triplet for which a + b + c = 1000: {200, 375, 425}.",Hard,triplets,"[12, [[3, 4, 5]]]","[30, [[5, 12, 13]]]","[40, [[8, 15, 17]]]","[60, [[10, 24, 26], [15, 20, 25]]]","[1000, [[200, 375, 425]]]","[11, []]","[120, [[20, 48, 52], [24, 45, 51], [30, 40, 50]]]","[84, [[21, 28, 35]]]","[90, [[9, 40, 41], [15, 36, 39]]]","[100, []]","[
+  {""input"": 12, ""output"": [[3, 4, 5]]},
+  {""input"": 30, ""output"": [[5, 12, 13]]},
+  {""input"": 40, ""output"": [[8, 15, 17]]},
+  {""input"": 60, ""output"": [[10, 24, 26], [15, 20, 25]]},
+  {""input"": 1000, ""output"": [[200, 375, 425]]},
+  {""input"": 11, ""output"": []},
+  {""input"": 120, ""output"": [[20, 48, 52], [24, 45, 51], [30, 40, 50]]},
+  {""input"": 84, ""output"": [[21, 28, 35]]},
+  {""input"": 90, ""output"": [[9, 40, 41], [15, 36, 39]]},
+  {""input"": 100, ""output"": []}
+]"
+Knapsack,"Felix is a mountain guide and porter. After months of careful planning, the expedition he works for is about to leave. He will be paid the value she carried to the base camp.
+
+In front of him are many items, each with a value and weight. Felix would gladly take all of the items, but her knapsack can only hold so much weight.
+
+Instructions
+Your task is to determine which items to take so that the total value of his selection is maximized, taking into account the knapsack's carrying capacity.
+
+Items will be represented as a list of items. Each item will have a weight and value. All values given will be strictly positive. Felix can take only one of each item.
+
+For example:
+
+Items: [
+  { ""weight"": 5, ""value"": 10 },
+  { ""weight"": 4, ""value"": 40 },
+  { ""weight"": 6, ""value"": 30 },
+  { ""weight"": 4, ""value"": 50 }
+]
+
+Knapsack Maximum Weight: 10
+
+For the above, the first item has weight 5 and value 10, the second item has weight 4 and value 40, and so on. In this example, Felix should take the second and fourth item to maximize his value, which, in this case, is 90. He cannot get more than 90 as her knapsack has a weight limit of 10.",Hard,knapsack,"[[[{""weight"":5,""value"":10},{""weight"":4,""value"":40},{""weight"":6,""value"":30},{""weight"":4,""value"":50}],10], 90]","[[[{""weight"":2,""value"":12},{""weight"":1,""value"":10},{""weight"":3,""value"":20}],5], 32]","[[[{""weight"":2,""value"":1},{""weight"":2,""value"":2},{""weight"":2,""value"":3}],2], 3]","[[[{""weight"":5,""value"":10},{""weight"":4,""value"":40}],4], 40]","[[[{""weight"":5,""value"":10},{""weight"":4,""value"":40}],3], 0]","[[[{""weight"":3,""value"":60},{""weight"":2,""value"":100},{""weight"":4,""value"":120}],5], 160]","[[[{""weight"":1,""value"":10},{""weight"":1,""value"":20},{""weight"":1,""value"":30}],2], 50]","[[[{""weight"":10,""value"":200},{""weight"":20,""value"":300}],10], 200]","[[[{""weight"":10,""value"":60},{""weight"":20,""value"":100},{""weight"":30,""value"":120}],50], 220]","[[[{""weight"":5,""value"":100}],0], 0]","[
+  {""input"": [[{""weight"":5,""value"":10},{""weight"":4,""value"":40},{""weight"":6,""value"":30},{""weight"":4,""value"":50}], 10], ""output"": 90},
+  {""input"": [[{""weight"":2,""value"":12},{""weight"":1,""value"":10},{""weight"":3,""value"":20}], 5], ""output"": 32},
+  {""input"": [[{""weight"":2,""value"":1},{""weight"":2,""value"":2},{""weight"":2,""value"":3}], 2], ""output"": 3},
+  {""input"": [[{""weight"":5,""value"":10},{""weight"":4,""value"":40}], 4], ""output"": 40},
+  {""input"": [[{""weight"":5,""value"":10},{""weight"":4,""value"":40}], 3], ""output"": 0},
+  {""input"": [[{""weight"":3,""value"":60},{""weight"":2,""value"":100},{""weight"":4,""value"":120}], 5], ""output"": 160},
+  {""input"": [[{""weight"":1,""value"":10},{""weight"":1,""value"":20},{""weight"":1,""value"":30}], 2], ""output"": 50},
+  {""input"": [[{""weight"":10,""value"":200},{""weight"":20,""value"":300}], 10], ""output"": 200},
+  {""input"": [[{""weight"":10,""value"":60},{""weight"":20,""value"":100},{""weight"":30,""value"":120}], 50], ""output"": 220},
+  {""input"": [[{""weight"":5,""value"":100}], 0], ""output"": 0}
+]"

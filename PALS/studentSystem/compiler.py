@@ -55,50 +55,145 @@ def compileCode(codeInput):
     return (clean_sml_output(compilerRaw.stdout))
 
 def smlEscapeString(s: str) -> str:
-    # Escape backslashes and double quotes; make newlines visible
-    s = s.replace("\\", "\\\\").replace('"', '\\"')
-    s = s.replace("\n", "\\n").replace("\t", "\\t").replace("\r", "\\r")
-    return s
+    """
+    Escape a Python string for safe inclusion as an SML string literal.
+    Handles quotes, backslashes, and common control characters.
+    """
+    escape_map = {
+        "\\": "\\\\",
+        "\"": "\\\"",
+        "\n": "\\n",
+        "\t": "\\t",
+        "\r": "\\r",
+    }
+    return "".join(escape_map.get(c, c) for c in s)
 
-# TODO: Add support for dictionary conversion
-def cleanCases(value: Any) -> str:
+def to_sml_literal(value: Any) -> str:
     """
-    Convert a Python value into an SML literal.
-    Supports: int, bool, str, tuple, list, nested combinations of these.
+    Convert a Python value into an SML literal string.
+    Supports: int, float, bool, str, char (single-character strings),
+    tuple, list, dict (record), None (NONE), and nested combinations of these.
     """
+
+    # Define known SML constructors
+    # Allergen Case
+    ALLERGENS = {
+        "Eggs", "Peanuts", "Shellfish", "Strawberries",
+        "Tomatoes", "Chocolate", "Pollen", "Cats"
+    }
+
+    LISTS = {
+        "Equal", "Sublist", "Superlist", "Unequal"
+    }
+
+    # Booleans → true/false
     if isinstance(value, bool):
         return "true" if value else "false"
+
+    # Integers → convert negatives with ~
     if isinstance(value, int):
-        return str(value)
+        return f"~{abs(value)}" if value < 0 else str(value)
+
+    # Floats → use SML real literal format (with decimal point)
+    if isinstance(value, float):
+        # SML reals must have at least one digit before and after the dot
+        return f"~{abs(value)}" if value < 0 else f"{value}" if "." in str(value) else f"{value}.0"
+
+    # Strings -> Use escape string function
     if isinstance(value, str):
+        if value in ALLERGENS:
+            # Emits the constructor directly without quotes
+            return value
+        if value in LISTS:
+            return value
+        if len(value) == 1 and not value.isdigit():
+            return f"#\"{smlEscapeString(value)}\""  # Char literal
         return f"\"{smlEscapeString(value)}\""
+
+    # Tuples → (x, y, z)
     if isinstance(value, tuple):
-        items = ", ".join(cleanCases(v) for v in value)
+        items = ", ".join(to_sml_literal(v) for v in value)
         return f"({items})"
+
+    # Lists → [x, y, z]
     if isinstance(value, list):
-        items = ", ".join(cleanCases(v) for v in value)
+        items = ", ".join(to_sml_literal(v) for v in value)
         return f"[{items}]"
-    # If you need reals/chars/options/etc., add cases here.
+
+    # None → SML option NONE
+    if value is None:
+        return "NONE"
+
+    # Options: dict with exactly {"SOME": ...}
+    if isinstance(value, dict) and set(value.keys()) == {"SOME"}:
+        return f"SOME ({to_sml_literal(value['SOME'])})"
+    
+    # Arrays: dict with exactly {"ARRAY": [...]}
+    if isinstance(value, dict) and set(value.keys()) == {"ARRAY"}:
+         inner = to_sml_literal(value["ARRAY"])  # will return [x, y, z]
+         return f"Array.fromList {inner}"
+
+    # Generic dict → SML record
+    if isinstance(value, dict):
+        items = ", ".join(f"{k} = {to_sml_literal(value[k])}" for k in sorted(value.keys()))
+        return f"{{{items}}}"
+    
     raise TypeError(f"Unsupported value type for SML serialization: {type(value).__name__}")
 
+def forceReal(value):
+    if isinstance(value, float):
+        return value
+    if isinstance(value, int):
+        return float(value)
+    if isinstance(value, list):
+        return [forceReal(v) for v in value]   
+    if isinstance(value, tuple):
+        return tuple(forceReal(v) for v in value)
+    raise TypeError(f"Unsupported type for forceReal: {type(value).__name__}")
 
-def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, inputType, pre_serialized=False):
+def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnType):
     with open("temp.sml", "w") as tempFile:
         tempFile.write(codeInput)
 
-    if inputType == 1:
+    sml_input = to_sml_literal(inputCases)
+    sml_output = to_sml_literal(expectedOutputs)
+    print ("SML Input:", sml_input)
+    print ("SML Output:", sml_output)
 
-        if pre_serialized and isinstance(inputCases, str):
-            sml_input = inputCases                          # Handles Two-Fer special case
-        else:
-            sml_input = cleanCases(inputCases)  
+    testHarness = f""" 
+    use "{tempFile.name}";
 
-        sml_output = cleanCases(expectedOutputs)
-        print ("SML Input:", sml_input)
-        print ("SML Output:", sml_output)
+    val outStream = TextIO.openOut "results.txt";
 
-        # This harness is able to do single argument function calls evaluated against single value test cases
-        sml_test_code = f""" 
+    val inputCases = {sml_input}
+    val expectedOutputs = {sml_output}
+    val targetFunction = {targetFunction}
+
+    fun runTest (targetFunction, inputs, output) =
+    let
+        val result = targetFunction inputs
+    in
+        if result = output then
+            TextIO.output (outStream, "PASS\\n")
+        else
+            TextIO.output (outStream, "FAIL\\n")
+    end
+
+    val _ = ListPair.app (fn (inp, out) => runTest (targetFunction, inp, out))
+                    (inputCases, expectedOutputs)
+
+    """
+
+    if returnType == "real":
+        print ("REAL VERSION USED")
+
+        inputCases = forceReal(inputCases)
+        expectedOutputs = forceReal(expectedOutputs)
+
+        sml_input = to_sml_literal(inputCases)
+        sml_output = to_sml_literal(expectedOutputs)
+
+        testHarness = f"""
         use "{tempFile.name}";
 
         val outStream = TextIO.openOut "results.txt";
@@ -107,25 +202,29 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, inputTy
         val expectedOutputs = {sml_output}
         val targetFunction = {targetFunction}
 
+        fun approxEq (a: real, b: real) = Real.abs (a - b) < 1.0E~9
+
         fun runTest (targetFunction, inputs, output) =
         let
-            val result = targetFunction inputs
+            val result =
+                (resultToString (targetFunction inputs))
+                handle Fail _ => "error"
         in
-            if result = output then
-                TextIO.output (outStream, "PASS\\n")
+            if approxEq (result, output) then
+            TextIO.output (outStream, "PASS\\n")
             else
-                TextIO.output (outStream, "FAIL\\n")
+            TextIO.output (outStream, "FAIL\\n")
         end
-
+        
         val _ = ListPair.app (fn (inp, out) => runTest (targetFunction, inp, out))
-                     (inputCases, expectedOutputs)
-
+                    (inputCases, expectedOutputs)
         """
-    print (sml_test_code)
+
+    print ("Test Harness:\n", testHarness)
 
     compilerRaw = subprocess.run(
         ["sml"],
-        input = sml_test_code,
+        input = testHarness,
         text  = True,
         capture_output = True,
         check = True,
@@ -150,35 +249,39 @@ def stringToOption(py_s: str) -> str:
         return "NONE"
     return f'SOME "{smlEscapeString(py_s)}"'
 
-def handler(profile: Profile, questionAttempt: QuestionAttempt, session: Session):
-    question = questionAttempt.question
+def handler(profile: Profile, session: Session):
+    question = session.question
     testCases = question.test_cases
+    questionAttempt = session.attempts.first()
 
     inputCases = [item["input"] for item in testCases]
+
     for c in range(len(inputCases)): # This loop is necessary to convert lists -> tuples for SML compatibility.
         if type(inputCases[c]) == list:
             case = tuple(inputCases[c])
             inputCases[c] = case
+    
     print (inputCases)
 
-    if question.question_title == "Two-Fer":
-        option_inputs = [stringToOption(s) for s in inputCases]
-        inputCases = "[" + ", ".join(option_inputs) + "]"
-        expectedOutputs = [item["output"] for item in testCases]
-
-        passedCases = runTestCases(session.codeSubmission, inputCases, expectedOutputs, question.target_function, 1, pre_serialized=True)
-
-        questionAttempt.solved_test_cases = passedCases
-        questionAttempt.save()
-        return passedCases
-
     expectedOutputs = [item["output"] for item in testCases]
+
+    for o in range(len(expectedOutputs)): # This loop is necessary to convert lists -> tuples for SML compatibility.
+        if type(expectedOutputs[o]) == list:
+            case = tuple(expectedOutputs[o])
+            expectedOutputs[o] = case
 
     print(session.codeSubmission)
     print(question.question_title)
     print (str(testCases) + "data type: " + str(type(testCases)))
 
-    runTestCases(session.codeSubmission, inputCases, expectedOutputs, question.target_function, 1)
+    returnType = "default"
+    realReturnTypes = ["Distance Between Two Points", "Temperature Converter"]
+    if question.question_title in realReturnTypes:
+        returnType = "real"
+
+    questionAttempt.solved_test_cases = (runTestCases(session.codeSubmission, inputCases, expectedOutputs, question.target_function, returnType))
+    questionAttempt.save()
+
 
 
 

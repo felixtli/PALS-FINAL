@@ -26,7 +26,7 @@ def signupView(request): # TODO - Style error messages
             new_user = form.save()
             login(request, new_user) 
 
-            return redirect("dashboard") # Redirect to the dashboard after signup
+            return redirect("/dashboard?request_type=initialize") # Redirect to the dashboard after signup
         else:
             print(form.errors)  # <-- Add this line
     else:
@@ -57,17 +57,17 @@ def logoutView(request):
     return redirect("home") 
 
 def dashboard(request):
+    request_type = request.GET.get("request_type")
     currentUser = request.user
-    currentProfile = Profile.objects.get(user=currentUser) # Get the current user's profile
+    currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
+    sessions = Session.objects.filter(user=currentUser).order_by('-pk') # All sessions associated with the user, ordered by most recent
+    nextQuestions = currentProfile.next_questions.all()
 
-    sessions = Session.objects.filter(user=currentUser).order_by('-id') # All sessions associated with the user, ordered by most recent
-    pastQuestions = currentProfile.question_history.all().order_by('-pk')
-    nextQuestions = currentProfile.next_questions.all() # All next questions assigned to the user
-
-    if not nextQuestions.exists(): # TODO: Change this condition to be based off of nextQuestions instead
+    print ("REQUEST TYPE: " + str(request_type))
+    if str(request_type) == "initialize":
+        print ("HERE")
         initialQuestion(currentProfile)
-        nextQuestions = currentProfile.next_questions.all()
-
+        
         queuedQuestion = nextQuestions.first()
         attempt = QuestionAttempt.objects.create(
             associated_profile=currentProfile,
@@ -76,29 +76,47 @@ def dashboard(request):
             session=Session.objects.create(user=currentUser, question=queuedQuestion)
         )
         currentProfile.question_history.add(attempt)
-        currentProfile.next_questions.remove(nextQuestions.first()) # Remove the assigned question after adding it to the history
+        currentProfile.next_questions.remove(nextQuestions.first()) # Remove the question from next_questions once it's been assigned as the next question attempt
 
-    # TODO: Get the next questions necessary and render them on the dashboard
-    elif nextQuestions.exists():
+    if request_type == "next_question" and nextQuestions.exists():
+        queuedQuestion = nextQuestions.first()
         attempt = QuestionAttempt.objects.create(
             associated_profile=currentProfile,
-            question=nextQuestions.first(),
+            question=queuedQuestion,
             solved_test_cases=0,
-            session=Session.objects.create(user=currentUser, question=nextQuestions.first())
+            session=Session.objects.create(user=currentUser, question=queuedQuestion)
         )
-        currentProfile.question_history.add(attempt) # Add the new attempt to the user's question history
-        currentProfile.next_questions.remove(nextQuestions.first()) # Remove the assigned question after adding it to the history
+        currentProfile.question_history.add(attempt)
+        currentProfile.next_questions.remove(nextQuestions.first())
 
-    currentQuestion = currentProfile.question_history.latest('created_at')
-    print (currentQuestion)
+    elif request_type == "next_question" and not nextQuestions.exists():
+        assignment(currentProfile)
+        queuedQuestion = nextQuestions.first()
+        attempt = QuestionAttempt.objects.create(
+            associated_profile=currentProfile,
+            question=queuedQuestion,
+            solved_test_cases=0,
+            session=Session.objects.create(user=currentUser, question=queuedQuestion)
+        )
+        currentProfile.question_history.add(attempt)
+        currentProfile.next_questions.remove(nextQuestions.first())
+    
+    if request_type == "navigate_dashboard":
+        pass # No action needed, just navigating the dashboard
 
+
+    currentQuestionAttempt = currentProfile.question_history.latest('created_at')
+    currentSession = currentQuestionAttempt.session
+    currentSession.codeSubmission = "fun " + currentQuestionAttempt.question.target_function + " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
+    currentQuestionAttempt.session.save()
+    
     pastQuestions = currentProfile.question_history.all().order_by('-pk') [1:] # Exclude the current question from past questions & order by most recent
 
     context = {
         "sessions" : sessions,
         "user" : currentUser,
         "pastQuestions" : pastQuestions,
-        "currentQuestion" : currentQuestion,
+        "currentQuestion" : currentQuestionAttempt,
     }
     return render(request, "studentSystem/dashboard.html", context)
 
@@ -167,6 +185,8 @@ def codeSubmit(request, id):
     context = {
         "codeSubmission" : submission,
         "session" : session,
+        "nextSession" : id + 1,
+        "previousSession" : id - 1,
     }
     return render(request, "studentSystem/codeSubmit.html", context)
 
@@ -201,7 +221,7 @@ def askAI(request, id):
         compiler_output = body.get("compiler_output")
 
         response = generateResponse("Analyze the following StandardML code: " + submission
-                                    +"This what the code currently outputs: " + compiler_output
+                                    +"This what the code currently outputs in the compiler when it is run: " + compiler_output
                                     +"If there is an error, explain what the error means and how to fix it." + 
                                     " If there is no error, suggest improvements to the code or optimizations that can be made.")
         return JsonResponse({"AI_response" : response})
@@ -215,24 +235,12 @@ def runCompile(request): # TODO - Save compiler output to session
         print (compiled_output)
         return JsonResponse({"compiled_output" : compiled_output})
     
-def runTestCases(request, id):
-    if request.method == "POST":
-        print("hello there")
-
-        profile = request.user.profile
-        assignment(profile)
-        print (profile.next_questions.all())
-
-        return JsonResponse({"status" : "success"})
-    
 def tester(request, id): # Temporary view for testing compiler features
     currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
-    nextQuestions = currentProfile.next_questions.all()
     session = Session.objects.get(pk = id)
 
-    handler(currentProfile, currentProfile.question_history.latest('id'), session=session)
-    return redirect("dashboard")
-
+    handler(currentProfile, session=session)
+    return redirect("/dashboard?request_type=next_question")
 
 
 

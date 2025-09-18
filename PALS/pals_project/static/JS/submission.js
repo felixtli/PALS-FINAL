@@ -186,7 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const ask_ai_button = document.getElementById("ask-ai");
     ask_ai_button.addEventListener("click", function () {
-        window.alert("here");
         askAI(window.sessionID);
     })
 })

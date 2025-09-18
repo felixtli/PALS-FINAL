@@ -46,9 +46,6 @@
 
     <script> window.codeSubmission = {{ codeSubmission|safe }}; </script>
 
-    <script> const completedDiagnostic = {{ completed_diagnostic|yesno:"true,false" }};
-    console.log("Completed diagnostic?", completedDiagnostic); </script>
-
     <script src="{% static 'JS/dashboard.js' %}"></script>
   </body>
 

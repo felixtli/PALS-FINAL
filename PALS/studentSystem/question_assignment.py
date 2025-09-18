@@ -6,7 +6,6 @@ def initialQuestion(profile: Profile):
     available_questions = Question.objects.all().filter(difficulty=1) # change to intermediate later on
     print ("available questions:" + str(available_questions) + " count: " + str(available_questions.count()))
     
-    # Get available questions excluding attempted ones
     next_questions = Question.objects.filter(
         difficulty=2
     ).order_by(Random())[:3] # Gets 3 random questions from the available pool
@@ -22,7 +21,7 @@ def assignment(profile: Profile):
         "Hard" : 1.5
     }
 
-    ascend_cutoff = 20 # Determines how many test cases need to be correctly solved before moving to the next difficulty. Can be adjusted.
+    ascend_cutoff = 20 # Determines how many test cases need to be correctly solved before moving to the next difficulty. Can be adjusted. 
     descend_cutoff = 10 # Determines how many test cases need to be correctly solved before moving down a difficulty. Can be adjusted.
 
     # Determine the next question difficulty based on user's solved counts
@@ -40,6 +39,7 @@ def assignment(profile: Profile):
     ).values_list('question_id', flat=True)
 
     if total_solved >= ascend_cutoff:
+        print("ASCENDING")
         if question_history[0].question.difficulty < 3:
             next_difficulty = question_history[0].question.difficulty + 1
         else:
@@ -49,7 +49,7 @@ def assignment(profile: Profile):
         next_questions = Question.objects.filter(
             difficulty=next_difficulty
         ).exclude(
-            id__in=attempted_questions
+            question_title__in=attempted_questions
         ).order_by(Random())[:3] # Gets 3 random questions from the available pool
 
         print("NEXT QUESTIONS: " + str(next_questions))
@@ -57,6 +57,7 @@ def assignment(profile: Profile):
         profile.next_questions.set(next_questions) # Update the next_questions field
     
     elif total_solved <= descend_cutoff:
+        print("DESCENDING")
         if question_history[0].question.difficulty > 1:
             next_difficulty = question_history[0].question.difficulty - 1
         else:
@@ -66,7 +67,7 @@ def assignment(profile: Profile):
         next_questions = Question.objects.filter(
             difficulty=next_difficulty
         ).exclude(
-            id__in=attempted_questions
+            question_title__in=attempted_questions
         ).order_by(Random())[:3]
 
         print("NEXT QUESTIONS: " + str(next_questions))

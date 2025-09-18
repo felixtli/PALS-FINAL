@@ -14,7 +14,6 @@ urlpatterns = [
     path("<int:id>/ask-ai/", views.askAI, name="askAI"), # Function to ask the AI for help
     path("compile/", views.runCompile, name="runCompile"), # Function to compile the current code submission
     path("<int:id>/tester/", views.tester, name="tester"), # Temporary view for testing compiler features
-    path("<int:id>/submit-code/", views.runTestCases, name="submitCode"), # Function to submit the current code for evaluation
     path('<int:id>/chat/add-chat/', views.updateChat, name='updateChat'), # Function to save a new chat to the database
     path('<int:id>/chat/next-response/', views.getAIResponse, name='nextResponse') # Function to get the next AI response
 ]
