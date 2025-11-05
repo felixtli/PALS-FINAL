@@ -7,17 +7,25 @@ import json
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pals_project.settings")
 django.setup()
 
-from studentSystem.models import Question, Session
+from studentSystem.models import Question, Session, QuestionAttempt
 
-def createSession(question: Question, id: int):
+def createQuestionAttempt(question: Question, id: int):
     session, created = Session.objects.get_or_create(
         pk=id,
-        user_id=1,
+        user_id=71,
         question=question,
         codeSubmission=question.target_function
     )
 
-    return session, created
+    attempt, created = QuestionAttempt.objects.get_or_create(
+        pk=id,
+        question=question,
+        associated_profile_id=71,
+        session_id=session.pk,
+        solved_test_cases=0
+    )
+
+    return attempt, created
 
 if __name__ == "__main__":
     questions = Question.objects.all()
@@ -25,11 +33,11 @@ if __name__ == "__main__":
     for q in range(0, len(questions)):
         question = questions[q]
         pk = q
-        session, created = createSession(question, pk)
+        session, created = createQuestionAttempt(question, pk)
 
         if created:
-            print(f"Created new session for Question ID: {question.pk}")
+            print(f"Created new QuestionAttempt for Question ID: {question.pk}")
         else:
-            print(f"Session already exists for Question ID: {question.pk}")
+            print(f"QuestionAttempt already exists for Question ID: {question.pk}")
 
 

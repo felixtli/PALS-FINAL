@@ -1,1 +1,1 @@
-fun encode (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)
+fun fun maxNumber (a, b) = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)

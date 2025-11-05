@@ -1,0 +1,155 @@
+/* Define Color Variables */
+:root {
+  --primary-color: #ffffff;
+  --primary-color-light: #f8f9fa;
+  --primary-color-dark: #e9ecef;
+  --secondary-color: #fdfdfd;
+  --secondary-color-dark: #f1f3f5;
+  --text-color: #222222;
+  --secondary-text-color: #333333;
+  --tertiary-color: #dee2e6;
+  --highlight: rgba(255, 182, 193, 0.35);
+  --highlight-2: #ff4d94;
+  --highlight-green: rgba(46, 204, 113, 0.9);
+  --highlight-yellow: rgba(241, 196, 15, 0.9);
+  --highlight-red: rgba(231, 76, 60, 0.9);
+
+  --navbar-height: 65px;
+  --gap: 1rem;
+  --border: #d1d5db;
+  --focus-outline: 2px solid #2563eb;
+}
+
+/* Main Layout */
+#main {
+  background-image: linear-gradient(var(--primary-color), var(--secondary-color));
+  height: 91.35vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Input Area */
+.input-area-container {
+  height: 100%;
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-area {
+  height: 92%;
+  width: 100%;
+  background-color: var(--primary-color-light);
+  color: var(--text-color);
+  padding: 10px 12px;
+  font-size: 1.05rem;
+  border: 2px solid var(--border);
+  resize: none;
+  outline: none;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.input-area:focus {
+  border: 2px solid var(--highlight-2);
+  box-shadow: 0 0 4px rgba(255, 77, 148, 0.3);
+}
+
+/* Button Area */
+.input-button-area {
+  width: 100%;
+  height: 8%;
+  padding: 10px;
+  background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.input-button {
+  width: 15%;
+  height: 100%;
+  font-size: 1.05rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-color);
+  background-color: var(--secondary-color-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.input-button:hover {
+  background-color: var(--highlight);
+}
+
+#submit {
+  background-color: var(--highlight-2);
+  color: white;
+  font-weight: 500;
+  border: none;
+}
+
+#submit:hover {
+  opacity: 0.9;
+}
+
+/* Problem & Compiler Area */
+.problem-compiler-container {
+  height: 100%;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+.problem-container {
+  padding: 15px 20px;
+  background-color: var(--secondary-color);
+  border-bottom: 1px solid var(--border);
+}
+
+.problem-header {
+  font-size: 1.8rem;
+  color: var(--text-color);
+}
+
+.problem-description {
+  font-size: 1rem;
+  color: var(--secondary-text-color);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.compiler-container {
+  height: 100%;
+  font-family: monospace;
+  background-color: var(--primary-color-light);
+  font-size: 0.95rem;
+  border-top: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  color: var(--text-color);
+}
+
+.compiler-output {
+  padding: 12px 15px;
+  border-top: 4px dashed var(--tertiary-color);
+  white-space: pre-wrap;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}

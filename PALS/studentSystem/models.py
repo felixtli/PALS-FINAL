@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 # Extension of Django's prebuilt "User" module
 class Profile(models.Model):
@@ -29,6 +30,7 @@ class Question (models.Model): # Object that holds the coding question
         #Convenience method to get the label string for this difficulty.
         return dict(self.DIFFICULTY_CHOICES).get(self.difficulty, "Unknown")
 
+
 # Holds a code submission and its corresponding chatlog
 class Session (models.Model): 
     user = models.ForeignKey(User, on_delete=models.CASCADE) # associates every new session object with a user
@@ -38,7 +40,8 @@ class Session (models.Model):
         on_delete=models.CASCADE,
         related_name="sessions"
     )
-    chatLog = models.JSONField(default=list, blank=True)
+
+    chatLog = models.JSONField(default=[], blank=True)
     codeSubmission = models.CharField(max_length=2500, default="") 
 
 # Tracks user progress per question
@@ -49,5 +52,23 @@ class QuestionAttempt(models.Model):
     solved_test_cases = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    
+
+# Tracks page analytics
+class PageView(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL
+    )
+    session_key = models.CharField(max_length=40, db_index=True)
+    path = models.CharField(max_length=2048, db_index=True)
+    referrer = models.CharField(max_length=2048, blank=True, default="")
+    user_agent = models.TextField(blank=True, default="")
+    started_at = models.DateTimeField()
+    ended_at = models.DateTimeField()
+    duration_ms = models.PositiveIntegerField()  # store milliseconds
+    extra = models.JSONField(default=dict, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
     class Meta:
-        unique_together = ('associated_profile', 'question')  # one record per user-question pair
+        indexes = [models.Index(fields=["session_key", "path", "created_at"])]

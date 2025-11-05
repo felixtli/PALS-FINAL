@@ -14,6 +14,73 @@ function getCookie(name) {
     return cookieValue;
 }
 
+
+// Analytics tracking code starts here
+const endpoint = "/analytics/track-time/";
+const startedAt = Date.now();
+let visibleAccum = 0;
+let lastTick = startedAt;
+let isVisible = !document.hidden;
+let idle = false;
+const IDLE_MS = 120000; // pause if no activity for 2 mins
+let idleTimer = null;
+
+function tick() {
+    const now = Date.now();
+    if (isVisible && !idle) {
+        visibleAccum += now - lastTick;
+    }
+    lastTick = now;
+}
+
+function resetIdle() {
+    idle = false;
+    lastTick = Date.now();
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => { idle = true; tick(); }, IDLE_MS);
+}
+
+// Activity listeners for idle detection
+["mousemove","keydown","wheel","touchstart"].forEach(ev => {
+    window.addEventListener(ev, resetIdle, {passive: true});
+});
+resetIdle();
+
+document.addEventListener("visibilitychange", () => {
+    tick();
+    isVisible = !document.hidden;
+    lastTick = Date.now();
+});
+
+function send(durationMs, endedAtMs, heartbeat=false) {
+    const payload = {
+        duration_ms: Math.max(0, Math.round(durationMs)),
+        started_at_ms: startedAt,
+        ended_at_ms: endedAtMs,
+        path: location.pathname + location.search + location.hash,
+        referrer: document.referrer || "",
+        visible_only: true,
+        idle_threshold_ms: IDLE_MS,
+        heartbeat: heartbeat
+    };
+    const blob = new Blob([JSON.stringify(payload)], {type:"application/json"});
+    navigator.sendBeacon(endpoint, blob);
+}
+
+// Optional: heartbeat in case the tab crashes or the user closes the laptop.
+const HEARTBEAT_MS = 120000; // 2 minutes
+const hb = setInterval(() => { tick(); send(visibleAccum, Date.now(), true); }, HEARTBEAT_MS);
+
+// On unload/navigation
+window.addEventListener("pagehide", () => {
+    console.log("pagehide event triggered");
+    tick();
+    clearInterval(hb);
+    send(visibleAccum, Date.now(), false);
+});
+// Analytics tracking code ends here
+
+
 // Loads saved code submission on page load
 document.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById('code-input-area');
@@ -148,19 +215,21 @@ async function testCode(id)
     }
 }
 
-async function submitCode(id) {
+async function submitCode(id) { // TODO: Save code submission before running compilation
     const textarea = document.getElementById("code-input-area")
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
 
     try {
         const response = await fetch(`/${id}/submit-code/`, {
-            method: "POST",
+            method: "POST",   // changed to POST
             headers: {
-                "Content-Type" : "application/json",
-                "X-CSRFToken" : csrftoken
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken
             },
-            body: JSON.stringify ({"submission" : textarea.value})
-        })
+            body: JSON.stringify({
+                code: textarea.value  // send the code if you want backend to use it
+            })
+        });
 
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
@@ -168,10 +237,12 @@ async function submitCode(id) {
 
         const returned_json = await response.json();
         const status = returned_json.status;
-        window.alert(status);
+        const casesSolved = returned_json.casesSolved;
+
+        createCompilerOutputElement(`Test Cases Solved: ${casesSolved}/10`); // Display number of test cases solved
 
     } catch (error) {
-        console.error(error.message);
+        console.error("Error in submitCode:", error.message);
     }
 }
 
@@ -191,6 +262,13 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 document.addEventListener("DOMContentLoaded", function () {
+    const ask_ai_button = document.getElementById("save");
+    ask_ai_button.addEventListener("click", function () {
+        saveCode(window.sessionID);
+    })
+})
+
+document.addEventListener("DOMContentLoaded", function () {
     const clear_compiler_button = document.getElementById("clear-compiler");
     const compiler_container = document.querySelector(".compiler-container");
     clear_compiler_button.addEventListener("click", function () {
@@ -206,8 +284,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     const submit_button = document.getElementById("submit");
-    submit_button.addEventListener("click", function () {
-        window.alert("button clicked");
-        submitCode(window.sessionID);
-    })
-})
+
+    submit_button.addEventListener("click", async function handleSubmitClick(e) {
+        // First click -> call submitCode
+        await submitCode(window.sessionID);
+
+        submit_button.textContent = "Continue";
+
+        // Remove old listener
+        submit_button.removeEventListener("click", handleSubmitClick);
+
+        // Add a new listener that POSTs to dashboard
+        submit_button.addEventListener("click", async function () {
+            const csrftoken = getCookie("csrftoken"); // helper to grab CSRF token
+            // window.alert("Proceeding to the next question!");
+
+            const response = await fetch("/dashboard/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({ request_type: "next_question" })
+            });
+
+            if (response.redirected) {
+                // If your Django view redirects
+                window.location.href = response.url;
+            } else {
+                // Or just reload the dashboard template
+                window.location.href = "/dashboard/";
+            }
+        });
+    });
+});

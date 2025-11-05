@@ -77,8 +77,11 @@
 
 #submit {
     background-color: var(--highlight-2);
+    text-decoration: none;
+    display: flex;
+    justify-content: center;  
+    align-items: center;    
 }
-
 #ask-ai:hover, #clear-compiler:hover, #test:hover {
     background-color: var(--highlight);
 }

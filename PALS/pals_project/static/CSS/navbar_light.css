@@ -1,0 +1,151 @@
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #f5f5f5;
+  --text-color: #222;
+  --highlight-2: #ff4d94;
+  --highlight: rgba(255, 105, 180, 0.2);
+
+  --navbar-height: 8vh;
+  --gap: 0.8rem;
+  --border: #d1d5db;
+  --focus-outline: 2px solid #2563eb;
+}
+
+/* Reset and base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--primary-color);
+  color: var(--text-color);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Navbar Container */
+.navbar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 10;
+}
+
+.navbar-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--gap);
+}
+
+.navbar-brand .brand-link {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.secondary-btn {
+  border: 1px solid var(--border);
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  background: var(--secondary-color);
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.secondary-btn:hover {
+  background: var(--highlight);
+}
+
+#logout {
+  background: var(--highlight-2);
+  color: white;
+  border: none;
+}
+
+#logout:hover {
+  opacity: 0.9;
+}
+
+/* Navbar links (light mode) */
+.navbar-links {
+  flex: 1;
+  margin-left: var(--gap);
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: calc(var(--gap) * 1.5);
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link:hover {
+  background: var(--highlight);
+}
+
+.nav-link:focus {
+  outline: var(--focus-outline);
+  outline-offset: 2px;
+}
+
+.nav-link.active,
+.nav-link[aria-current="page"] {
+  box-shadow: inset 0 -2px 0 var(--highlight-2);
+  font-weight: 600;
+}
+
+/* Optional: responsive behavior similar to dark navbar */
+@media (max-width: 950px) {
+  .navbar-links {
+    position: absolute;
+    inset: 100% 0 0 0;
+    background: var(--secondary-color);
+    padding: 1rem;
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .nav-list {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .navbar.open .navbar-links {
+    display: flex;
+  }
+}

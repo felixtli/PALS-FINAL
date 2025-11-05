@@ -4,7 +4,6 @@ import random
 
 def initialQuestion(profile: Profile):
     available_questions = Question.objects.all().filter(difficulty=1) # change to intermediate later on
-    print ("available questions:" + str(available_questions) + " count: " + str(available_questions.count()))
     
     next_questions = Question.objects.filter(
         difficulty=2
@@ -39,7 +38,6 @@ def assignment(profile: Profile):
     ).values_list('question_id', flat=True)
 
     if total_solved >= ascend_cutoff:
-        print("ASCENDING")
         if question_history[0].question.difficulty < 3:
             next_difficulty = question_history[0].question.difficulty + 1
         else:
@@ -52,12 +50,9 @@ def assignment(profile: Profile):
             question_title__in=attempted_questions
         ).order_by(Random())[:3] # Gets 3 random questions from the available pool
 
-        print("NEXT QUESTIONS: " + str(next_questions))
-
         profile.next_questions.set(next_questions) # Update the next_questions field
     
     elif total_solved <= descend_cutoff:
-        print("DESCENDING")
         if question_history[0].question.difficulty > 1:
             next_difficulty = question_history[0].question.difficulty - 1
         else:
@@ -69,8 +64,6 @@ def assignment(profile: Profile):
         ).exclude(
             question_title__in=attempted_questions
         ).order_by(Random())[:3]
-
-        print("NEXT QUESTIONS: " + str(next_questions))
 
         profile.next_questions.set(next_questions) # Update the next_questions field
     

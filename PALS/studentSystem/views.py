@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import UserCreationForm
-from .models import Session, Profile, Question, QuestionAttempt
+from .models import Session, Profile, Question, QuestionAttempt, PageView
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .chatbot import generateResponse
@@ -14,6 +14,7 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpRequest
 from json import JSONDecodeError
 from django.db import transaction
+from django.utils import timezone
 
 
 def home(request): # Unfinished home page
@@ -24,30 +25,45 @@ def signupView(request): # TODO - Style error messages
         form = StyledUserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
-            login(request, new_user) 
+            login(request, new_user)
 
-            return redirect("/dashboard?request_type=initialize") # Redirect to the dashboard after signup
+            # Call your initialize logic right here
+            currentProfile = Profile.objects.get(user=new_user)
+            initialQuestion(currentProfile)
+
+            nextQuestions = currentProfile.next_questions.all()
+            if nextQuestions.exists():
+                queuedQuestion = nextQuestions.first()
+                attempt = QuestionAttempt.objects.create(
+                    associated_profile=currentProfile,
+                    question=queuedQuestion,
+                    solved_test_cases=0,
+                    session=Session.objects.create(user=new_user, question=queuedQuestion)
+                )
+                currentProfile.question_history.add(attempt)
+                currentProfile.next_questions.remove(queuedQuestion)
+
+            # Then just render the dashboard like a GET
+            return redirect("/dashboard/")  
+
         else:
-            print(form.errors)  # <-- Add this line
+            pass
     else:
         form = StyledUserCreationForm()
-    print ("No POST request")
-    return render(request, "studentSystem/signup.html", { "form" : form})
+    return render(request, "studentSystem/signup.html", {"form": form})
 
 
 def loginView(request): # TODO - Style error messages
     if request.method == "POST":
         form = StyledAuthenticationForm(data=request.POST)
         if form.is_valid():
-            print ("Form is valid")
-
             loggedUser = form.get_user()
             login(request, loggedUser)
 
             session = Session.objects.filter(user=loggedUser).first()
             return redirect("dashboard")
         else:
-            print(form.errors)
+            pass
     else:
         form = StyledAuthenticationForm()
     return render(request, "studentSystem/login.html", { "form" : form})
@@ -57,53 +73,42 @@ def logoutView(request):
     return redirect("home") 
 
 def dashboard(request):
-    request_type = request.GET.get("request_type")
+
     currentUser = request.user
     currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
     sessions = Session.objects.filter(user=currentUser).order_by('-pk') # All sessions associated with the user, ordered by most recent
     nextQuestions = currentProfile.next_questions.all()
 
-    print ("REQUEST TYPE: " + str(request_type))
-    if str(request_type) == "initialize":
-        print ("HERE")
-        initialQuestion(currentProfile)
-        
-        queuedQuestion = nextQuestions.first()
-        attempt = QuestionAttempt.objects.create(
-            associated_profile=currentProfile,
-            question=queuedQuestion,
-            solved_test_cases=0,
-            session=Session.objects.create(user=currentUser, question=queuedQuestion)
-        )
-        currentProfile.question_history.add(attempt)
-        currentProfile.next_questions.remove(nextQuestions.first()) # Remove the question from next_questions once it's been assigned as the next question attempt
+    request_type = None
+    if request.method == "POST":
+        if request.content_type == "application/json":
+            body = json.loads(request.body.decode("utf-8"))
+            request_type = body.get("request_type")
+        else:
+            request_type = request.POST.get("request_type")
 
-    if request_type == "next_question" and nextQuestions.exists():
-        queuedQuestion = nextQuestions.first()
-        attempt = QuestionAttempt.objects.create(
-            associated_profile=currentProfile,
-            question=queuedQuestion,
-            solved_test_cases=0,
-            session=Session.objects.create(user=currentUser, question=queuedQuestion)
-        )
-        currentProfile.question_history.add(attempt)
-        currentProfile.next_questions.remove(nextQuestions.first())
+        if request_type == "next_question" and nextQuestions.exists():
+            queuedQuestion = nextQuestions.first()
+            attempt = QuestionAttempt.objects.create(
+                associated_profile=currentProfile,
+                question=queuedQuestion,
+                solved_test_cases=0,
+                session=Session.objects.create(user=currentUser, question=queuedQuestion)
+            )
+            currentProfile.question_history.add(attempt)
+            currentProfile.next_questions.remove(nextQuestions.first())
 
-    elif request_type == "next_question" and not nextQuestions.exists():
-        assignment(currentProfile)
-        queuedQuestion = nextQuestions.first()
-        attempt = QuestionAttempt.objects.create(
-            associated_profile=currentProfile,
-            question=queuedQuestion,
-            solved_test_cases=0,
-            session=Session.objects.create(user=currentUser, question=queuedQuestion)
-        )
-        currentProfile.question_history.add(attempt)
-        currentProfile.next_questions.remove(nextQuestions.first())
-    
-    if request_type == "navigate_dashboard":
-        pass # No action needed, just navigating the dashboard
-
+        elif request_type == "next_question" and not nextQuestions.exists():
+            assignment(currentProfile)
+            queuedQuestion = nextQuestions.first()
+            attempt = QuestionAttempt.objects.create(
+                associated_profile=currentProfile,
+                question=queuedQuestion,
+                solved_test_cases=0,
+                session=Session.objects.create(user=currentUser, question=queuedQuestion)
+            )
+            currentProfile.question_history.add(attempt)
+            currentProfile.next_questions.remove(nextQuestions.first())
 
     currentQuestionAttempt = currentProfile.question_history.latest('created_at')
     currentSession = currentQuestionAttempt.session
@@ -136,10 +141,8 @@ def chat(request, id):
         "chatLog" : chatLog,
         "existingChats" : existingChats
     }
-    print (context)
     return render(request, "studentSystem/chat.html", context)
 
-@csrf_exempt # for testing purposes. Use CSRF tokens in deployment.
 def updateChat(request, id):
     if request.method == 'POST':
         try:
@@ -151,7 +154,6 @@ def updateChat(request, id):
                 session.chatLog = []
             session.chatLog.append(new_chat) 
             session.save()
-
             return JsonResponse({'status': 'success'})
         except Session.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Item not found'}, status=404)
@@ -160,26 +162,27 @@ def updateChat(request, id):
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
     
-@csrf_exempt # for testing purposes. Use CSRF tokens in deployment.
 def getAIResponse(request, id):
     if request.method == "POST":
         session = Session.objects.get(pk = id)
-        conversationHistory = str(session.chatLog)
+        conversationHistory = session.chatLog
+        conversationHistory.insert(0, {"role": "system", "content": "You are a helpful programming assistant that has expertise in StandardML."})
+        conversationHistory.insert(1, {"role": "assistant", "content": "Hello, I am a helpful programming assistant specialized in StandardML! Let me know if you have any questions about the language, and I'm here to help!"})
+        for entry in range(2, len(conversationHistory)):
+            if entry % 2 == 1:
+                conversationHistory[entry] = {"role": "assistant", "content": conversationHistory[entry]}
+            else:
+                conversationHistory[entry] = {"role": "user", "content": conversationHistory[entry]}
 
         body = json.loads(request.body)
-        prompt = ("This is my current message: " + body.get('prompt') +
-        " This is the conversation history of our chat thus far: " +
-        conversationHistory +
-        " Every odd entry in the list is a message from the user, while every even entry is a response from the AI. " +
-        "The AI should always respond in a way that is helpful and relevant to the user's messages.")
+        prompt = (body.get('prompt')) 
+        conversationHistory.append({"role": "user", "content": prompt})
 
-        print (prompt)
-
-        AIResponse = generateResponse(prompt)
-        data = {"message" : AIResponse}
+        ai_response = generateResponse(conversationHistory)
+        data = {"message" : ai_response}
         return JsonResponse(data)
     
-def codeSubmit(request, id):
+def codeSubmit(request, id): # TODO: Change view name for clarity
     session = Session.objects.get(pk = id) 
     submission = session.codeSubmission
     context = {
@@ -211,36 +214,77 @@ def saveSubmission(request, id):
 
 def askAI(request, id):
     if request.method == "POST":
-        print ("here")
 
         body = json.loads(request.body)
 
-        print (body)
         submission = body.get("submission")
-        print (submission)
         compiler_output = body.get("compiler_output")
 
-        response = generateResponse("Analyze the following StandardML code: " + submission
+        response = generateResponse([{"role" : "system", "content" : "You are a helpful programming assistant that has expertise in StandardML."},
+                                      {"role" : "user", "content" : "Analyze the following StandardML code: " + submission
                                     +"This what the code currently outputs in the compiler when it is run: " + compiler_output
                                     +"If there is an error, explain what the error means and how to fix it." + 
-                                    " If there is no error, suggest improvements to the code or optimizations that can be made.")
+                                    " If there is no error, suggest improvements to the code or optimizations that can be made." }])
         return JsonResponse({"AI_response" : response})
 
-
-def runCompile(request): # TODO - Save compiler output to session
+# TODO: Add login required decorators where necessary
+def runCompile(request): 
     if request.method == "POST":
         body = json.loads(request.body)
         submission = body.get("submission")
         compiled_output = str(compileCode(submission))
-        print (compiled_output)
         return JsonResponse({"compiled_output" : compiled_output})
-    
-def tester(request, id): # Temporary view for testing compiler features
-    currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
-    session = Session.objects.get(pk = id)
 
-    handler(currentProfile, session=session)
-    return redirect("/dashboard?request_type=next_question")
+def submitCode(request, id):
+    if request.method == "POST": 
+        currentProfile = Profile.objects.get(user=request.user)
+        session = Session.objects.get(pk=id)
+
+        casesSolved = handler(currentProfile, session=session)
+
+        return JsonResponse({"status": "ok", "casesSolved": casesSolved})
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
+@csrf_exempt  # using sendBeacon; easier to exempt this endpoint
+def track_time(request):
+    if request.method != "POST":
+        return JsonResponse({"ok": False, "error": "POST only"}, status=405)
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
+
+    # Required fields from client
+    duration_ms = int(max(0, data.get("duration_ms", 0)))
+    path = data.get("path") or request.META.get("HTTP_X_PAGE_PATH") or "/"
+    started_at_ms = data.get("started_at_ms")  # epoch ms
+    ended_at_ms = data.get("ended_at_ms")      # epoch ms
+
+    # Construct timestamps (fallback to now if missing)
+    if started_at_ms and ended_at_ms:
+        started_at = timezone.datetime.fromtimestamp(started_at_ms/1000)
+        ended_at = timezone.datetime.fromtimestamp(ended_at_ms/1000)
+    else:
+        ended_at = timezone.now()
+        started_at = ended_at - timezone.timedelta(milliseconds=duration_ms)
+
+    PageView.objects.create(
+        user=request.user if request.user.is_authenticated else None,
+        session_key=getattr(request, "session", {}).get("session_key", "") or request.COOKIES.get("sessionid", ""),
+        path=path,
+        referrer=data.get("referrer", ""),
+        user_agent=request.META.get("HTTP_USER_AGENT", ""),
+        started_at=started_at,
+        ended_at=ended_at,
+        duration_ms=duration_ms,
+        extra={
+            "visible_only": bool(data.get("visible_only", True)),
+            "idle_threshold_ms": data.get("idle_threshold_ms", 120000), # Mark user as idle after two minutes of inactivity
+            "heartbeat": bool(data.get("heartbeat", False)),
+        },
+    )
+    return JsonResponse({"ok": True})
 
 
 

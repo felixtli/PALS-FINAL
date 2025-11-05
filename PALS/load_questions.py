@@ -27,8 +27,8 @@ def createQuestion(title, description, difficulty, target_function, test_cases):
         print("Question already exists")
 
 if __name__ == "__main__":
-    with open("standardml_questions.csv", newline="", encoding="utf-8") as csvfile:
+    with open("Standard ML Problems & Solutions Dataset.csv", newline="", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            title, description, difficulty, target_function, test_cases = row["Problem Title"], row["Problem Description"], row["Difficulty"], row["Target Function"], json.loads(row["Final JSON"])
+            title, description, difficulty, target_function, test_cases = row["Problem Title"], row["Problem Description"], row["Difficulty"], row["Target Function Definition"], json.loads(row["Final JSON"])
             createQuestion(title, description, difficulty, target_function, test_cases)

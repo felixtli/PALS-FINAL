@@ -28,14 +28,14 @@
       <div class="past-problems-container">
         <h2 class="sub-header">Past Problems</h2>
         <ul class="past-problems-list">
-          {% for q in past_questions %}
+          {% for q in pastQuestions %}
             <li class="past-problem-item"
                 tabindex="0"
                 aria-label="{{ q.question.question_title }}: {{ q.question.question_description|truncatechars:120 }}"
                 data-summary="{{ q..question.question_description|truncatechars:200 }}">
               <span class="title">{{ q.question.question_title }}</span>
               <div class="tooltip" role="tooltip">
-                {{ q.question.question_description }}
+                {{ q.solved_test_cases }} / 10 test cases passed
               </div>
             </li>
           {% empty %}

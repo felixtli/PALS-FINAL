@@ -157,8 +157,6 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnT
 
     sml_input = to_sml_literal(inputCases)
     sml_output = to_sml_literal(expectedOutputs)
-    print ("SML Input:", sml_input)
-    print ("SML Output:", sml_output)
 
     testHarness = f""" 
     use "{tempFile.name}";
@@ -185,8 +183,6 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnT
     """
 
     if returnType == "real":
-        print ("REAL VERSION USED")
-
         inputCases = forceReal(inputCases)
         expectedOutputs = forceReal(expectedOutputs)
 
@@ -207,8 +203,7 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnT
         fun runTest (targetFunction, inputs, output) =
         let
             val result =
-                (resultToString (targetFunction inputs))
-                handle Fail _ => "error"
+                targetFunction inputs
         in
             if approxEq (result, output) then
             TextIO.output (outStream, "PASS\\n")
@@ -220,8 +215,6 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnT
                     (inputCases, expectedOutputs)
         """
 
-    print ("Test Harness:\n", testHarness)
-
     compilerRaw = subprocess.run(
         ["sml"],
         input = testHarness,
@@ -232,7 +225,6 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnT
     )
 
     result = compilerRaw.stdout
-    print ("Compiler Output:\n", result)
 
     passCount = 0
     with open("results.txt", "r") as resultsFile:
@@ -240,7 +232,6 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnT
             if line.strip() == "PASS":
                 passCount += 1
     
-    print (f"{passCount} out of {len(expectedOutputs)} test cases passed.")
     return passCount
 
 def stringToOption(py_s: str) -> str:
@@ -250,6 +241,10 @@ def stringToOption(py_s: str) -> str:
     return f'SOME "{smlEscapeString(py_s)}"'
 
 def handler(profile: Profile, session: Session):
+
+    with open("results.txt", 'w') as file: # Clear results file containing pass/fail information on each run
+        pass
+
     question = session.question
     testCases = question.test_cases
     questionAttempt = session.attempts.first()
@@ -260,8 +255,6 @@ def handler(profile: Profile, session: Session):
         if type(inputCases[c]) == list:
             case = tuple(inputCases[c])
             inputCases[c] = case
-    
-    print (inputCases)
 
     expectedOutputs = [item["output"] for item in testCases]
 
@@ -270,17 +263,16 @@ def handler(profile: Profile, session: Session):
             case = tuple(expectedOutputs[o])
             expectedOutputs[o] = case
 
-    print(session.codeSubmission)
-    print(question.question_title)
-    print (str(testCases) + "data type: " + str(type(testCases)))
-
     returnType = "default"
     realReturnTypes = ["Distance Between Two Points", "Temperature Converter"]
     if question.question_title in realReturnTypes:
         returnType = "real"
 
-    questionAttempt.solved_test_cases = (runTestCases(session.codeSubmission, inputCases, expectedOutputs, question.target_function, returnType))
+    casesSolved = runTestCases(session.codeSubmission, inputCases, expectedOutputs, question.target_function, returnType)
+    questionAttempt.solved_test_cases = casesSolved
     questionAttempt.save()
+
+    return casesSolved
 
 
 
