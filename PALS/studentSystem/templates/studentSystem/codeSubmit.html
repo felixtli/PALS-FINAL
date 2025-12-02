@@ -19,7 +19,6 @@
                     <button class="input-button" id="submit"> Submit </button>
                     <button class="input-button" id="ask-ai"> Ask AI </button>
                     <button class="input-button" id="test"> Test </button>
-                    <button class="input-button" id="save"> Save </button>
                     <button class="input-button" id="clear-compiler"> Clear Compiler </button>
                     <!-- <a class="input-button" href="/{{nextSession}}/codesubmission/"> FORWARD 1 Q </a> -->
                     <!-- <a class="input-button" href="/{{previousSession}}/codesubmission/"> BACK 1 Q </a> -->
@@ -47,6 +46,9 @@
         <script> window.sessionID = {{ session.id }}; </script>
 
         <script src="{% static 'JS/submission.js' %}"></script>
+        <script src="{% static 'JS/trackSiteTime.js' %}"></script>
+        <script src="{% static 'JS/cursorAnalytics.js' %}"></script>
+
     </body>
 
 </html>

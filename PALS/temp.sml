@@ -1,1 +1,1 @@
-fun fun maxNumber (a, b) = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)
+fun fun abbreviate (phrase: string): string = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)

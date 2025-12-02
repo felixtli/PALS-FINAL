@@ -12,7 +12,7 @@ class StudentsystemConfig(AppConfig):
         try:
             url = "http://localhost:11434/api/chat" 
 
-            model = "phi4:14b"
+            model = "gemma3:4b"
 
             speed_options = {
                 "gpu_layers": 100000,  # offload as many layers to GPU as will fit

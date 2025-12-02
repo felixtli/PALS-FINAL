@@ -10,7 +10,7 @@ PALS (Personalized AI Learning System) is designed to facilitate interactive lea
 
 - **User Authentication**: Sign up and log in with styled forms
 - **Chat Interface**: Create and manage chat sessions, with persistent chat logs per user
-- **AI Integration**: Uses Ollama's phi4:14b model to generate thoughtful responses to user prompts
+- **AI Integration**: Uses Ollama's gemma3:4b model to generate thoughtful responses to user prompts
 - **Code Compilation**: Compile and test Standard ML code submissions with real-time feedback
 - **Test Case Evaluation**: Automatic test case execution and scoring for coding problems
 - **Session Management**: Each chat/code session is stored and associated with the user
@@ -38,7 +38,7 @@ Before running the server, you must install and configure the following:
    - Download from [ollama.ai](https://ollama.ai/)
    - After installation, pull the required model:
      ```bash
-     ollama pull phi4:14b
+     ollama pull gemma3:4b
      ```
    - Start the Ollama server (it should run automatically on installation):
      ```bash
@@ -128,7 +128,7 @@ Before proceeding, ensure:
    
    # Verify the model is available:
    ollama list
-   # Should show phi4:14b
+   # Should show gemma3:4b
    ```
 
 ### Step 5: Apply Database Migrations
@@ -213,7 +213,7 @@ PALS/
 ### Issue: "Model not found" error
 - **Solution**: Pull the required model:
   ```bash
-  ollama pull phi4:14b
+  ollama pull gemma3:4b
   ```
 
 ### Issue: "tree-sitter Language not found" or "sml.dll/sml.so not found"
@@ -248,7 +248,7 @@ PALS/
 ### Configuration
 
 The application uses the following default settings:
-- **Ollama Model**: `phi4:14b` (configured in `studentSystem/chatbot.py`)
+- **Ollama Model**: `gemma3:4b` (configured in `studentSystem/chatbot.py`)
 - **Ollama URL**: `http://localhost:11434` (configured in `studentSystem/chatbot.py`)
 - **Database**: SQLite (`db.sqlite3`)
 - **Debug Mode**: Enabled (set `DEBUG = False` in `pals_project/settings.py` for production)
@@ -278,7 +278,7 @@ The application uses the following default settings:
 ### External Applications
 - **Python 3.8+** - Runtime environment
 - **SML/NJ** - Standard ML compiler/interpreter
-- **Ollama** - AI model server (with phi4:14b model)
+- **Ollama** - AI model server (with gemma3:4b model)
 - **C Compiler** - Required for building tree-sitter parser (GCC, Visual Studio Build Tools, etc.)
 
 ## Author & Contact
@@ -288,5 +288,3 @@ The application uses the following default settings:
 - **GitHub**: [Ftl1014](https://github.com/Ftl1014)
 
 ## License
-
-[Add your license information here]

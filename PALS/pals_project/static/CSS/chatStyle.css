@@ -1,4 +1,4 @@
-/* Define Color Variables */
+/* Color Variables */
 :root {
   --primary-color: rgb(15, 15, 20);
   --secondary-color: rgba(255, 255, 255, 0.03);
@@ -49,12 +49,10 @@ img {
     overflow-x: hidden;
 }
 
-/* width */
 ::-webkit-scrollbar {
     width: 8px;
 }
   
-/* Handle */
   ::-webkit-scrollbar-thumb {
     background: #454140;
     border-radius: 8px;
@@ -77,6 +75,8 @@ div.teacherArea { /* New AI Outputs */
     box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     margin-bottom: 12px;
     border-left: 3.5px solid var(--highlight-2);
+    white-space: pre-wrap;   /* Show \n as line breaks, but still wrap long lines */
+    word-wrap: break-word;   /* Keeps long words from overflowing */
 }
 
 div.pastResponseArea { /* New User Inputs */
@@ -111,8 +111,15 @@ div.inputArea { /* User input area */
 
 }
 
+#response_form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Aligns items to horizontal center of div */
+    align-items: center; /* Aligns items to vertical center of div */
+}
 
-textarea { /* User text input area */
+#response { /* User text input area */
     min-height: 50px;
     height: 50px;
     max-height: 225px;
@@ -134,7 +141,7 @@ textarea:focus { /* User text input when box is clicked */
     border: 1.5px solid var(--highlight);
 }
 
-input[type=button] { /* User submit button */
+#response_button { /* User submit button */
     height: 35px;
     width: 35px;
 
@@ -148,7 +155,7 @@ input[type=button] { /* User submit button */
 
 }
 
-input[type=button]:hover { /* User submit button hover */
+#response_button:hover { /* User submit button hover */
     border: 1.5px solid var(--highlight-2);
     border-radius: 50%;
 }

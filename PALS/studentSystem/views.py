@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import UserCreationForm
-from .models import Session, Profile, Question, QuestionAttempt, PageView
+from .models import Session, Profile, Question, QuestionAttempt, PageView, WebsiteSession, User, CursorEvent
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .chatbot import generateResponse
@@ -14,10 +14,11 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpRequest
 from json import JSONDecodeError
 from django.db import transaction
+from django.db.models import F
 from django.utils import timezone
 
 
-def home(request): # Unfinished home page
+def home(request): 
     return render(request, "studentSystem/index.html")
 
 def signupView(request): # TODO - Style error messages
@@ -247,31 +248,34 @@ def submitCode(request, id):
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 @csrf_exempt  # using sendBeacon; easier to exempt this endpoint
-def track_time(request):
+def track_page_time(request):
     if request.method != "POST":
         return JsonResponse({"ok": False, "error": "POST only"}, status=405)
+
     try:
         data = json.loads(request.body.decode("utf-8"))
     except Exception:
         return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
 
-    # Required fields from client
+    # total time from page load until submit, in ms
     duration_ms = int(max(0, data.get("duration_ms", 0)))
-    path = data.get("path") or request.META.get("HTTP_X_PAGE_PATH") or "/"
-    started_at_ms = data.get("started_at_ms")  # epoch ms
-    ended_at_ms = data.get("ended_at_ms")      # epoch ms
+    path = data.get("path") or request.path
 
-    # Construct timestamps (fallback to now if missing)
-    if started_at_ms and ended_at_ms:
-        started_at = timezone.datetime.fromtimestamp(started_at_ms/1000)
-        ended_at = timezone.datetime.fromtimestamp(ended_at_ms/1000)
+    started_at_ms = data.get("started_at_ms")
+    if started_at_ms:
+        started_at = timezone.datetime.fromtimestamp(started_at_ms / 1000)
+        ended_at = started_at + timezone.timedelta(milliseconds=duration_ms)
     else:
         ended_at = timezone.now()
         started_at = ended_at - timezone.timedelta(milliseconds=duration_ms)
 
-    PageView.objects.create(
+    session_key = getattr(getattr(request, "session", None), "session_key", None) \
+                  or request.COOKIES.get("sessionid", "")
+
+    # usually you want one record *per submit*, so use create()
+    page_view = PageView.objects.create(
         user=request.user if request.user.is_authenticated else None,
-        session_key=getattr(request, "session", {}).get("session_key", "") or request.COOKIES.get("sessionid", ""),
+        session_key=session_key or "",
         path=path,
         referrer=data.get("referrer", ""),
         user_agent=request.META.get("HTTP_USER_AGENT", ""),
@@ -280,12 +284,122 @@ def track_time(request):
         duration_ms=duration_ms,
         extra={
             "visible_only": bool(data.get("visible_only", True)),
-            "idle_threshold_ms": data.get("idle_threshold_ms", 120000), # Mark user as idle after two minutes of inactivity
-            "heartbeat": bool(data.get("heartbeat", False)),
+            "idle_threshold_ms": data.get("idle_threshold_ms", 120000),
+            "trigger": "submit",
         },
     )
+    print ("Created page view!")
+
     return JsonResponse({"ok": True})
 
+@csrf_exempt
+def track_website_time(request):
+    print ("Successfully got to view")
+    if request.method != "POST":
+        return JsonResponse({"ok": False, "error": "POST only"}, status=405)
 
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
+
+    session_key = data.get("session_key") or request.COOKIES.get("sessionid", "")
+    duration_ms = int(max(0, data.get("duration_ms", 0)))
+    print ("About to increment: " + str(duration_ms))
+
+    # Create or update the session
+    session, created = WebsiteSession.objects.get_or_create(
+        session_key=session_key,
+        defaults={
+            "user": request.user if request.user.is_authenticated else None,
+        },
+    )
+
+    if duration_ms > 0:
+        WebsiteSession.objects.filter(pk=session.pk).update(
+            total_active_ms=F("total_active_ms") + duration_ms,
+            last_ping=timezone.now()
+        )
+
+    return JsonResponse({"ok": True})
+
+def track_cursor(request):
+    if request.method != "POST":
+        return JsonResponse({"ok": False, "error": "POST only"}, status=405)
+
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+    except json.JSONDecodeError:
+        return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
+
+    points = data.get("points", [])
+    path = data.get("path", "")
+    session_id = data.get("session_id", "")
+
+    user = request.user if request.user.is_authenticated else None
+
+    events = []
+    for p in points:
+        try:
+            events.append(CursorEvent(
+                user=user,
+                session_id=session_id,
+                path=path,
+                x=p["x"],
+                y=p["y"],
+                viewport_width=p["vw"],
+                viewport_height=p["vh"],
+                scroll_y=p["sy"],
+            ))
+        except KeyError:
+            continue
+
+    if events:
+        CursorEvent.objects.bulk_create(events)
+
+    return JsonResponse({"status": "ok", "saved": len(events), "timestamp": timezone.now().isoformat()})
+
+import csv
+from django.http import HttpResponse
+from .models import CursorEvent
+
+def analyticsCSV(request):
+    path = request.GET.get("path")
+    qs = CursorEvent.objects.all().order_by("created_at")
+    if path:
+        qs = qs.filter(path=path)
+    
+    qs = CursorEvent.objects.filter(user=request.user).order_by("created_at")
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="cursor_events.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow([
+        "id",
+        "created_at",
+        "path",
+        "session_id",
+        "x",
+        "y",
+        "viewport_width",
+        "viewport_height",
+        "scroll_y",
+    ])
+
+    for e in qs:
+        writer.writerow([
+            e.id,
+            e.created_at.isoformat(),
+            e.path,
+            e.session_id,
+            e.x,
+            e.y,
+            e.viewport_width,
+            e.viewport_height,
+            e.scroll_y,
+        ])
+
+    return response
 
 

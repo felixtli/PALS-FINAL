@@ -41,7 +41,7 @@ class Session (models.Model):
         related_name="sessions"
     )
 
-    chatLog = models.JSONField(default=[], blank=True)
+    chatLog = models.JSONField(default=list, blank=True)
     codeSubmission = models.CharField(max_length=2500, default="") 
 
 # Tracks user progress per question
@@ -53,7 +53,6 @@ class QuestionAttempt(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     
-
 # Tracks page analytics
 class PageView(models.Model):
     user = models.ForeignKey(
@@ -72,3 +71,25 @@ class PageView(models.Model):
 
     class Meta:
         indexes = [models.Index(fields=["session_key", "path", "created_at"])]
+
+class WebsiteSession(models.Model): # Tracks overall website session activity
+    session_key = models.CharField(max_length=64, db_index=True, unique=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    total_active_ms = models.BigIntegerField(default=0)   # accumulated active time
+    last_ping = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class CursorEvent(models.Model): # Tracks cursor position
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.SET_NULL
+    )
+    session_id = models.CharField(max_length=64, blank=True)
+    path = models.CharField(max_length=255)          # which page
+    x = models.FloatField()                          # cursor x (px)
+    y = models.FloatField()                          # cursor y (px)
+    viewport_width = models.IntegerField()
+    viewport_height = models.IntegerField()
+    scroll_y = models.IntegerField()                 # scroll offset
+    created_at = models.DateTimeField(auto_now_add=True)

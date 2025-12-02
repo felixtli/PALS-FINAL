@@ -34,10 +34,13 @@ function tick() {
 }
 
 function resetIdle() {
+    tick();
     idle = false;
-    lastTick = Date.now();
     if (idleTimer) clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => { idle = true; tick(); }, IDLE_MS);
+    idleTimer = setTimeout(() => { 
+        idle = true;
+        tick();     
+    }, IDLE_MS);
 }
 
 // Activity listeners for idle detection
@@ -52,7 +55,7 @@ document.addEventListener("visibilitychange", () => {
     lastTick = Date.now();
 });
 
-function send(durationMs, endedAtMs, heartbeat=false) {
+function send(durationMs, endedAtMs) {
     const payload = {
         duration_ms: Math.max(0, Math.round(durationMs)),
         started_at_ms: startedAt,
@@ -61,23 +64,11 @@ function send(durationMs, endedAtMs, heartbeat=false) {
         referrer: document.referrer || "",
         visible_only: true,
         idle_threshold_ms: IDLE_MS,
-        heartbeat: heartbeat
+        heartbeat: false        // always false now: this is a final submit
     };
-    const blob = new Blob([JSON.stringify(payload)], {type:"application/json"});
+    const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
     navigator.sendBeacon(endpoint, blob);
 }
-
-// Optional: heartbeat in case the tab crashes or the user closes the laptop.
-const HEARTBEAT_MS = 120000; // 2 minutes
-const hb = setInterval(() => { tick(); send(visibleAccum, Date.now(), true); }, HEARTBEAT_MS);
-
-// On unload/navigation
-window.addEventListener("pagehide", () => {
-    console.log("pagehide event triggered");
-    tick();
-    clearInterval(hb);
-    send(visibleAccum, Date.now(), false);
-});
 // Analytics tracking code ends here
 
 
@@ -215,9 +206,10 @@ async function testCode(id)
     }
 }
 
-async function submitCode(id) { // TODO: Save code submission before running compilation
+async function submitCode(id) {
     const textarea = document.getElementById("code-input-area")
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
+    saveCode(id); // Save code before submission
 
     try {
         const response = await fetch(`/${id}/submit-code/`, {
@@ -241,6 +233,11 @@ async function submitCode(id) { // TODO: Save code submission before running com
 
         createCompilerOutputElement(`Test Cases Solved: ${casesSolved}/10`); // Display number of test cases solved
 
+        // Create a final heartbeat send at submission time
+        tick();
+        clearInterval(hb);
+        send(visibleAccum, Date.now(), false);
+
     } catch (error) {
         console.error("Error in submitCode:", error.message);
     }
@@ -258,13 +255,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const ask_ai_button = document.getElementById("ask-ai");
     ask_ai_button.addEventListener("click", function () {
         askAI(window.sessionID);
-    })
-})
-
-document.addEventListener("DOMContentLoaded", function () {
-    const ask_ai_button = document.getElementById("save");
-    ask_ai_button.addEventListener("click", function () {
-        saveCode(window.sessionID);
     })
 })
 
@@ -289,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // First click -> call submitCode
         await submitCode(window.sessionID);
 
+        // Change button to "Continue"
         submit_button.textContent = "Continue";
 
         // Remove old listener
@@ -297,7 +288,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Add a new listener that POSTs to dashboard
         submit_button.addEventListener("click", async function () {
             const csrftoken = getCookie("csrftoken"); // helper to grab CSRF token
-            // window.alert("Proceeding to the next question!");
 
             const response = await fetch("/dashboard/", {
                 method: "POST",
@@ -316,5 +306,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href = "/dashboard/";
             }
         });
+
+        // Final tick and analytics send before continuing
+        tick();
+        if (idleTimer) clearTimeout(idleTimer);
+
+        const end = Date.now();
+        send(visibleAccum, end);
     });
+});
+
+document.addEventListener("beforeunload", function() {
+    saveCode(window.sessionID);
 });

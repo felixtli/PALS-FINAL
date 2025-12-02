@@ -3,7 +3,10 @@ from studentSystem import views
 
 urlpatterns = [
     path("", views.home, name="home"), # Homepages
-    path("analytics/track-time/", views.track_time, name="track_time"), # Track time spent on page
+    path("analytics/track-time/", views.track_page_time, name="track_page_time"), # Track time spent on page
+    path("analytics/track-website-time/", views.track_website_time, name="track_website_time"), # Track overall website time
+    path("analytics/track-cursor/", views.track_cursor, name="track_cursor"), # Track cursor movements
+    path("analytics/analytics-csv/", views.analyticsCSV, name="analyticsCSV"), # Download analytics CSV
     path("signup/", views.signupView, name="signup"), # Signup screen
     path("login/", views.loginView, name="login"), # Login screen
     path("logout/", views.logoutView, name="logout"), # Logout function

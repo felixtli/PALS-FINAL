@@ -17,7 +17,7 @@
             <div id = "conversationArea">
                     <div class="teacherArea">
                         <p>
-                            Hello, I am a helpful programming assistant specialized in StandardML!
+                            Hello, I'm a programming assistant specialized in StandardML!
                             <br>
                             Let me know if you have any questions about the language, and I'm here to help!
                         </p>
@@ -25,20 +25,23 @@
             </div>
 
             <div class = "inputArea">
-                <textarea type="text" id="response" name="response" data-user-input="{{ user_input }}" rows="14" cols="10" wrap="soft"></textarea>
-                <form onclick = 'update({{ session.id }})'>
+                <form id="response_form">
                     {% csrf_token %}
-                <input id="response_button" type="button" value="↑"><br>
+                    <textarea type="text" id="response" name="response" data-user-input="{{ user_input }}" rows="14" cols="10" wrap="soft"></textarea>
+                    <input id="response_button" type="button" value="↑"><br>
                 </form>
             </div>    
         </div>
         
         <script>
             const chatLog = JSON.parse('{{ chatLog|safe|escapejs }}');
+            const sessionID = '{{ sessionID }}';
             console.log(chatLog);
         </script>
         
         <script src="{% static 'JS/chat.js' %}"></script>
+        <script src="{% static 'JS/trackSiteTime.js' %}"></script>
+        <script src="{% static 'JS/cursorAnalytics.js' %}"></script>
 
         <script>
             loadChat(chatLog);
