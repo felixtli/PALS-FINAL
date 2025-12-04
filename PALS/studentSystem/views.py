@@ -28,7 +28,7 @@ def signupView(request): # TODO - Style error messages
             new_user = form.save()
             login(request, new_user)
 
-            # Call your initialize logic right here
+            # Call initialize logic
             currentProfile = Profile.objects.get(user=new_user)
             initialQuestion(currentProfile)
 
@@ -44,7 +44,7 @@ def signupView(request): # TODO - Style error messages
                 currentProfile.question_history.add(attempt)
                 currentProfile.next_questions.remove(queuedQuestion)
 
-            # Then just render the dashboard like a GET
+            # Render the dashboard like a GET
             return redirect("/dashboard/")  
 
         else:
@@ -72,16 +72,15 @@ def loginView(request): # TODO - Style error messages
 def logoutView(request):
     logout(request) 
     return redirect("home") 
-
-def dashboard(request):
-
+ 
+def dashboard(request): # TODO: Style "# of cases passed" tooltips to float above past problem blocks
     currentUser = request.user
     currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
     sessions = Session.objects.filter(user=currentUser).order_by('-pk') # All sessions associated with the user, ordered by most recent
     nextQuestions = currentProfile.next_questions.all()
 
     request_type = None
-    if request.method == "POST":
+    if request.method == "POST": # Use POST request to request the next question
         if request.content_type == "application/json":
             body = json.loads(request.body.decode("utf-8"))
             request_type = body.get("request_type")
@@ -90,31 +89,36 @@ def dashboard(request):
 
         if request_type == "next_question" and nextQuestions.exists():
             queuedQuestion = nextQuestions.first()
+
             attempt = QuestionAttempt.objects.create(
                 associated_profile=currentProfile,
                 question=queuedQuestion,
                 solved_test_cases=0,
                 session=Session.objects.create(user=currentUser, question=queuedQuestion)
             )
+
             currentProfile.question_history.add(attempt)
             currentProfile.next_questions.remove(nextQuestions.first())
 
         elif request_type == "next_question" and not nextQuestions.exists():
             assignment(currentProfile)
             queuedQuestion = nextQuestions.first()
+
             attempt = QuestionAttempt.objects.create(
                 associated_profile=currentProfile,
                 question=queuedQuestion,
                 solved_test_cases=0,
                 session=Session.objects.create(user=currentUser, question=queuedQuestion)
             )
+
             currentProfile.question_history.add(attempt)
             currentProfile.next_questions.remove(nextQuestions.first())
 
+        currentQuestionAttempt = currentProfile.question_history.latest('created_at')
+        currentQuestionAttempt.session.codeSubmission = currentQuestionAttempt.question.target_function_definition + " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
+        currentQuestionAttempt.session.save()
+    
     currentQuestionAttempt = currentProfile.question_history.latest('created_at')
-    currentSession = currentQuestionAttempt.session
-    currentSession.codeSubmission = "fun " + currentQuestionAttempt.question.target_function + " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
-    currentQuestionAttempt.session.save()
     
     pastQuestions = currentProfile.question_history.all().order_by('-pk') [1:] # Exclude the current question from past questions & order by most recent
 
@@ -183,7 +187,7 @@ def getAIResponse(request, id):
         data = {"message" : ai_response}
         return JsonResponse(data)
     
-def codeSubmit(request, id): # TODO: Change view name for clarity
+def codeSubmit(request, id): # TODO: Add tooltips to buttons
     session = Session.objects.get(pk = id) 
     submission = session.codeSubmission
     context = {
@@ -194,8 +198,12 @@ def codeSubmit(request, id): # TODO: Change view name for clarity
     }
     return render(request, "studentSystem/codeSubmit.html", context)
 
+@csrf_exempt
 def saveSubmission(request, id):
-    session = Session.objects.get(pk = id)
+    try:
+        session = Session.objects.get(pk=id)
+    except Session.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Item not found'}, status=404)
 
     if request.method == "POST":
         try:
@@ -206,12 +214,11 @@ def saveSubmission(request, id):
             session.save()
 
             return JsonResponse({'status': 'success'})
-        except Session.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Item not found'}, status=404)
         except Exception as e:
+            print("Parse error:", e)
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-    else:
-        return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 def askAI(request, id):
     if request.method == "POST":
@@ -228,7 +235,6 @@ def askAI(request, id):
                                     " If there is no error, suggest improvements to the code or optimizations that can be made." }])
         return JsonResponse({"AI_response" : response})
 
-# TODO: Add login required decorators where necessary
 def runCompile(request): 
     if request.method == "POST":
         body = json.loads(request.body)
@@ -246,6 +252,30 @@ def submitCode(request, id):
         return JsonResponse({"status": "ok", "casesSolved": casesSolved})
 
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
+def user_survey(request, id):
+    session = Session.objects.get(pk = id)
+    attempt = QuestionAttempt.objects.get(session=session)
+    solved_test_cases = attempt.solved_test_cases
+    context = {
+        "session_id" : id,
+        "solved_test_cases": solved_test_cases
+    }
+    return render(request, "studentSystem/userSurvey.html", context)
+
+def post_survey_response(request, id):
+    if request.method == "POST":
+        print ("Successfully got to view")
+        body = json.loads(request.body)
+        survey_response = body.get("survey_response")
+        session = Session.objects.get(pk = id)
+        attempt = QuestionAttempt.objects.get(session=session)
+        attempt.survey_response = survey_response
+        attempt.save()
+        return JsonResponse({"status": "ok"})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
 
 @csrf_exempt  # using sendBeacon; easier to exempt this endpoint
 def track_page_time(request):

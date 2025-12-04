@@ -214,6 +214,7 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnT
         val _ = ListPair.app (fn (inp, out) => runTest (targetFunction, inp, out))
                     (inputCases, expectedOutputs)
         """
+    print ("TEST HARNESS:" + str(testHarness))
 
     compilerRaw = subprocess.run(
         ["sml"],
@@ -225,6 +226,7 @@ def runTestCases(codeInput, inputCases, expectedOutputs, targetFunction, returnT
     )
 
     result = compilerRaw.stdout
+    print ("COMPILER RESULT: " + str(result))
 
     passCount = 0
     with open("results.txt", "r") as resultsFile:

@@ -13,7 +13,7 @@ speed_options = {
   "temperature": 0.2,    # concise/deterministic
 }
 
-model = "gemma3:4b"
+model = "gemma3:4b" # Change model name as needed
 
 def chat_once (messages):
     payload = {

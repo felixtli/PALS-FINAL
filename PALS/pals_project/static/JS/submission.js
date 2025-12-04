@@ -209,7 +209,7 @@ async function testCode(id)
 async function submitCode(id) {
     const textarea = document.getElementById("code-input-area")
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
-    saveCode(id); // Save code before submission
+    await saveCode(id); // Save code before submission
 
     try {
         const response = await fetch(`/${id}/submit-code/`, {
@@ -230,8 +230,6 @@ async function submitCode(id) {
         const returned_json = await response.json();
         const status = returned_json.status;
         const casesSolved = returned_json.casesSolved;
-
-        createCompilerOutputElement(`Test Cases Solved: ${casesSolved}/10`); // Display number of test cases solved
 
         // Create a final heartbeat send at submission time
         tick();
@@ -276,36 +274,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const submit_button = document.getElementById("submit");
 
     submit_button.addEventListener("click", async function handleSubmitClick(e) {
-        // First click -> call submitCode
         await submitCode(window.sessionID);
 
-        // Change button to "Continue"
-        submit_button.textContent = "Continue";
-
-        // Remove old listener
-        submit_button.removeEventListener("click", handleSubmitClick);
-
-        // Add a new listener that POSTs to dashboard
-        submit_button.addEventListener("click", async function () {
-            const csrftoken = getCookie("csrftoken"); // helper to grab CSRF token
-
-            const response = await fetch("/dashboard/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrftoken
-                },
-                body: JSON.stringify({ request_type: "next_question" })
-            });
-
-            if (response.redirected) {
-                // If your Django view redirects
-                window.location.href = response.url;
-            } else {
-                // Or just reload the dashboard template
-                window.location.href = "/dashboard/";
-            }
-        });
+        window.location.href = `/${window.sessionID}/survey/`
 
         // Final tick and analytics send before continuing
         tick();
@@ -316,6 +287,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("beforeunload", function() {
-    saveCode(window.sessionID);
+window.addEventListener("beforeunload", function() {
+    console.log("beforeunload fired!");
+    const textarea = document.getElementById("code-input-area");
+    const csrftoken = getCookie("csrftoken");
+
+    const payload = JSON.stringify({
+        submission: textarea.value
+    });
+
+     const blob = new Blob([payload], {
+        type: "application/json"
+    });
+
+    const url = `/${window.sessionID}/save/`;
+
+    navigator.sendBeacon(url, blob);
 });

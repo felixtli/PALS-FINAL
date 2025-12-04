@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="{% static 'CSS/surveyStyle.css' %}">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>PALS</title>
+    </head>
+
+    <body>
+        
+        <div id="main">
+            <div id="survey-container">
+                <p id="survey-header"> Survey </p>
+                <p id="survey-question"> How confident did you feel about your solution? </p>
+                <form id="survey-form">
+                    {%csrf_token%}
+                    <label class="form-item">
+                        <input type="checkbox" name="very-confident" value="Very Confident">
+                        Very Confident
+                    </label>
+
+                    <label class="form-item">
+                        <input type="checkbox" name="confident" value="Confident">
+                        Confident
+                    </label>
+
+                    <label class="form-item">
+                        <input type="checkbox" name="somewhat-confident" value="Somewhat Confident">
+                        Somewhat Confident
+                    </label>
+
+                    <label class="form-item">
+                        <input type="checkbox" name="slightly-confident" value="Slightly Confident">
+                        Slightly Confident
+                    </label>
+
+                    <label class="form-item">
+                        <input type="checkbox" name="not-confident" value="Not Confident">
+                        Not Confident
+                    </label>
+                    <input id="survey-submit" type="submit" value="Submit">
+                </form>
+            </div>
+            <div id="feedback-container">
+                <p id="feedback-message">Thank you for your response! Your solution passed {{ solved_test_cases }}/10 test cases.</p>
+                <button id="navigation-btn"> Return to Dashboard </button>
+            </div>
+        </div>
+        <script> const casesPassed = {{ solved_test_cases|safe }}; </script>
+        <script> window.sessionID = "{{ session_id }}"; </script>
+        <script src="{% static 'JS/surveyForm.js' %}"></script>
+
+    </body>
+
+</html>

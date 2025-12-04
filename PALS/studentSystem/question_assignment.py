@@ -2,8 +2,10 @@ from .models import Profile, Question, QuestionAttempt, Session
 from django.db.models.functions import Random
 import random
 
+# TODO: UPDATE DIFFICULTY ASSIGNMENT FUNCTION SO IT SUPPORTS 4 CATEGORIES INSTEAD OF 3
+
 def initialQuestion(profile: Profile):
-    available_questions = Question.objects.all().filter(difficulty=1) # change to intermediate later on
+    available_questions = Question.objects.all().filter(difficulty=2) # Starts off with an easy question
     
     next_questions = Question.objects.filter(
         difficulty=2
@@ -14,18 +16,13 @@ def initialQuestion(profile: Profile):
     return {"status" : "success", "question" : random.choice(available_questions)}
 
 def assignment(profile: Profile):
-    difficulty_multiplier_map = { # Currently not used since questions in each block of are all the same difficulty
-        "Easy" : 1,
-        "Medium" : 1.25,
-        "Hard" : 1.5
-    }
 
     ascend_cutoff = 20 # Determines how many test cases need to be correctly solved before moving to the next difficulty. Can be adjusted. 
     descend_cutoff = 10 # Determines how many test cases need to be correctly solved before moving down a difficulty. Can be adjusted.
 
     # Determine the next question difficulty based on user's solved counts
 
-    # Gets the user's last 3 question attempts. This can be changed to look at different approaches.
+    # Gets the user's last 3 question attempts.
     question_history = QuestionAttempt.objects.all().filter(associated_profile=profile).order_by('-created_at')[:3]
 
     total_solved = 0
@@ -38,10 +35,10 @@ def assignment(profile: Profile):
     ).values_list('question_id', flat=True)
 
     if total_solved >= ascend_cutoff:
-        if question_history[0].question.difficulty < 3:
+        if question_history[0].question.difficulty < 4:
             next_difficulty = question_history[0].question.difficulty + 1
         else:
-            next_difficulty = 3
+            next_difficulty = 4
 
         # Get available questions excluding attempted ones
         next_questions = Question.objects.filter(
