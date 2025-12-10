@@ -75,7 +75,8 @@ class PageView(models.Model):
     class Meta:
         indexes = [models.Index(fields=["session_key", "path", "created_at"])]
 
-class WebsiteSession(models.Model): # Tracks overall website session activity
+# Tracks overall website session activity
+class WebsiteSession(models.Model):
     session_key = models.CharField(max_length=64, db_index=True, unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     total_active_ms = models.BigIntegerField(default=0)   # accumulated active time
@@ -83,7 +84,8 @@ class WebsiteSession(models.Model): # Tracks overall website session activity
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class CursorEvent(models.Model): # Tracks cursor position
+# Tracks cursor position
+class CursorEvent(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, blank=True,
         on_delete=models.SET_NULL
@@ -96,3 +98,15 @@ class CursorEvent(models.Model): # Tracks cursor position
     viewport_height = models.IntegerField()
     scroll_y = models.IntegerField()                 # scroll offset
     created_at = models.DateTimeField(auto_now_add=True)
+
+# Tracks code deletion events
+class DeletionEvent(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.SET_NULL
+    )
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    position = models.IntegerField() # Position in the code where deletion occurred
+    length = models.IntegerField() # Number of characters deleted
+    content = models.TextField() # Content that was deleted
+    timestamp = models.DateTimeField(auto_now_add=True)

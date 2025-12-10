@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import UserCreationForm
-from .models import Session, Profile, Question, QuestionAttempt, PageView, WebsiteSession, User, CursorEvent
+from .models import Session, Profile, Question, QuestionAttempt, PageView, WebsiteSession, User, CursorEvent, DeletionEvent
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .chatbot import generateResponse
@@ -28,18 +28,28 @@ def signupView(request): # TODO - Style error messages
             new_user = form.save()
             login(request, new_user)
 
-            # Call initialize logic
+            # Call initialization logic
             currentProfile = Profile.objects.get(user=new_user)
             initialQuestion(currentProfile)
 
+            # Queue the first set of questions
             nextQuestions = currentProfile.next_questions.all()
+
             if nextQuestions.exists():
                 queuedQuestion = nextQuestions.first()
+                session = Session.objects.create(user=new_user, question=queuedQuestion)
+
+                session.codeSubmission = (
+                    queuedQuestion.target_function_definition +
+                    " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
+                )
+                session.save()
+
                 attempt = QuestionAttempt.objects.create(
                     associated_profile=currentProfile,
                     question=queuedQuestion,
                     solved_test_cases=0,
-                    session=Session.objects.create(user=new_user, question=queuedQuestion)
+                    session=session
                 )
                 currentProfile.question_history.add(attempt)
                 currentProfile.next_questions.remove(queuedQuestion)
@@ -117,7 +127,7 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
         currentQuestionAttempt = currentProfile.question_history.latest('created_at')
         currentQuestionAttempt.session.codeSubmission = currentQuestionAttempt.question.target_function_definition + " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
         currentQuestionAttempt.session.save()
-    
+
     currentQuestionAttempt = currentProfile.question_history.latest('created_at')
     
     pastQuestions = currentProfile.question_history.all().order_by('-pk') [1:] # Exclude the current question from past questions & order by most recent
@@ -277,7 +287,7 @@ def post_survey_response(request, id):
         return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
-@csrf_exempt  # using sendBeacon; easier to exempt this endpoint
+@csrf_exempt  # Using sendBeacon, so CSRF token is not available
 def track_page_time(request):
     if request.method != "POST":
         return JsonResponse({"ok": False, "error": "POST only"}, status=405)
@@ -287,7 +297,7 @@ def track_page_time(request):
     except Exception:
         return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
 
-    # total time from page load until submit, in ms
+    # Total time from page load until submit, in ms
     duration_ms = int(max(0, data.get("duration_ms", 0)))
     path = data.get("path") or request.path
 
@@ -302,7 +312,7 @@ def track_page_time(request):
     session_key = getattr(getattr(request, "session", None), "session_key", None) \
                   or request.COOKIES.get("sessionid", "")
 
-    # usually you want one record *per submit*, so use create()
+    # We want one record per submit, so create() is used
     page_view = PageView.objects.create(
         user=request.user if request.user.is_authenticated else None,
         session_key=session_key or "",
@@ -323,13 +333,16 @@ def track_page_time(request):
     return JsonResponse({"ok": True})
 
 @csrf_exempt
-def track_website_time(request):
-    print ("Successfully got to view")
+# TODO: Fix error where the session key stays the same if a user tries multiple different accounts in the same browser session
+# This is causing us to mix up website session data between different users
+def track_website_time(request): 
+    print ("Successfully got to website time view")
     if request.method != "POST":
         return JsonResponse({"ok": False, "error": "POST only"}, status=405)
 
     try:
         data = json.loads(request.body.decode("utf-8"))
+        print ("Data received: " + str(data))
     except Exception:
         return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
 
@@ -344,7 +357,8 @@ def track_website_time(request):
             "user": request.user if request.user.is_authenticated else None,
         },
     )
-
+    print (session)
+    print (WebsiteSession.objects.filter(session_key=session_key).count())
     if duration_ms > 0:
         WebsiteSession.objects.filter(pk=session.pk).update(
             total_active_ms=F("total_active_ms") + duration_ms,
@@ -391,21 +405,20 @@ def track_cursor(request):
 
 import csv
 from django.http import HttpResponse
+from openpyxl import Workbook
 from .models import CursorEvent
 
-def analyticsCSV(request):
-    path = request.GET.get("path")
-    qs = CursorEvent.objects.all().order_by("created_at")
-    if path:
-        qs = qs.filter(path=path)
-    
-    qs = CursorEvent.objects.filter(user=request.user).order_by("created_at")
+def analyticsCSV(request): # Export analytics data as an XLSX file
 
-    response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = 'attachment; filename="cursor_events.csv"'
+    wb = Workbook()
 
-    writer = csv.writer(response)
-    writer.writerow([
+    # Sheet 1: CursorEvent
+    sheet = wb.active
+    sheet.title = "CursorEvents"
+
+    cursor_qs = CursorEvent.objects.filter(user=request.user).order_by("created_at")
+
+    cursor_headers = [
         "id",
         "created_at",
         "path",
@@ -415,10 +428,11 @@ def analyticsCSV(request):
         "viewport_width",
         "viewport_height",
         "scroll_y",
-    ])
+    ]
+    sheet.append(cursor_headers)
 
-    for e in qs:
-        writer.writerow([
+    for e in cursor_qs:
+        sheet.append([
             e.id,
             e.created_at.isoformat(),
             e.path,
@@ -430,6 +444,125 @@ def analyticsCSV(request):
             e.scroll_y,
         ])
 
+    # Sheet 2: PageView
+    sheet = wb.create_sheet("PageViews")
+
+    page_qs = PageView.objects.filter(user=request.user).order_by("created_at")
+
+    page_headers = [
+        "id",
+        "session_key",
+        "path",
+        "referrer",
+        "user_agent",
+        "started_at",
+        "ended_at",
+        "duration_ms",
+        "extra",
+        "created_at",
+    ]
+    sheet.append(page_headers)
+
+    for p in page_qs:
+        sheet.append([
+            p.id,
+            p.session_key,
+            p.path,
+            p.referrer,
+            p.user_agent,
+            p.started_at.isoformat() if p.started_at else "",
+            p.ended_at.isoformat() if p.ended_at else "",
+            p.duration_ms,
+            json.dumps(p.extra),
+            p.created_at.isoformat(),
+        ])
+
+    # Sheet 3: WebsiteSession
+    sheet = wb.create_sheet("WebsiteSessions")
+
+    session_qs = WebsiteSession.objects.filter(user=request.user).order_by("created_at")
+    print ("Website session QS length: " + str(session_qs.count()))
+
+    session_headers = [
+        "id",
+        "session_key",
+        "user_id",
+        "total_active_ms",
+        "last_ping",
+        "created_at",
+        "updated_at",
+    ]
+    sheet.append(session_headers)
+
+    for s in session_qs:
+        sheet.append([
+            s.id,
+            s.session_key,
+            s.user_id,
+            s.total_active_ms,
+            s.last_ping.isoformat() if s.last_ping else "",
+            s.created_at.isoformat(),
+            s.updated_at.isoformat(),
+        ])
+
+    # Sheet 4: Deletion Events
+    sheet = wb.create_sheet("DeletionEvents")
+
+    deletion_qs = DeletionEvent.objects.filter(user=request.user).order_by("timestamp")
+
+    deletion_headers = [
+        "id",
+        "session_id",
+        "position",
+        "length",
+        "content",
+        "timestamp",
+    ]
+    sheet.append(deletion_headers)
+
+    for d in deletion_qs:
+        sheet.append([
+            d.id,
+            d.session_id,
+            d.position,
+            d.length,
+            d.content,
+            d.timestamp.isoformat(),
+        ])
+
+    # Create HTTP that downloads the XLSX file
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    response["Content-Disposition"] = 'attachment; filename="analytics.xlsx"'
+
+    wb.save(response)
     return response
+
+def track_deletion(request):
+    print ("Successfully got to deletion view")
+
+    if request.method != "POST":
+        return JsonResponse({"ok": False, "error": "POST only"}, status=405)
+
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+        session_id = int(data.get("session_id", ""))
+        user = request.user if request.user.is_authenticated else None
+        timestamp = timezone.now()
+
+        DeletionEvent.objects.create(
+            user = user,
+            session = Session.objects.get(pk=session_id),
+            position = data.get("position", 0),
+            length = data.get("length", 0),
+            content = data.get("content", ""),
+            timestamp = timestamp
+        )
+
+    except Exception:
+        return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
+    
+    return JsonResponse({"status": "ok", "data_received": data})
 
 

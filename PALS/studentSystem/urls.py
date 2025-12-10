@@ -6,6 +6,7 @@ urlpatterns = [
     path("analytics/track-time/", views.track_page_time, name="track_page_time"), # Track time spent on page
     path("analytics/track-website-time/", views.track_website_time, name="track_website_time"), # Track overall website time
     path("analytics/track-cursor/", views.track_cursor, name="track_cursor"), # Track cursor movements
+    path("analytics/track-deletion/", views.track_deletion, name="track_deletion"), # Track code deletions
     path("analytics/analytics-csv/", views.analyticsCSV, name="analyticsCSV"), # Download analytics CSV
     path("signup/", views.signupView, name="signup"), # Signup screen
     path("login/", views.loginView, name="login"), # Login screen

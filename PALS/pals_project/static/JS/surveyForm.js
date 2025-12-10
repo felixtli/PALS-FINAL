@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function postSurveyResponse(surveyResponse) {
     const csrftoken = getCookie('csrftoken');
-    window.alert("This is the window id: " + window.sessionID);
     try {
         const response = await fetch(`/${window.sessionID}/post-survey-response/`, {
             method: "POST",

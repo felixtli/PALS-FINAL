@@ -62,7 +62,7 @@ setInterval(() => {
     updateActiveState();
     const duration = totalActive;
     if (duration > 0) {
-      navigator.sendBeacon("/track_website_time/", new Blob([
+      navigator.sendBeacon("/analytics/track-website-time/", new Blob([
         JSON.stringify({
           session_key: SESSION_KEY,
           duration_ms: duration,
