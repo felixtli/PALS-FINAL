@@ -22,19 +22,20 @@
 
 #main {
     background-image: linear-gradient(var( --primary-color), var(--secondary-color));
-    height: 91.35vh;
+    height: calc(100vh - var(--navbar-height));
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
 .input-area-container {
-    height: 100%;
-    width: 55%;
+  height: 99%;
+  width: 55%;
+  display: flex;
+  flex-direction: column;
 }
 
 .input-area {
-    height: 92%;
     width: 100%;
     background-color: linear-gradient(var(--primary-color), var(--secondary-color-dark));
     color: var(--text-color);
@@ -44,6 +45,7 @@
     resize: none;
     outline: none;
     border: 3px solid var(--primary-color-light);
+    flex: 1;
 }
 
 .input-area:focus { /* User text input when box is clicked */
@@ -52,7 +54,6 @@
 
 .input-button-area {
   width: 100%;
-  height: 8%;
   padding: 10px;
   background-color: linear-gradient(var(--primary-color), var(--secondary-color-dark));
   display: flex;
@@ -63,10 +64,13 @@
 }
 
 .input-button {
-    width: 15%;
-    height: 100%;
-    font-size: 1.05rem;
+    height: auto;
+    width: auto;
+    white-space: nowrap;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
     font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size: 1.05rem;
     color: var(--secondary-text-color);
     background-color: var(--secondary-color);
     border: none;

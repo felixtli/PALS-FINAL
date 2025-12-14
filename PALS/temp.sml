@@ -1,1 +1,1 @@
-asdfjlasdfk
+fun reverseStr (value: string): string = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)

@@ -5,7 +5,7 @@
   --highlight-2: #ff4d94;
   --highlight: rgba(255, 105, 180, 0.2);
 
-  --navbar-height: 8vh;
+  --navbar-height: clamp(56px, 6vw, 72px);
   --gap: 0.8rem;
   --border: #d1d5db;
   --focus-outline: 2px solid #2563eb;

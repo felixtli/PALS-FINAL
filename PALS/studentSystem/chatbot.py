@@ -1,4 +1,5 @@
 import ollama
+from ollama import Client
 import requests, json
 import os
 import subprocess
@@ -39,3 +40,25 @@ def generateResponse (messages):
             if data.get("done"):
                 messages.append({"role": "assistant", "content": full_message})
                 return full_message
+
+def generateCloudResponse(messages):
+    client = Client(
+        host="https://ollama.com",
+        headers={'Authorization': 'Bearer ' + os.environ.get('OLLAMA_API_KEY')}
+    )
+
+    # System instruction
+    concise_instruction = {
+        "role": "system",
+        "content": "Respond concisely. Use short, direct explanations unless more detail is explicitly requested."
+    }
+
+    messages = [concise_instruction] + messages
+
+    response = client.chat(
+        model = 'gpt-oss:120b',
+        messages = messages,
+        stream = False
+    )
+
+    return response["message"]["content"]

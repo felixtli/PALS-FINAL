@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Session, Profile, Question, QuestionAttempt, PageView, WebsiteSession, User, CursorEvent, DeletionEvent
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .chatbot import generateResponse
+from .chatbot import generateResponse, generateCloudResponse
 from .forms import StyledUserCreationForm, StyledAuthenticationForm
 from django.contrib.auth import login, logout
 from .compiler import compileCode, handler
@@ -193,7 +193,7 @@ def getAIResponse(request, id):
         prompt = (body.get('prompt')) 
         conversationHistory.append({"role": "user", "content": prompt})
 
-        ai_response = generateResponse(conversationHistory)
+        ai_response = generateCloudResponse(conversationHistory)
         data = {"message" : ai_response}
         return JsonResponse(data)
     
@@ -238,7 +238,7 @@ def askAI(request, id):
         submission = body.get("submission")
         compiler_output = body.get("compiler_output")
 
-        response = generateResponse([{"role" : "system", "content" : "You are a helpful programming assistant that has expertise in StandardML."},
+        response = generateCloudResponse([{"role" : "system", "content" : "You are a helpful programming assistant that has expertise in StandardML."},
                                       {"role" : "user", "content" : "Analyze the following StandardML code: " + submission
                                     +"This what the code currently outputs in the compiler when it is run: " + compiler_output
                                     +"If there is an error, explain what the error means and how to fix it." + 

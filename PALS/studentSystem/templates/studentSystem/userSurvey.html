@@ -1,59 +1,104 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PALS Survey</title>
     <link rel="stylesheet" href="{% static 'CSS/surveyStyle.css' %}">
+</head>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PALS</title>
-    </head>
+<body>
+<div id="main">
+    <div id="survey-container">
+        <p id="survey-header">Post-Problem Survey</p>
 
-    <body>
-        
-        <div id="main">
-            <div id="survey-container">
-                <p id="survey-header"> Survey </p>
-                <p id="survey-question"> How confident did you feel about your solution? </p>
-                <form id="survey-form">
-                    {%csrf_token%}
-                    <label class="form-item">
-                        <input type="checkbox" name="very-confident" value="Very Confident">
-                        Very Confident
-                    </label>
+        <form id="survey-form">
+            {% csrf_token %}
 
-                    <label class="form-item">
-                        <input type="checkbox" name="confident" value="Confident">
-                        Confident
-                    </label>
+            <!-- A -->
+            <fieldset class="survey-block">
+                <legend>How difficult was this problem?</legend>
+                <p class="scale-label">1 = Very easy · 3 = Moderate · 5 = Very hard</p>
+                <div class="scale">
+                    {% for i in "12345" %}
+                    <label><input type="radio" name="difficulty" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+            </fieldset>
 
-                    <label class="form-item">
-                        <input type="checkbox" name="somewhat-confident" value="Somewhat Confident">
-                        Somewhat Confident
-                    </label>
+            <!-- B -->
+            <fieldset class="survey-block">
+                <legend>I am confident my solution is correct.</legend>
+                <p class="scale-label">1 = Not at all · 5 = Very confident</p>
+                <div class="scale">
+                    {% for i in "12345" %}
+                    <label><input type="radio" name="confidence" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+            </fieldset>
 
-                    <label class="form-item">
-                        <input type="checkbox" name="slightly-confident" value="Slightly Confident">
-                        Slightly Confident
-                    </label>
+            <!-- C -->
+            <fieldset class="survey-block">
+                <legend>How much mental effort did this problem require?</legend>
+                <p class="scale-label">1 = Very low · 5 = Very high</p>
+                <div class="scale">
+                    {% for i in "12345" %}
+                    <label><input type="radio" name="mental_effort" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+            </fieldset>
 
-                    <label class="form-item">
-                        <input type="checkbox" name="not-confident" value="Not Confident">
-                        Not Confident
-                    </label>
-                    <input id="survey-submit" type="submit" value="Submit">
-                </form>
-            </div>
-            <div id="feedback-container">
-                <p id="feedback-message">Thank you for your response! Your solution passed {{ solved_test_cases }}/10 test cases.</p>
-                <button id="navigation-btn"> Return to Dashboard </button>
-            </div>
-        </div>
-        <script> const casesPassed = {{ solved_test_cases|safe }}; </script>
-        <script> window.sessionID = "{{ session_id }}"; </script>
-        <script src="{% static 'JS/surveyForm.js' %}"></script>
+            <!-- D -->
+            <fieldset class="survey-block">
+                <legend>During this problem I felt frustrated or stressed.</legend>
+                <p class="scale-label">1 = Not at all · 5 = Very much</p>
+                <div class="scale">
+                    {% for i in "12345" %}
+                    <label><input type="radio" name="frustration" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+            </fieldset>
 
-    </body>
+            <!-- E -->
+            <fieldset class="survey-block">
+                <legend>Did you use hints, the chat, or other help?</legend>
+                <label><input type="radio" name="help_used" value="none"> No</label>
+                <label><input type="radio" name="help_used" value="system_hint"> Yes: system hint</label>
+                <label><input type="radio" name="help_used" value="chat_ai"> Yes: chat / AI</label>
+            </fieldset>
 
+            <!-- F -->
+            <fieldset class="survey-block">
+                <legend>Which best describes how you worked?</legend>
+                <label><input type="radio" name="strategy" value="plan_then_code"> Plan then code</label>
+                <label><input type="radio" name="strategy" value="iterate"> Iterate (code & run)</label>
+                <label><input type="radio" name="strategy" value="read_ai"> Read AI responses</label>
+                <label><input type="radio" name="strategy" value="debug_heavy"> Debugging heavy</label>
+            </fieldset>
+
+            <!-- G -->
+            <fieldset class="survey-block">
+                <legend>Did you feel rushed while solving this?</legend>
+                <p class="scale-label">1 = Not at all · 5 = Very rushed</p>
+                <div class="scale">
+                    {% for i in "12345" %}
+                    <label><input type="radio" name="rushed" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <button id="survey-submit" type="submit">Submit Survey</button>
+        </form>
+    </div>
+
+    <div id="feedback-container">
+        <p>Thank you for your response! Your solution passed {{ solved_test_cases }}/10 test cases.</p>
+        <button id="navigation-btn">Return to Dashboard</button>
+    </div>
+</div>
+
+<script>window.sessionID = "{{ session_id }}";</script>
+<script src="{% static 'JS/surveyForm.js' %}"></script>
+</body>
 </html>

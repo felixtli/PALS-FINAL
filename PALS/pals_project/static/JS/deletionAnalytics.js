@@ -1,44 +1,44 @@
 // Code solution deletion tracker
 // TODO: Detect more types of deletions: write over selection and paste over selection
-const input = document.getElementById("code-input-area");
+const textarea = document.getElementById("code-input-area");
 
-let lastValue = input.value;
+let lastValue = textarea.value;
+let oldValue = "";
 
-input.addEventListener("beforeinput", (e) => {
+textarea.addEventListener("input", () => {
+    const newValue = textarea.value;
 
-    // Only handle deletion events. Return if not a deletion.
-    if (!e.inputType.startsWith("delete")) return;
+    const diff = getDiff(oldValue, newValue);
+    console.log(JSON.stringify(diff, null, 2));
 
-    const start = input.selectionStart;
-    const end = input.selectionEnd;
-
-    let deletedText = "";
-
-    // Case 1: Deleting a selection of text
-    if (start !== end) {
-        deletedText = input.value.substring(start, end);
-    }
-    else {
-        // Case 2: Single-character delete (backspace or delete key)
-        if (e.inputType === "deleteContentBackward") {
-            if (start > 0) {
-                deletedText = input.value[start - 1];
-            }
-        }
-        if (e.inputType === "deleteContentForward") {
-            if (start < input.value.length) {
-                deletedText = input.value[start];
-            }
-        }
-    }
-
-    console.log("Deleted text:", JSON.stringify(deletedText));
-    console.log("InputType:", e.inputType);
-    if (deletedText.length != 0)
-    {
-        trackDeletion(deletedText);
-    }
+    oldValue = newValue;
 });
+
+function getDiff(oldText, newText) {
+    let start = 0;
+
+    // Find first index where they differ
+    while (start < oldText.length && start < newText.length &&
+           oldText[start] === newText[start]) {
+        start++;
+    }
+
+    // Find last index where they differ
+    let endOld = oldText.length - 1;
+    let endNew = newText.length - 1;
+
+    while (endOld >= start && endNew >= start &&
+           oldText[endOld] === newText[endNew]) {
+        endOld--;
+        endNew--;
+    }
+
+    return {
+        replaced: oldText.slice(start, endOld + 1),
+        inserted: newText.slice(start, endNew + 1),
+        startIndex: start
+    };
+}
 
 function getCookie(name) {
     let cookieValue = null;
@@ -68,7 +68,7 @@ async function trackDeletion(deleted_content) {
             body: JSON.stringify ({
                 "session_id" : window.sessionID,
                 "content" : deleted_content,
-                "position" : input.selectionStart,
+                "position" : textarea.selectionStart,
                 "length" : deleted_content.length
             })
         })
