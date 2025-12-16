@@ -1,15 +1,22 @@
 // Code solution deletion tracker
-// TODO: Detect more types of deletions: write over selection and paste over selection
 const textarea = document.getElementById("code-input-area");
 
-let lastValue = textarea.value;
-let oldValue = "";
+let oldValue = textarea.value;
+
+document.addEventListener('DOMContentLoaded', function() {
+    oldValue = textarea.value;
+})
 
 textarea.addEventListener("input", () => {
     const newValue = textarea.value;
 
     const diff = getDiff(oldValue, newValue);
     console.log(JSON.stringify(diff, null, 2));
+
+    if (diff.isDeletion == true)
+    {
+        trackDeletion(diff)
+    }
 
     oldValue = newValue;
 });
@@ -33,10 +40,22 @@ function getDiff(oldText, newText) {
         endNew--;
     }
 
+    let isDeletion = false;
+    if (newText.length < oldText.length) {
+        isDeletion = true;
+        deletionLength = oldText.length - newText.length;
+    }
+    else {
+        isDeletion = false;
+        deletionLength = null;
+    }
+
     return {
         replaced: oldText.slice(start, endOld + 1),
         inserted: newText.slice(start, endNew + 1),
-        startIndex: start
+        startIndex: start,
+        isDeletion: isDeletion,
+        deletionLength: deletionLength,
     };
 }
 
@@ -55,7 +74,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-async function trackDeletion(deleted_content) {
+async function trackDeletion(diff) {
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
 
     try {
@@ -67,9 +86,10 @@ async function trackDeletion(deleted_content) {
             },
             body: JSON.stringify ({
                 "session_id" : window.sessionID,
-                "content" : deleted_content,
-                "position" : textarea.selectionStart,
-                "length" : deleted_content.length
+                "deleted_content" : diff.replaced,
+                "new_content" : diff.inserted,
+                "position" : diff.startIndex,
+                "length" : diff.deletionLength
             })
         })
 

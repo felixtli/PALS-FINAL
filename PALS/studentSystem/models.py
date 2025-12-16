@@ -108,5 +108,6 @@ class DeletionEvent(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     position = models.IntegerField() # Position in the code where deletion occurred
     length = models.IntegerField() # Number of characters deleted
-    content = models.TextField() # Content that was deleted
+    deleted_content = models.TextField() # Content that was deleted
+    new_content = models.TextField(null=True, blank=True) # Content that was written
     timestamp = models.DateTimeField(auto_now_add=True)

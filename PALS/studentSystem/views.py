@@ -556,7 +556,8 @@ def track_deletion(request):
             session = Session.objects.get(pk=session_id),
             position = data.get("position", 0),
             length = data.get("length", 0),
-            content = data.get("content", ""),
+            deleted_content = data.get("deleted_content", ""),
+            new_content = data.get("new_content", ""),
             timestamp = timestamp
         )
 
