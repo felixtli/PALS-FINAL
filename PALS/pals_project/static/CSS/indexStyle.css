@@ -31,6 +31,8 @@ body {
   display: grid;
   place-items: center;
   padding: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+  padding-top: 30vh;
 }
 
 .hero-content {

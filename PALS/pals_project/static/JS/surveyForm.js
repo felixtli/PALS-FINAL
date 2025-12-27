@@ -13,19 +13,52 @@ function getCookie(name) {
     return cookieValue;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("survey-form");
+  const submitBtn = document.getElementById("survey-submit");
+  const feedbackContainer = document.getElementById('feedback-container');
 
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      if (this.checked) {
-        checkboxes.forEach(otherCheckbox => {
-          if (otherCheckbox !== this) {
-            otherCheckbox.checked = false;
-          }
-        });
+  submitBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    const fieldsets = form.querySelectorAll("fieldset");
+    const responses = {};
+    let allAnswered = true;
+    let firstMissingQuestion = null;
+
+    fieldsets.forEach((fieldset) => {
+      const radios = fieldset.querySelectorAll("input[type='radio']");
+      const name = radios[0]?.name;
+
+      const checked = fieldset.querySelector("input[type='radio']:checked");
+
+      if (!checked) {
+        allAnswered = false;
+        if (!firstMissingQuestion) {
+          firstMissingQuestion =
+            fieldset.querySelector("legend")?.innerText ||
+            "a question";
+        }
+      } else {
+        responses[name] = checked.value;
       }
     });
+
+    if (!allAnswered) {
+      alert(`Please answer all questions.\nMissing: "${firstMissingQuestion}"`);
+      return;
+    }
+
+    console.group("Survey Responses");
+    Object.entries(responses).forEach(([key, value]) => {
+      console.log(`${key}:`, value);
+    });
+    console.log("Session ID:", window.sessionID);
+    console.groupEnd();
+
+    feedbackContainer.style.visibility = 'visible';
+
+    postSurveyResponse(responses);
   });
 });
 
@@ -73,19 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const feedbackContainer = document.getElementById('feedback-container');
     surveySubmit.addEventListener('click', function (event) {
         event.preventDefault();
-
-        const checkedValues = Array.from(
-            document.querySelectorAll('input[type="checkbox"]:checked')
-        ).map(cb => cb.value);
-
-        if (checkedValues.length === 0) {
-            alert("Please select an option before submitting the survey.");
-            return;
-        }
-
-        console.log("Submitted value: " + checkedValues);
-
-        postSurveyResponse(checkedValues[0]);
 
         feedbackContainer.style.visibility = 'visible';
     });

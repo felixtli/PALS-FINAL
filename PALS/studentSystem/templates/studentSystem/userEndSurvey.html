@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PALS Post-Experiment Survey</title>
+    <link rel="stylesheet" href="{% static 'CSS/surveyStyle.css' %}">
+</head>
+
+<body>
+<div id="main">
+    <div id="survey-container">
+        <p id="survey-header">Post-Experiment Survey</p>
+
+        <form id="survey-form">
+            {% csrf_token %}
+
+            <!-- ================= A. Demographics & Current State ================= -->
+            <fieldset class="survey-block">
+                <legend>A. Background</legend>
+
+                <label>
+                    How many programming courses have you completed?
+                    <select name="courses_completed" required>
+                        <option value="">Select</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3+">3+</option>
+                    </select>
+                </label>
+                <br>
+                <label>
+                    Years of programming experience:
+                    <select name="years_experience" required>
+                        <option value="">Select</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5+">5+</option>
+                    </select>
+                </label>
+
+                <p class="scale-label">Self-rated ML / StandardML familiarity (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label><input type="radio" name="ml_familiarity" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+
+                <p class="scale-label">How rested do you feel right now? (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label><input type="radio" name="rested" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <!-- ================= B. Usability ================= -->
+            <fieldset class="survey-block">
+                <legend>B. Usability</legend>
+
+                <p>The learning system was easy to use. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label><input type="radio" name="easy_to_use" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+
+                <p>The feedback I received helped me solve problems. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label><input type="radio" name="helpful_feedback" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+
+                <p>The level of challenge matched my abilities. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label><input type="radio" name="challenge_match" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+
+                <p>I would use this system again to practice programming. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label><input type="radio" name="reuse_intent" value="{{ i }}"> {{ i }}</label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <!-- ================= C. Engagement & Attention ================= -->
+            <fieldset class="survey-block">
+                <legend>C. Engagement & Attention</legend>
+
+                <p>While using the system I was fully focused on the task. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="focused" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <p>Time flew by while I worked on the tasks. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="time_flew" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <!-- ================= D. Cognitive Load ================= -->
+            <fieldset class="survey-block">
+                <legend>D. Cognitive Load</legend>
+
+                <p>How mentally demanding were the tasks? (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="mental_demand" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <p>How hard did you have to work? (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="effort" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <p>Frustration level (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="frustration" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <!-- ================= E. Trust & Fairness ================= -->
+            <fieldset class="survey-block">
+                <legend>E. Trust & Fairness</legend>
+
+                <p>I trusted the advice the system gave. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="trusted_system" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <p>The system treated me fairly. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="fair_system" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <!-- ================= F. Adaptive Features ================= -->
+            <fieldset class="survey-block">
+                <legend>F. Adaptive Features</legend>
+
+                <p>The system adapted to my skill level appropriately. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="adaptive_skill" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <p>Adaptive hints helped me progress faster. (1–7)</p>
+                <div class="scale">
+                    {% for i in "1234567" %}
+                    <label>
+                        <input type="radio" name="adaptive_hints" value="{{ i }}"> {{ i }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <!-- ================= G. Open-Ended ================= -->
+            <fieldset class="survey-block">
+                <legend>G. Open-Ended Feedback</legend>
+
+                <label>What did you like most about the system?
+                    <br>
+                    <textarea name="like_most"></textarea>
+                </label>
+
+                <br>
+
+                <label>What did you like least?
+                    <br>
+                    <textarea name="like_least"></textarea>
+                </label>
+                
+                <br>
+
+                <label>If you could change one thing, what would it be?
+                    <br>
+                    <textarea name="change_one"></textarea>
+                </label>
+
+                <br>
+
+                <label>Any additional comments?
+                    <br>
+                    <textarea name="additional_comments"></textarea>
+                </label>
+            </fieldset>
+
+            <!-- ================= H. Manipulation Check ================= -->
+            <fieldset class="survey-block">
+                <legend>H. Attention & Manipulation Check</legend>
+
+                <p>Did you notice the system changed difficulty based on performance?</p>
+                <label><input type="radio" name="noticed_adaptation" value="yes"> Yes</label>
+                <label><input type="radio" name="noticed_adaptation" value="no"> No</label>
+                <label><input type="radio" name="noticed_adaptation" value="unsure"> Not sure</label>
+            </fieldset>
+
+            <button id="survey-submit" type="submit">Submit Survey</button>
+        </form>
+    </div>
+</div>
+
+<script>window.sessionID = "{{ session_id }}";</script>
+<script src="{% static 'JS/endSurveyForm.js' %}"></script>
+</body>
+</html>

@@ -13,14 +13,6 @@
 
   <body>
 
-    {% if form.non_field_errors %} <!-- TODO: APPLY STYLES TO ERROR MESSAGES -->
-      <ul class="errorlist">
-        {% for error in form.non_field_errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-
     <div class="form-container">
         <p class="title">Login</p>
         <form class="form" action="/login/" method="POST">
@@ -33,6 +25,13 @@
               <input type="password" name="password" class="input-field" placeholder="Password">
               {{ form.password.errors }}
             </div>
+            {% if form.non_field_errors %}
+              <ul class="errorlist">
+                {% for error in form.non_field_errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
             <div class="input-field-container">
               <button type="submit">Login</button>
             </div>

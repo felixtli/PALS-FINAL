@@ -33,6 +33,9 @@ body {
   place-items: center;
 
   padding: clamp(1rem, 4vw, 3rem);
+
+  align-items: start;
+  padding-top: 30vh;
 }
 
 .form-container {

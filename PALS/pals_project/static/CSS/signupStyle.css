@@ -30,6 +30,9 @@ body {
   place-items: center;
 
   padding: clamp(1rem, 4vw, 3rem);
+
+  align-items: start;
+  padding-top: 30vh;
 }
 
 .form-container {
@@ -103,4 +106,27 @@ button:focus-visible {
   text-decoration: none;
   color: #fff;
   padding: 0.25rem 0;
+}
+
+.form-error { /* Styles error message */
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+
+  background: rgba(255, 0, 102, 0.12);
+  border: 1px solid rgba(255, 0, 102, 0.35);
+  color: #ffd6e5;
+
+  font-size: 0.9rem;
+}
+
+/* Removes default Django list styling */
+.errorlist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.errorlist li {
+  margin: 0;
 }

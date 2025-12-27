@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import UserCreationForm
-from .models import Session, Profile, Question, QuestionAttempt, PageView, WebsiteSession, User, CursorEvent, DeletionEvent
+from .models import *
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .chatbot import generateResponse, generateCloudResponse
@@ -566,4 +566,86 @@ def track_deletion(request):
     
     return JsonResponse({"status": "ok", "data_received": data})
 
+def post_experiment_survey(request):
+    return render(request, "studentSystem/userEndSurvey.html")
+
+def post_experiment_survey_submission(request):
+    try:
+        body = json.loads(request.body)
+        data = body.get("survey_response", {})
+
+        survey = EndSurveyResponse.objects.create(
+            user=request.user if request.user.is_authenticated else None,
+
+            # ======================
+            # A. Background
+            # ======================
+            courses_completed=data.get("courses_completed"),
+            years_experience=data.get("years_experience"),
+            ml_familiarity=data.get("ml_familiarity"),
+            current_fatigue=data.get("current_fatigue"),
+
+            # ======================
+            # B. Usability
+            # ======================
+            ease_of_use=data.get("ease_of_use"),
+            feedback_helpfulness=data.get("feedback_helpfulness"),
+            challenge_match=data.get("challenge_match"),
+            reuse_intent=data.get("reuse_intent"),
+
+            # ======================
+            # C. Engagement & Attention
+            # ======================
+            focus_level=data.get("focus_level"),
+            time_distortion=data.get("time_distortion"),
+
+            # ======================
+            # D. Cognitive Load
+            # ======================
+            mental_demand=data.get("mental_demand"),
+            effort=data.get("effort"),
+            frustration=data.get("frustration"),
+
+            # ======================
+            # E. Trust & Fairness
+            # ======================
+            trusted_system=data.get("trusted_system"),
+            fairness_of_system=data.get("fairness"),
+
+            # ======================
+            # F. Adaptive Features
+            # ======================
+            adaptation_quality=data.get("adaptation_quality"),
+            adaptive_hint_helpfulness=data.get("adaptive_hint_helpfulness"),
+
+            # ======================
+            # G. Open-Ended Feedback
+            # ======================
+            liked_most=data.get("liked_most", ""),
+            liked_least=data.get("liked_least", ""),
+            change_one_thing=data.get("change_one_thing", ""),
+            additional_comments=data.get("additional_comments", ""),
+
+            # ======================
+            # H. Manipulation Check
+            # ======================
+            difficulty_notice=data.get("difficulty_notice"),
+        )
+
+        return JsonResponse({
+            "status": "ok",
+            "survey_id": survey.id
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {"status": "error", "message": "Invalid JSON"},
+            status=400
+        )
+
+    except Exception as e:
+        return JsonResponse(
+            {"status": "error", "message": str(e)},
+            status=500
+        )
 

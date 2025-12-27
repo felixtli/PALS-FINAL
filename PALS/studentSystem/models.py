@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Extension of Django's prebuilt "User" module
 class Profile(models.Model):
@@ -52,7 +53,7 @@ class QuestionAttempt(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="attempts", default="2")
     solved_test_cases = models.IntegerField(default=0)
-    survey_response = models.CharField(max_length=255, blank=True, default="")
+    survey_response = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     
@@ -111,3 +112,111 @@ class DeletionEvent(models.Model):
     deleted_content = models.TextField() # Content that was deleted
     new_content = models.TextField(null=True, blank=True) # Content that was written
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class EndSurveyResponse(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.SET_NULL
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    courses_completed = models.PositiveSmallIntegerField(
+        choices=[(i, str(i)) for i in range(0, 4)] + [(3, "3+")],
+        help_text="Number of programming courses completed"
+    )
+
+    years_experience = models.PositiveSmallIntegerField(
+        choices=[(i, str(i)) for i in range(0, 5)] + [(5, "5+")],
+        help_text="Years of programming experience"
+    )
+
+    ml_familiarity = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)],
+        help_text="Self-rated ML / StandardML familiarity (1–7)"
+    )
+
+    current_fatigue = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)],
+        help_text="How rested the participant feels (1–7)"
+    )
+
+    # Section B: Usability
+    ease_of_use = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    feedback_helpfulness = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    challenge_match = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    reuse_intent = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    # Section C: Engagement & Attention
+
+    focus_level = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    time_distortion = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)],
+        help_text="Time felt like it passed quickly (1–7)"
+    )
+
+    # Section D: Cognitive Load
+
+    mental_demand = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    effort = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    frustration = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    # Section E: Trust & Fairness
+
+    trusted_system = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    fairness_of_system = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    # Section F: Adaptive Features
+    adaptation_quality = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    adaptive_hint_helpfulness = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(7)]
+    )
+
+    # Section G: Open-Ended Feedback
+    liked_most = models.TextField(blank=True)
+    liked_least = models.TextField(blank=True)
+    change_one_thing = models.TextField(blank=True)
+    additional_comments = models.TextField(blank=True)
+
+    # Section H: Attention & manipulation Check
+    difficulty_notice = models.CharField(
+        max_length=10,
+        choices=[
+            ("yes", "Yes"),
+            ("no", "No"),
+            ("unsure", "Not sure"),
+        ]
+    )
+
+    def __str__(self):
+        return f"SurveyResponse #{self.id} ({self.created_at.date()})"

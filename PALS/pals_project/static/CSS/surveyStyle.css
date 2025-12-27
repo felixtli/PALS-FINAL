@@ -1,3 +1,21 @@
+:root { /* TODO: use color variables instead of hardcoding colors */
+  --primary-color: rgb(15, 15, 20);
+  --secondary-color: rgba(255, 255, 255, 0.03);
+  --secondary-color-dark: rgba(33, 33, 41, 0.15);
+  --text-color: #fff;
+  --tertiary-color: rgba(252, 240, 245, 0.08);
+  --highlight: rgba(255, 0, 102, 0.171);
+  --highlight-2: rgba(255, 23, 116, 0.76);
+  --highlight-green: rgba(32, 187, 89, 0.747);
+  --highlight-yellow: rgba(234, 179, 8, 0.76);
+  --highlight-red: rgba(239, 68, 68, 0.76);
+
+  --navbar-height: clamp(3.5rem, 8svh, 4.5rem);
+  --gap: clamp(0.75rem, 2vw, 1.25rem);
+  --border: #e2e8f0;
+  --focus-outline: 2px solid #2563eb;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -79,6 +97,20 @@ input[type="radio"] {
   margin-top: 1rem;
   visibility: hidden;
   text-align: center;
+  font-size: 1.2rem;
+  border: 0.1em solid var(--highlight);
+  padding: 0.4em;
+}
+
+#navigation-btn {
+  background-color: var(--highlight-2);
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.6em 1.4em;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
 }
 
 /* width */
@@ -90,4 +122,60 @@ input[type="radio"] {
 ::-webkit-scrollbar-thumb {
     background: #454140;
     border-radius: 8px;
+}
+
+textarea,
+select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 0.6rem 0.75rem;
+
+  background: var(--secondary-color);
+  color: var(--text-color);
+
+  border: 1.5px solid var(--highlight);
+  border-radius: 6px;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+
+  outline: none;
+}
+
+textarea {
+  resize: none;
+  min-height: 90px;
+}
+
+textarea:hover,
+select:hover {
+  background: var(--secondary-color-dark);
+}
+
+textarea:focus,
+select:focus {
+  border-color: var(--highlight-2);
+  box-shadow: 0 0 0 2px rgba(255, 23, 116, 0.25);
+}
+
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.7) 50%),
+    linear-gradient(135deg, rgba(255,255,255,0.7) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 12px) 50%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+option {
+  background: var(--primary-color);
+  color: var(--text-color);
 }

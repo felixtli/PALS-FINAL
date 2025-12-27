@@ -22,5 +22,7 @@ urlpatterns = [
     path("compile/", views.runCompile, name="runCompile"), # Function to compile the current code submission
     path("<int:id>/submit-code/", views.submitCode, name="submitCode"), # Function to submit the current code submission
     path('<int:id>/chat/add-chat/', views.updateChat, name='updateChat'), # Function to save a new chat to the database
-    path('<int:id>/chat/next-response/', views.getAIResponse, name='nextResponse') # Function to get the next AI response
+    path('<int:id>/chat/next-response/', views.getAIResponse, name='nextResponse'), # Function to get the next AI response
+    path("post-experiment-survey/", views.post_experiment_survey, name="post_experiment_survey"), # Post experiment survey page
+    path("post-experiment-survey-submission/", views.post_experiment_survey_submission, name="post_experiment_survey_submission"), # Function to handle end survey response submission
 ]
