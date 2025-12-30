@@ -16,10 +16,11 @@ class Question (models.Model): # Object that holds the coding question
         (2, 'Easy'),
         (3, 'Medium'),
         (4, 'Hard'),
+        (5, 'Exam'),
     ]
 
     question_title = models.CharField(max_length = 255, default="Question_Title", primary_key=True)
-    question_description = models.CharField(max_length = 2500, default="Description Missing") 
+    question_description = models.CharField(max_length = 2500, default="Description Missing")  # TODO: CHANGE THIS TO A TEXTFIELD SO LINE BREAKS WORK
     test_cases = models.JSONField(default=list)
     target_function = models.CharField(max_length = 100)
     target_function_definition = models.CharField(max_length = 1000, default="")

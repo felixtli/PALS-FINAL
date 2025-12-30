@@ -79,7 +79,7 @@
     transition: background-color 0.25s;
 }
 
-#submit {
+#submit, #final-submit {
     background-color: var(--highlight-2);
     text-decoration: none;
     display: flex;

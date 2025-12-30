@@ -2,8 +2,6 @@ from .models import Profile, Question, QuestionAttempt, Session
 from django.db.models.functions import Random
 import random
 
-# TODO: UPDATE DIFFICULTY ASSIGNMENT FUNCTION SO IT SUPPORTS 4 CATEGORIES INSTEAD OF 3
-
 def initialQuestion(profile: Profile):
     available_questions = Question.objects.all().filter(difficulty=2) # Starts off with an easy question
     

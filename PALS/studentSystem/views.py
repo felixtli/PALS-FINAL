@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.forms import UserCreationForm
@@ -648,4 +648,34 @@ def post_experiment_survey_submission(request):
             {"status": "error", "message": str(e)},
             status=500
         )
+
+def final_FRQ(request):
+    user = request.user if request.user.is_authenticated else None
+
+    question = get_object_or_404(Question, question_title="Scrabble")
+
+    session = Session.objects.create(
+        user=user,
+        question=question
+    )
+
+    profile = get_object_or_404(Profile, user=user)
+
+    attempt = QuestionAttempt.objects.create(
+        associated_profile=profile,
+        question=question,
+        session=session
+    )
+
+    submission = attempt.question.target_function_definition
+
+    context = {
+        "session" : session,
+        "codeSubmission" : submission
+    }
+
+    return render(request, "studentSystem/finalFRQ.html", context)
+
+def final(request):
+    return render(request, "studentSystem/final.html")
 

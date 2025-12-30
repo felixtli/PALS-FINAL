@@ -115,6 +115,16 @@ async function postSurveyResponse() {
 }
 
 document.getElementById("survey-form").addEventListener("submit", function (e) {
+    const feedbackContainer = document.getElementById('feedback-container');
+    
     e.preventDefault();
     postSurveyResponse();
+    feedbackContainer.style.visibility = 'visible';
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const navigationButton = document.getElementById("navigation-btn");
+    navigationButton.addEventListener("click", function () {
+        window.location.href = "/final-frq/"
+    });
 });

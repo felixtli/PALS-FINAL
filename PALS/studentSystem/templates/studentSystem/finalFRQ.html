@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="{% static 'CSS/submitStyle.css' %}">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>PALS</title>
+    </head>
+
+    <body>
+        {% include "studentSystem/partials/final_frq_navbar.html" %}
+        <div id="main">
+            <div class="input-area-container">
+                <textarea placeholder="Begin response here..." class="input-area" id="code-input-area" spellcheck="false"></textarea>
+                <div class="input-button-area">
+                    <button class="input-button" id="final-submit"> Submit </button>
+                    <button class="input-button" id="test"> Test </button>
+                    <button class="input-button" id="clear-compiler"> Clear Outputs </button>
+                    <!-- <a class="input-button" href="/{{nextSession}}/codesubmission/"> FORWARD 1 Q </a> -->
+                    <!-- <a class="input-button" href="/{{previousSession}}/codesubmission/"> BACK 1 Q </a> -->
+                </div>
+            </div>
+
+            <div class="problem-compiler-container">
+                <div class="problem-container">
+                    <h1 class="problem-header"> {{ session.question.question_title }} </h1>
+                    <p class="problem-description">
+                        {{ session.question.question_description|safe }}
+                    </p>
+                </div>
+                <div class="compiler-container">
+                    <p class="compiler-output" id="original-compiler-message"> This is the SML Compiler. Your code's output will be shown here. </p>
+                </div>
+            </div>
+        </div>
+
+        {{ codeSubmission|json_script:"code-submission-data" }}
+        {{ session.compilerOutputs|json_script:"compiler-outputs-data" }}
+        
+        <script>
+        window.codeSubmission = JSON.parse(document.getElementById("code-submission-data").textContent);
+        window.compilerOutputs = JSON.parse(document.getElementById("compiler-outputs-data").textContent);
+        </script>
+        <script> window.sessionID = {{ session.id }}; </script>
+
+        <script src="{% static 'JS/submission.js' %}"></script>
+        <script src="{% static 'JS/finalFRQ.js' %}"></script>
+        <script src="{% static 'JS/trackSiteTime.js' %}"></script>
+        <script src="{% static 'JS/cursorAnalytics.js' %}"></script>
+        <script src="{% static 'JS/deletionAnalytics.js' %}"></script>
+
+    </body>
+
+</html>

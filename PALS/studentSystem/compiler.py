@@ -38,6 +38,7 @@ def clean_sml_output(output: str) -> str:
     cleaned = re.sub(r"val\s+\w+\s*=\s*.*:\s*.*", "", cleaned)
     
     # Strip whitespace and return
+    print ("CODE HAS BEEN CLEANED")
     return cleaned.strip()
 
 def compileCode(codeInput):

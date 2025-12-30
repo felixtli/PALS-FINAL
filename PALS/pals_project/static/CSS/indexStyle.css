@@ -126,4 +126,10 @@ body {
   }
 }
 
+.final-title {
+  background: none;
+  font-weight: 700;
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
 

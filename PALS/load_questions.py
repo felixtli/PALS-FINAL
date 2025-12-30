@@ -10,7 +10,7 @@ django.setup()
 from studentSystem.models import Question
 
 def createQuestion(title, description, difficulty, target_function, test_cases):
-    difficulty_map = {"Very Easy" : 1, "Easy" : 2, "Medium" : 3, "Hard" : 4}
+    difficulty_map = {"Very Easy" : 1, "Easy" : 2, "Medium" : 3, "Hard" : 4, "Exam" : 5}
 
     question, created = Question.objects.get_or_create(
         question_title=title,
