@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <link rel="stylesheet" href="{% static 'CSS/submitStyle.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
 
     <head>
         <meta charset="utf-8">
@@ -17,7 +18,7 @@
                 <textarea placeholder="Begin response here..." class="input-area" id="code-input-area" spellcheck="false"></textarea>
                 <div class="input-button-area">
                     <button class="input-button" id="submit"> Submit </button>
-                    <button class="input-button" id="ask-ai"> Inline Suggestion </button>
+                    <button class="input-button" id="ask-ai"> System Hint </button>
                     <button class="input-button" id="test"> Test </button>
                     <button class="input-button" id="clear-compiler"> Clear Outputs </button>
                     <!-- <a class="input-button" href="/{{nextSession}}/codesubmission/"> FORWARD 1 Q </a> -->
@@ -45,7 +46,10 @@
         </script>
         <script> window.sessionID = {{ session.id }}; </script>
 
+        <!-- Imports CodeMirror 5 via CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
         <script src="{% static 'JS/submission.js' %}"></script>
+        <script src="{% static 'JS/sml_Editor.js' %}"></script>
         <script src="{% static 'JS/trackSiteTime.js' %}"></script>
         <script src="{% static 'JS/cursorAnalytics.js' %}"></script>
         <script src="{% static 'JS/deletionAnalytics.js' %}"></script>

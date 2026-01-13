@@ -10,7 +10,7 @@ django.setup()
 from studentSystem.models import Question
 
 def createQuestion(title, description, difficulty, target_function, test_cases):
-    difficulty_map = {"Very Easy" : 1, "Easy" : 2, "Medium" : 3, "Hard" : 4, "Exam" : 5}
+    difficulty_map = {"Easy" : 1, "Medium" : 2, "Hard" : 3, "Exam" : 4}
 
     question, created = Question.objects.get_or_create(
         question_title=title,
@@ -28,7 +28,7 @@ def createQuestion(title, description, difficulty, target_function, test_cases):
         print("Question already exists")
 
 if __name__ == "__main__":
-    with open("Standard ML Problems & Solutions Dataset.csv", newline="", encoding="utf-8") as csvfile:
+    with open("Standard ML Problems & Solutions Dataset (Adjusted).csv", newline="", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             title, description, difficulty, target_function, target_function_definition, test_cases = row["Problem Title"], row["Problem Description"], row["Difficulty"], row["Target Function"], row["Target Function Definition"], json.loads(row["Final JSON"])

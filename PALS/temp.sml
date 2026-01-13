@@ -1,1 +1,1 @@
-fun scoreWord word =
+fun maxNumber (a, b) =

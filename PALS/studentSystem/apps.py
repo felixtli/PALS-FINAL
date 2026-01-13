@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
-class StudentsystemConfig(AppConfig):
+class StudentsystemConfig(AppConfig): # Warms up AI model before server opens
     default_auto_field = "django.db.models.BigAutoField"
     name = "studentSystem"
 

@@ -16,6 +16,7 @@ from json import JSONDecodeError
 from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
+from django.db.models.functions import Random
 
 
 def home(request): 
@@ -249,6 +250,7 @@ def runCompile(request):
     if request.method == "POST":
         body = json.loads(request.body)
         submission = body.get("submission")
+        print (submission)
         compiled_output = str(compileCode(submission))
         return JsonResponse({"compiled_output" : compiled_output})
 
@@ -649,17 +651,42 @@ def post_experiment_survey_submission(request):
             status=500
         )
 
+
 def final_FRQ(request):
+    """
+    Serves the current FRQ question in the user's final queue.
+    Queue is stored in request.session so clicking submit can advance to the next.
+    """
     user = request.user if request.user.is_authenticated else None
+    if user is None:
+        return redirect("login")  # or wherever you want unauth users to go
 
-    question = get_object_or_404(Question, question_title="Scrabble")
+    profile = get_object_or_404(Profile, user=user)
 
+    # Initialize queue once (3 random difficulty=4 questions)
+    if "final_frq_queue" not in request.session or "final_frq_index" not in request.session:
+        q_ids = list(
+            Question.objects.filter(difficulty=4)
+            .order_by(Random())
+            .values_list("pk", flat=True)[:3]
+        )
+        request.session["final_frq_queue"] = q_ids
+        request.session["final_frq_index"] = 0
+
+    queue = request.session.get("final_frq_queue", [])
+    idx = int(request.session.get("final_frq_index", 0))
+
+    # If done, go to final page
+    if idx >= len(queue) or not queue:
+        return redirect("final")
+
+    question = get_object_or_404(Question, pk=queue[idx])
+
+    # Create a fresh session/attempt for THIS FRQ question page-load
     session = Session.objects.create(
         user=user,
         question=question
     )
-
-    profile = get_object_or_404(Profile, user=user)
 
     attempt = QuestionAttempt.objects.create(
         associated_profile=profile,
@@ -667,14 +694,33 @@ def final_FRQ(request):
         session=session
     )
 
-    submission = attempt.question.target_function_definition
+    submission = question.target_function_definition
 
     context = {
-        "session" : session,
-        "codeSubmission" : submission
+        "session": session,
+        "codeSubmission": submission,
     }
-
     return render(request, "studentSystem/finalFRQ.html", context)
+
+@require_POST
+def final_frq_advance(request):
+    """
+    Advances the user's FRQ index by 1 and returns the next URL.
+    Called by JS after grading succeeds.
+    """
+    user = request.user if request.user.is_authenticated else None
+    if user is None:
+        return JsonResponse({"status": "error", "message": "Not authenticated"}, status=401)
+
+    queue = request.session.get("final_frq_queue", [])
+    idx = int(request.session.get("final_frq_index", 0))
+
+    idx += 1
+    request.session["final_frq_index"] = idx
+
+    if idx >= len(queue):
+        return JsonResponse({"status": "ok", "next_url": "/final/"})  # or reverse("final")
+    return JsonResponse({"status": "ok", "next_url": "/final-frq/"})  # or reverse("final_frq")
 
 def final(request):
     return render(request, "studentSystem/final.html")

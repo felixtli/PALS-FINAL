@@ -72,36 +72,15 @@ function send(durationMs, endedAtMs) {
 // Analytics tracking code ends here
 
 
-// Loads saved code submission on page load
+// Loads saved code submission on page load // CHECK IF THIS IS BROKEN
 document.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById('code-input-area');
     textarea.value = window.codeSubmission;
 });
 
-// Allows for "tab" inputs in code area
-document.addEventListener('DOMContentLoaded', () => {
-    const textarea = document.getElementById('code-input-area');
-    if (textarea) {
-        textarea.addEventListener('keydown', (e) => {
-            if (e.key === 'Tab') {
-                e.preventDefault();
-
-                const start = textarea.selectionStart;
-                const end = textarea.selectionEnd;
-
-                // Insert tab character at cursor position
-                textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
-
-                // Move cursor to after the tab
-                textarea.selectionStart = textarea.selectionEnd = start + 1;
-            }
-        });
-    }
-});
-
 // Saves code submission to server
 async function saveCode(id) {
-    const textarea = document.getElementById("code-input-area");
+    const code = window.codeMirrorEditor.getValue();
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
 
     try {
@@ -111,7 +90,7 @@ async function saveCode(id) {
                 "Content-Type" : "application/json",
                 "X-CSRFToken" : csrftoken
             },
-            body: JSON.stringify ({"submission" : textarea.value})
+            body: JSON.stringify ({"submission" : code})
         })
 
         if (!response.ok) {
@@ -146,7 +125,7 @@ async function createCompilerOutputElement(compiled_output) {
 }
 
 async function askAI(id) {
-    const textarea = document.getElementById("code-input-area")
+    const code = window.codeMirrorEditor.getValue();
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
 
     await testCode(id); // Compile code before asking AI
@@ -159,7 +138,7 @@ async function askAI(id) {
                 "Content-Type" : "application/json",
                 "X-CSRFToken" : csrftoken
             },
-            body: JSON.stringify ({"submission" : textarea.value, "compiler_output" : compiler_output})
+            body: JSON.stringify ({"submission" : code, "compiler_output" : compiler_output})
         })
 
         if (!response.ok) {
@@ -179,7 +158,7 @@ async function askAI(id) {
 // Sends code to server for compilation and displays output
 async function testCode(id)
 {
-    const textarea = document.getElementById("code-input-area")
+    const code = window.codeMirrorEditor.getValue();
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
 
     try {
@@ -189,7 +168,7 @@ async function testCode(id)
                 "Content-Type" : "application/json",
                 "X-CSRFToken" : csrftoken
             },
-            body: JSON.stringify ({"submission" : textarea.value})
+            body: JSON.stringify ({"submission" : code})
         })
 
         if (!response.ok) {
@@ -207,7 +186,7 @@ async function testCode(id)
 }
 
 async function submitCode(id) {
-    const textarea = document.getElementById("code-input-area")
+    const code = window.codeMirrorEditor.getValue();
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
     await saveCode(id); // Save code before submission
 
@@ -219,7 +198,7 @@ async function submitCode(id) {
                 "X-CSRFToken": csrftoken
             },
             body: JSON.stringify({
-                code: textarea.value  // send the code if you want backend to use it
+                code: code  // send the code if you want backend to use it
             })
         });
 
@@ -243,7 +222,6 @@ async function submitCode(id) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const test_button = document.getElementById("test");
-    const textarea = document.getElementById('code-input-area');
     test_button.addEventListener("click", function () {
         testCode(window.sessionID);
     })
@@ -289,11 +267,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 window.addEventListener("beforeunload", function() {
     console.log("beforeunload fired!");
-    const textarea = document.getElementById("code-input-area");
+    const code = window.codeMirrorEditor.getValue();
     const csrftoken = getCookie("csrftoken");
 
     const payload = JSON.stringify({
-        submission: textarea.value
+        submission: code
     });
 
      const blob = new Blob([payload], {

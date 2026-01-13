@@ -138,3 +138,79 @@
     background: #454140;
     border-radius: 8px;
 }
+
+/* ---------------------------
+   CodeMirror (PALS theme)
+   --------------------------- */
+
+/* Make CodeMirror occupy the same visual styling as your textarea */
+.input-area-container .CodeMirror {
+  /* fill the flex space like the textarea did */
+  flex: 1;
+  width: 100%;
+
+  /* match your input styling */
+  font-size: 1.00rem;
+  border: 3px solid var(--primary-color-light);
+  border-radius: 0; /* change if you want rounded */
+  padding: 0;       /* CodeMirror manages inner padding via lines */
+
+  /* important: ensure the editor background fits your page */
+  background: var(--primary-color);
+  color: var(--text-color);
+}
+
+/* Cursor + selection */
+.input-area-container .CodeMirror-cursor {
+  border-left: 2px solid var(--text-color);
+}
+.input-area-container .CodeMirror-selected {
+  background: var(--highlight);
+}
+
+/* When focused, match your textarea focus border */
+.input-area-container .CodeMirror-focused {
+  border: 3px solid var(--highlight);
+}
+
+.CodeMirror-focused .CodeMirror-selected {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Gutter (line numbers) */
+.input-area-container .CodeMirror-gutters {
+  background: var(--primary-color-light);
+  border-right: 1px solid var(--secondary-color-dark);
+}
+.input-area-container .CodeMirror-linenumber {
+  color: rgba(255,255,255,0.35);
+}
+
+/* Token colors – tune these to match your site palette */
+.cm-s-pals .cm-keyword   { color: var(--highlight-2); font-weight: 600; }
+.cm-s-pals .cm-string    { color: var(--highlight-green); }
+.cm-s-pals .cm-comment   { color: rgba(255,255,255,0.45); font-style: italic; }
+.cm-s-pals .cm-number    { color: var(--highlight-yellow); }
+.cm-s-pals .cm-operator  { color: rgba(255,255,255,0.8); }
+.cm-s-pals .cm-variable,
+.cm-s-pals .cm-variable-2{ color: rgba(255,255,255,0.9); }
+
+/* Optional: active line highlight */
+.cm-s-pals .CodeMirror-activeline-background {
+  background: rgba(255,255,255,0.04);
+}
+
+.input-area-container {
+  min-height: 0;
+}
+
+.input-area-container .CodeMirror {
+  flex: 1;
+  min-height: 0;
+  font-family: monospace;
+}
+
+/* ensure the internal scroll area fills height */
+.input-area-container .CodeMirror-scroll {
+  min-height: 0;
+}

@@ -1,0 +1,663 @@
+Problem Title,Problem Description,Difficulty,Target Function,Target Function Definition,Canonical Solution,Final JSON
+Factorial,"Write a function to compute the factorial of a given non-negative integer. The factorial of 0 is defined to be 1, and for any positive integer n, the factorial is n multiplied by the factorial of n – 1.",Easy,factorial,fun factorial n =,"fun factorial n =
+  case n of
+       0 => 1
+     | _ => n * factorial(n - 1);","[
+  {""input"": 0, ""output"": 1},
+  {""input"": 1, ""output"": 1},
+  {""input"": 2, ""output"": 2},
+  {""input"": 3, ""output"": 6},
+  {""input"": 4, ""output"": 24},
+  {""input"": 5, ""output"": 120},
+  {""input"": 6, ""output"": 720},
+  {""input"": 7, ""output"": 5040},
+  {""input"": 8, ""output"": 40320},
+  {""input"": 10, ""output"": 3628800}
+]"
+Sum,"Write a function to calculate the sum of two integers.
+
+Input Type: 2 Element Tuple of Type (integer, integer)
+Output Type: Integer",Easy,sumNumbers,"fun sumNumbers (a, b) =","fun sumNumbers (a, b) = a + b","[
+  {""input"": [0, 0], ""output"": 0},
+  {""input"": [1, 2], ""output"": 3},
+  {""input"": [-1, 1], ""output"": 0},
+  {""input"": [5, 7], ""output"": 12},
+  {""input"": [-3, -6], ""output"": -9},
+  {""input"": [100, 200], ""output"": 300},
+  {""input"": [123, -23], ""output"": 100},
+  {""input"": [50, 0], ""output"": 50},
+  {""input"": [-100, 50], ""output"": -50},
+  {""input"": [999, 1], ""output"": 1000}
+]"
+Absolute Value,"Write a function to compute the absolute value of an integer.
+
+Input Type: Integer
+Output Type: Integer",Easy,absValue,fun absValue n =,fun absValue n = (if n < 0 then ~n else n),"[
+  {""input"": 0, ""output"": 0},
+  {""input"": 5, ""output"": 5},
+  {""input"": -5, ""output"": 5},
+  {""input"": 10, ""output"": 10},
+  {""input"": -10, ""output"": 10},
+  {""input"": 123, ""output"": 123},
+  {""input"": -123, ""output"": 123},
+  {""input"": 1, ""output"": 1},
+  {""input"": -1, ""output"": 1},
+  {""input"": -999, ""output"": 999}
+]"
+Square,"Write a function to compute the square of an integer.
+
+Input Type: Integer
+Output Type: Integer",Easy,square,fun square n =,fun square n = n * n,"[
+  {""input"": 0, ""output"": 0},
+  {""input"": 1, ""output"": 1},
+  {""input"": -1, ""output"": 1},
+  {""input"": 2, ""output"": 4},
+  {""input"": -2, ""output"": 4},
+  {""input"": 5, ""output"": 25},
+  {""input"": -5, ""output"": 25},
+  {""input"": 10, ""output"": 100},
+  {""input"": -10, ""output"": 100},
+  {""input"": 12, ""output"": 144}
+]
+"
+Is Even,"Write a function to determine if a given integer is even.
+
+Input Type: Integer
+Output Type: Boolean",Easy,isEven,fun isEven n =,fun isEven n = n mod 2 = 0,"[
+  {""input"": 0, ""output"": true},
+  {""input"": 1, ""output"": false},
+  {""input"": 2, ""output"": true},
+  {""input"": 3, ""output"": false},
+  {""input"": -2, ""output"": true},
+  {""input"": -3, ""output"": false},
+  {""input"": 10, ""output"": true},
+  {""input"": 11, ""output"": false},
+  {""input"": 100, ""output"": true},
+  {""input"": 101, ""output"": false}
+]
+"
+Last Digit,"Write a function to return the last digit of a non-negative integer.
+
+Input Type: Integer
+Output Type: Integer",Easy,lastDigit,fun lastDigit n =,fun lastDigit n = n mod 10;,"[
+  {""input"": 0, ""output"": 0},
+  {""input"": 5, ""output"": 5},
+  {""input"": 9, ""output"": 9},
+  {""input"": 10, ""output"": 0},
+  {""input"": 17, ""output"": 7},
+  {""input"": 123, ""output"": 3},
+  {""input"": 4567, ""output"": 7},
+  {""input"": 89001, ""output"": 1},
+  {""input"": 999999, ""output"": 9},
+  {""input"": 1000000, ""output"": 0}
+]"
+Divide (Integer Division),"Write a function to divide one integer by another using integer division. (Assume the divisor is not zero.)
+
+Input Type: 2-Element Tuple of Type (integer, integer)
+Output Type: Integer",Easy,intDivide,"fun intDivide (a, b) =","fun intDivide (a, b) = a div b;","[
+  {""input"": [10, 2], ""output"": 5},
+  {""input"": [9, 3], ""output"": 3},
+  {""input"": [7, 2], ""output"": 3},
+  {""input"": [15, 4], ""output"": 3},
+  {""input"": [0, 5], ""output"": 0},
+  {""input"": [20, 6], ""output"": 3},
+  {""input"": [-9, 3], ""output"": -3},
+  {""input"": [9, -3], ""output"": -3},
+  {""input"": [-12, -4], ""output"": 3},
+  {""input"": [1, 2], ""output"": 0}
+]"
+Is Positive,"Write a function to determine if an integer is positive.
+
+Input Type: Integer
+Output Type: Boolean",Easy,isPositive,fun isPositive n =,fun isPositive n = n > 0;,"[
+  {""input"": 0, ""output"": false},
+  {""input"": 1, ""output"": true},
+  {""input"": -1, ""output"": false},
+  {""input"": 10, ""output"": true},
+  {""input"": -10, ""output"": false},
+  {""input"": 999, ""output"": true},
+  {""input"": -999, ""output"": false},
+  {""input"": 42, ""output"": true},
+  {""input"": -7, ""output"": false},
+  {""input"": 1000000, ""output"": true}
+]"
+Modulo,"Write a function to compute the remainder when one integer is divided by another.
+
+Input Type: 2-Element Tuple of Type (integer, integer)
+Output Type: Integer",Easy,modulo,"fun modulo (a, b) =","fun modulo (a, b) = a mod b;","[
+  {""input"": [10, 3], ""output"": 1},
+  {""input"": [9, 2], ""output"": 1},
+  {""input"": [7, 7], ""output"": 0},
+  {""input"": [0, 5], ""output"": 0},
+  {""input"": [20, 6], ""output"": 2},
+  {""input"": [-9, 4], ""output"": -1},
+  {""input"": [9, -4], ""output"": 1},
+  {""input"": [-12, -5], ""output"": -2},
+  {""input"": [1, 2], ""output"": 1},
+  {""input"": [100, 30], ""output"": 10}
+]"
+Multiply,"Write a function to multiply two integers.
+
+Input Type: 2-Element Tuple of Type (integer, integer)
+Output Type: Integer",Easy,multiply,"fun multiply (a, b) =","fun multiply (a, b) = a * b;","[
+  {""input"": [0, 5], ""output"": 0},
+  {""input"": [1, 7], ""output"": 7},
+  {""input"": [3, 4], ""output"": 12},
+  {""input"": [-2, 6], ""output"": -12},
+  {""input"": [5, -5], ""output"": -25},
+  {""input"": [-3, -3], ""output"": 9},
+  {""input"": [10, 10], ""output"": 100},
+  {""input"": [7, 8], ""output"": 56},
+  {""input"": [100, 0], ""output"": 0},
+  {""input"": [-12, 4], ""output"": -48}
+]"
+Min,"Write a function to find the smaller of two integers.
+
+Input Type: 2-Element Tuple of Type (integer, integer)
+Output Type: Integer",Easy,minInt,"fun minInt (a, b) =","fun minInt (a, b) =
+    if a < b then a else b;","[
+  {""input"": [3, 7], ""output"": 3},
+  {""input"": [10, 5], ""output"": 5},
+  {""input"": [0, 0], ""output"": 0},
+  {""input"": [-1, 4], ""output"": -1},
+  {""input"": [9, -3], ""output"": -3},
+  {""input"": [-5, -2], ""output"": -5},
+  {""input"": [100, 99], ""output"": 99},
+  {""input"": [-10, 10], ""output"": -10},
+  {""input"": [8, 8], ""output"": 8},
+  {""input"": [42, 17], ""output"": 17}
+]"
+String First Character,"Write a function that returns the first character of a non-empty string.
+
+Input Type: String
+Output Type: String",Easy,firstChar,fun firstChar s =,"fun firstChar s =
+    String.str (String.sub (s, 0));","[
+  {""input"": ""a"", ""output"": ""a""},
+  {""input"": ""hello"", ""output"": ""h""},
+  {""input"": ""World"", ""output"": ""W""},
+  {""input"": ""SML"", ""output"": ""S""},
+  {""input"": ""felix"", ""output"": ""f""},
+  {""input"": ""12345"", ""output"": ""1""},
+  {""input"": ""!wow"", ""output"": ""!""},
+  {""input"": "" Test"", ""output"": "" ""},
+  {""input"": ""apple"", ""output"": ""a""},
+  {""input"": ""Zebra"", ""output"": ""Z""}
+]"
+String Length,"Write a function that returns the number of characters in a string.
+
+Input Type: String
+Output Type: Integer",Easy,stringLength,fun stringLength s =,fun stringLength s = String.size s;,"[
+  {""input"": """", ""output"": 0},
+  {""input"": ""a"", ""output"": 1},
+  {""input"": ""hi"", ""output"": 2},
+  {""input"": ""hello"", ""output"": 5},
+  {""input"": ""SML"", ""output"": 3},
+  {""input"": ""123456"", ""output"": 6},
+  {""input"": "" "", ""output"": 1},
+  {""input"": ""superlongword"", ""output"": 13},
+  {""input"": ""felix"", ""output"": 5},
+  {""input"": ""!@#$%"", ""output"": 5}
+]
+"
+Swap Tuple,"Write a function that swaps the two elements of a 2-element tuple.
+Input Type: 2-Element Tuple of Type (integer, integer)
+Output Type: 2-Element Tuple of Type (integer, integer)",Easy,swap,"fun swap (a, b) =","fun swap (a, b) = (b, a);","[
+  {""input"": [1, 2], ""output"": [2, 1]},
+  {""input"": [0, 5], ""output"": [5, 0]},
+  {""input"": [-1, 7], ""output"": [7, -1]},
+  {""input"": [10, 10], ""output"": [10, 10]},
+  {""input"": [-3, -9], ""output"": [-9, -3]},
+  {""input"": [100, 1], ""output"": [1, 100]},
+  {""input"": [42, 17], ""output"": [17, 42]},
+  {""input"": [9, 0], ""output"": [0, 9]},
+  {""input"": [-5, 20], ""output"": [20, -5]},
+  {""input"": [8, -8], ""output"": [-8, 8]}
+]"
+Max,"Given a tuple containing two integers, write a function to find the larger of the two.
+
+Input Type: 2 Element Tuple of Type (integer, integer)
+Output Type: Integer",Exam,maxNumber,"fun maxNumber (a, b) =","fun maxNumber (a, b) = if a >= b then a else b","[
+  {""input"": [0, 0], ""output"": 0},
+  {""input"": [1, 2], ""output"": 2},
+  {""input"": [2, 1], ""output"": 2},
+  {""input"": [-1, -5], ""output"": -1},
+  {""input"": [-5, -1], ""output"": -1},
+  {""input"": [100, 50], ""output"": 100},
+  {""input"": [50, 100], ""output"": 100},
+  {""input"": [-10, 10], ""output"": 10},
+  {""input"": [999, 1000], ""output"": 1000},
+  {""input"": [1000, 999], ""output"": 1000}
+]"
+Two-Fer,"Write a program that creates a sentence of the form ""One for X, one for me."", based on whether or not a name is given.
+If you know the person's name (e.g. if they're named Do-yun), then you will say: One for Do-yun, one for me.
+If you don't know the person's name, you will say you instead: One for you, one for me.
+
+Input Type: String Option Typed Parameter Pattern
+Output Type: String",Medium,name,fun name (input: string option) =,"fun name (input: string option) =
+    ""One for "" ^ Option.getOpt (input, ""you"") ^ "", one for me.""","[
+  {""input"": null, ""output"": ""One for you, one for me.""},
+  {""input"": {""SOME"": ""Alice""}, ""output"": ""One for Alice, one for me.""},
+  {""input"": {""SOME"": ""Bob""}, ""output"": ""One for Bob, one for me.""},
+  {""input"": {""SOME"": ""Do-yun""}, ""output"": ""One for Do-yun, one for me.""},
+  {""input"": null, ""output"": ""One for you, one for me.""},
+  {""input"": {""SOME"": ""ALICE""}, ""output"": ""One for ALICE, one for me.""},
+  {""input"": {""SOME"": ""Mallory""}, ""output"": ""One for Mallory, one for me.""},
+  {""input"": {""SOME"": ""Oscar""}, ""output"": ""One for Oscar, one for me.""},
+  {""input"": {""SOME"": ""Trent""}, ""output"": ""One for Trent, one for me.""},
+  {""input"": {""SOME"": ""VeryLongNameIndeed""}, ""output"": ""One for VeryLongNameIndeed, one for me.""}
+]"
+Leap Year,"Write a program to determine whether a given year is a leap year.
+
+Input Type: Integer
+Output Type: Boolean",Medium,isLeapYear,fun isLeapYear year =,"fun isLeapYear year =
+  year mod 4 = 0 andalso (year mod 100 <> 0 orelse year mod 400 = 0)","[
+  {""input"": 1996, ""output"": true},
+  {""input"": 2000, ""output"": true},
+  {""input"": 1900, ""output"": false},
+  {""input"": 2004, ""output"": true},
+  {""input"": 2100, ""output"": false},
+  {""input"": 2400, ""output"": true},
+  {""input"": 2021, ""output"": false},
+  {""input"": 2020, ""output"": true},
+  {""input"": 1, ""output"": false},
+  {""input"": 400, ""output"": true}
+]"
+Pangram,"Your task is to figure out if a sentence is a pangram.
+
+A pangram is a sentence using every letter of the alphabet at least once. It is case insensitive, so it doesn't matter if a letter is lower-case (e.g. k) or upper-case (e.g. K).
+
+For this exercise, a sentence is a pangram if it contains each of the 26 letters in the English alphabet.
+
+Input Type: String
+Output Type: Boolean",Medium,isPangram,fun isPangram s =,"fun isPangram s = List.all(Char.contains(String.map Char.toLower s)) (explode ""abcdefghijklmnopqrstuvwxyz"")","[
+  {""input"": ""The quick brown fox jumps over the lazy dog."", ""output"": true},
+  {""input"": ""The quick brown fox jumps over the lay dog."", ""output"": false},
+  {""input"": ""Sphinx of black quartz, judge my vow."", ""output"": true},
+  {""input"": ""Pack my box with five dozen liquor jugs."", ""output"": true},
+  {""input"": """", ""output"": false},
+  {""input"": ""Hello, world!"", ""output"": false},
+  {""input"": ""ABCDEFGHIJKLMNOPQRSTUVWXYZ"", ""output"": true},
+  {""input"": ""the_quick_brown-fox jumps over the lazy dog!"", ""output"": true},
+  {""input"": ""Five quacking zephyrs jolt my wax bed."", ""output"": true},
+  {""input"": ""A quick movement of the enemy will jeopardize five gunboats."", ""output"": false}
+]"
+Darts,"Calculate the points scored in a single toss of a Darts game.
+
+Darts is a game where players throw darts at a target.
+
+In our particular instance of the game, the target rewards 4 different amounts of points, depending on where the dart lands:
+
+If the dart lands outside the target, player earns no points (0 points).
+If the dart lands in the outer circle of the target, player earns 1 point.
+If the dart lands in the middle circle of the target, player earns 5 points.
+If the dart lands in the inner circle of the target, player earns 10 points.
+
+The outer circle has a radius of 10 units (this is equivalent to the total radius for the entire target), the middle circle a radius of 5 units, and the inner circle a radius of 1. Of course, they are all centered at the same point — that is, the circles are concentric defined by the coordinates (0, 0).
+
+Given a point in the target (defined by its Cartesian coordinates x and y, where x and y are real), calculate the correct score earned by a dart landing at that point.
+
+Input Type: 2 Element Tuple of Type (real, real)
+Output Type: Integer",Medium,scoreCalc,"fun scoreCalc (x: real, y: real): int =","fun scoreCalc (x: real, y: real): int =
+  let
+    val r = Math.sqrt(x * x + y * y)
+  in
+    if r <= 1.0 then 10
+    else if r <= 5.0 then 5
+    else if r <= 10.0 then 1
+    else 0
+  end","[
+  {""input"": [0.0, 0.0], ""output"": 10},
+  {""input"": [0.0, 0.5], ""output"": 10},
+  {""input"": [0.0, 1.0], ""output"": 10},
+  {""input"": [0.0, 2.0], ""output"": 5},
+  {""input"": [3.0, 4.0], ""output"": 5},
+  {""input"": [0.0, 5.0], ""output"": 5},
+  {""input"": [7.0, 7.0], ""output"": 1},
+  {""input"": [10.0, 0.0], ""output"": 1},
+  {""input"": [11.0, 0.0], ""output"": 0},
+  {""input"": [-0.5, -0.5], ""output"": 10}
+]"
+Difference of Squares,"Find the difference between the square of the sum and the sum of the squares of the first N natural numbers.
+
+---------------------------
+The square of the sum of the first ten natural numbers is (1 + 2 + ... + 10)² = 55² = 3025.
+
+The sum of the squares of the first ten natural numbers is 1² + 2² + ... + 10² = 385.
+
+Hence the difference between the square of the sum of the first ten natural numbers and the sum of the squares of the first ten natural numbers is 3025 - 385 = 2640.
+
+Input Type: Integer
+Output Type: Integer",Medium,differenceOfSquares,"fun squareOfSum n =
+fun sumOfSquares n =
+fun differenceOfSquares n =","fun squareOfSum n =
+  let val sum = n * (n + 1) div 2
+  in sum * sum
+  end
+fun sumOfSquares n =
+  n * (n + 1) * (2 * n + 1) div 6
+fun differenceOfSquares n =
+  squareOfSum n - sumOfSquares n","[
+  {""input"": 1, ""output"": 0},
+  {""input"": 2, ""output"": 4},
+  {""input"": 3, ""output"": 22},
+  {""input"": 5, ""output"": 170},
+  {""input"": 10, ""output"": 2640},
+  {""input"": 0, ""output"": 0},
+  {""input"": 20, ""output"": 41230},
+  {""input"": 50, ""output"": 1582700},
+  {""input"": 100, ""output"": 25164150},
+  {""input"": 4, ""output"": 70}
+]"
+Reverse String,"Reversing strings (reading them from right to left, rather than from left to right) is a surprisingly common task in programming.
+
+Your task is to reverse a given string.
+
+Some examples:
+
+Turn ""stressed"" into ""desserts"".
+Turn ""strops"" into ""sports"".
+Turn ""racecar"" into ""racecar"".
+
+Input Type: String
+Output Type: String",Medium,reverseStr,fun reverseStr (value: string): string =,fun reverseStr (value: string): string = implode(rev(explode(value))),"[
+  {""input"": ""stressed"", ""output"": ""desserts""},
+  {""input"": ""strops"", ""output"": ""sports""},
+  {""input"": ""racecar"", ""output"": ""racecar""},
+  {""input"": ""hello"", ""output"": ""olleh""},
+  {""input"": """", ""output"": """"},
+  {""input"": ""abc"", ""output"": ""cba""},
+  {""input"": ""12345"", ""output"": ""54321""},
+  {""input"": ""!@#$%"", ""output"": ""%$#@!""},
+  {""input"": ""Able was I"", ""output"": ""I saw elbA""},
+  {""input"": ""Palindrome"", ""output"": ""emordnilaP""}
+]"
+Triangle,"Write a program that determines if a shape is a triangle, and if that triangle is equilateral, isosceles, or scalene. Return ""equilateral"" if a triangle is equilateral, ""isosceles"" if a triangle is isosceles, ""scalene"" if a triangle is scalene, and ""not a triangle"" if a shape is not a triangle.
+
+Input Type: Three Element Tuple of (integer, integer, integer)
+Output Type: String",Exam,triangleType,"fun triangleType (a, b, c) =","fun triangleType (a, b, c) =
+    if a + b <= c orelse a + c <= b orelse b + c <= a then
+        ""not a triangle""
+    else if a = b andalso b = c then
+        ""equilateral""
+    else if a = b orelse b = c orelse a = c then
+        ""isosceles""
+    else
+        ""scalene"";","[
+  {""input"": [2, 2, 2], ""output"": ""equilateral""},
+  {""input"": [3, 4, 4], ""output"": ""isosceles""},
+  {""input"": [4, 3, 4], ""output"": ""isosceles""},
+  {""input"": [3, 4, 5], ""output"": ""scalene""},
+  {""input"": [10, 1, 1], ""output"": ""not a triangle""},
+  {""input"": [5, 5, 8], ""output"": ""isosceles""},
+  {""input"": [7, 10, 5], ""output"": ""scalene""},
+  {""input"": [0, 0, 0], ""output"": ""not a triangle""},
+  {""input"": [5, 5, 5], ""output"": ""equilateral""},
+  {""input"": [2, 3, 5], ""output"": ""not a triangle""}
+]"
+Bob,"Your task is to determine what Bob will reply to someone when they say something to him or ask him a question.
+
+Bob only ever answers one of five things:
+
+""Sure."" This is his response if you ask him a question, such as ""How are you?"" The convention used for questions is that it ends with a question mark.
+""Whoa, chill out!"" This is his answer if you YELL AT HIM. The convention used for yelling is ALL CAPITAL LETTERS.
+""Calm down, I know what I'm doing!"" This is what he says if you yell a question at him.
+""Fine. Be that way!"" This is how he responds to silence. The convention used for silence is nothing, or various combinations of whitespace characters.
+""Whatever."" This is what he answers to anything else.
+
+Input Type: String
+Output Type: String",Hard,response,fun response s =,"fun response s =
+    let
+      val chars = List.filter (not o Char.isSpace) (String.explode s)
+      val letters = List.filter Char.isAlpha chars
+      val last = if not(List.null chars) then List.last chars else #"" ""
+      val hasLetter = not(List.null(letters))
+      val allUppercase = List.all Char.isUpper letters
+      val isEmpty = List.null(chars)
+      val isYelling = allUppercase andalso hasLetter
+      val isQuestion = last = #""?""
+    in
+      case (isEmpty, isYelling, isQuestion)
+       of (true, _, _) => ""Fine. Be that way!""
+        | (_, true, true) => ""Calm down, I know what I'm doing!""
+        | (_, true, _) => ""Whoa, chill out!""
+        | (_, _, true) => ""Sure.""
+        | _ => ""Whatever.""
+    end","[
+  {""input"": ""How are you?"", ""output"": ""Sure.""},
+  {""input"": ""HELLO!"", ""output"": ""Whoa, chill out!""},
+  {""input"": ""Hey there!"", ""output"": ""Whatever.""},
+  {""input"": ""HOW ARE YOU?"", ""output"": ""Calm down, I know what I'm doing!""},
+  {""input"": """", ""output"": ""Fine. Be that way!""},
+  {""input"": ""   "", ""output"": ""Fine. Be that way!""},
+  {""input"": ""What's up."", ""output"": ""Whatever.""},
+  {""input"": ""Are you okay???"", ""output"": ""Sure.""},
+  {""input"": ""STOP IT?"", ""output"": ""Calm down, I know what I'm doing!""},
+  {""input"": ""This is fine."", ""output"": ""Whatever.""}
+]"
+Raindrops,"Your task is to convert a number into its corresponding raindrop sounds.
+
+If a given number:
+
+is divisible by 3, add ""Pling"" to the result.
+is divisible by 5, add ""Plang"" to the result.
+is divisible by 7, add ""Plong"" to the result.
+is not divisible by 3, 5, or 7, the result should be the number as a string.
+
+Examples
+28 is divisible by 7, but not 3 or 5, so the result would be ""Plong"".
+30 is divisible by 3 and 5, but not 7, so the result would be ""PlingPlang"".
+34 is not divisible by 3, 5, or 7, so the result would be ""34"".
+
+Input: Integer
+Output: String",Hard,raindrop,fun raindrop n =,"fun raindrop n =
+    if n mod 3 <> 0 andalso n mod 5 <> 0 andalso n mod 7 <> 0 then
+       Int.toString n
+    else
+       (if n mod 3 = 0 then ""Pling"" else """") ^
+       (if n mod 5 = 0 then ""Plang"" else """") ^
+       (if n mod 7 = 0 then ""Plong"" else """")","[
+  {""input"": 28, ""output"": ""Plong""},
+  {""input"": 30, ""output"": ""PlingPlang""},
+  {""input"": 34, ""output"": ""34""},
+  {""input"": 21, ""output"": ""PlingPlong""},
+  {""input"": 35, ""output"": ""PlangPlong""},
+  {""input"": 105, ""output"": ""PlingPlangPlong""},
+  {""input"": 3, ""output"": ""Pling""},
+  {""input"": 5, ""output"": ""Plang""},
+  {""input"": 7, ""output"": ""Plong""},
+  {""input"": 1, ""output"": ""1""}
+]"
+Run-Length Encoding,"Implement run-length encoding.
+
+Run-length encoding (RLE) is a simple form of data compression, where runs (consecutive data elements) are replaced by just one data value and count.
+
+For example we can represent the original 53 characters with only 13.
+
+""WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB""  ->  ""12WB12W3B24WB""
+RLE allows the original data to be perfectly reconstructed from the compressed data, which makes it a lossless data compression.
+
+""AABCCCDEEEE""  ->  ""2AB3CD4E""  ->  ""AABCCCDEEEE""
+For simplicity, you can assume that the unencoded string will only contain the letters A through Z (either lower or upper case) and whitespace. This way data to be encoded will never contain any numbers and numbers inside data to be decoded always represent the count for the following character.
+
+Input Type: String
+Output Type: String",Hard,encode,fun encode (phrase: string): string =,"fun encode (phrase: string): string =
+  let
+    fun process (0, c) = """"
+      | process (1, c) = String.str c
+      | process (n, c) = Int.toString n ^ String.str c
+    fun f (c, (prev, n, acc)) =
+      if c = prev
+        then (prev, n + 1, acc)
+      else (c, 1, process (n, prev) :: acc)
+    val (c, n, acc) = CharVector.foldr f (#""-"", 0, []) phrase
+  in
+    String.concat (process (n, c) :: acc)
+  end","[
+  {""input"": ""AABCCCDEEEE"", ""output"": ""2AB3CD4E""},
+  {""input"": ""AABCCCDEEEE"", ""output"": ""2AB3CD4E""},
+  {""input"": ""WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB"", ""output"": ""12WB12W3B24WB""},
+  {""input"": ""WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB"", ""output"": ""12WB12W3B24WB""},
+  {""input"": """", ""output"": """"},
+  {""input"": ""XYZ"", ""output"": ""XYZ""},
+  {""input"": ""AABBBCCCC"", ""output"": ""2A3B4C""},
+  {""input"": ""     "", ""output"": ""5 ""},
+  {""input"": ""AAAAAAAAAAAA"", ""output"": ""12A""},
+  {""input"": ""ABC"", ""output"": ""ABC""}
+]"
+Knapsack,"Felix is a mountain guide and porter. After months of careful planning, the expedition he works for is about to leave. He will be paid the value he carried to the base camp.
+
+In front of him are many items, each with a value and weight. Felix would gladly take all of the items, but his knapsack can only hold so much weight.
+
+Instructions
+Your task is to determine which items to take so that the total value of his selection is maximized, taking into account the knapsack's carrying capacity.
+
+Items will be represented as a list of items. Each item will have a weight and value. All values given will be strictly positive. Felix can take only one of each item.
+
+For example:
+
+Items: [
+  { ""weight"": 5, ""value"": 10 },
+  { ""weight"": 4, ""value"": 40 },
+  { ""weight"": 6, ""value"": 30 },
+  { ""weight"": 4, ""value"": 50 }
+]
+
+Knapsack Maximum Weight: 10
+
+For the above, the first item has weight 5 and value 10, the second item has weight 4 and value 40, and so on. In this example, Felix should take the second and fourth item to maximize his value, which, in this case, is 90. He cannot get more than 90 as her knapsack has a weight limit of 10.
+
+Input Type: 2 Element Tuple
+- Element 1: List of Records (each record has two values {value: integer, weight: integer}
+- Element 2: Integer
+
+Output Type: Integer",Hard,maximumValue,"fun maximumValue (items: {value: int, weight: int} list, maximumWeight: int): int =","type item = {value: int, weight: int}
+fun maximumValue ([], _) = 0
+  | maximumValue ({value, weight} :: rest, maximumWeight) =
+      if weight <= maximumWeight then
+        let
+          val don'tTake = maximumValue (rest, maximumWeight)
+          val take = value + maximumValue (rest, maximumWeight - weight)
+        in
+          Int.max (don'tTake, take)
+        end
+      else
+        maximumValue (rest, maximumWeight)","[
+  {""input"": [[{""weight"":5,""value"":10},{""weight"":4,""value"":40},{""weight"":6,""value"":30},{""weight"":4,""value"":50}], 10], ""output"": 90},
+  {""input"": [[{""weight"":2,""value"":12},{""weight"":1,""value"":10},{""weight"":3,""value"":20}], 5], ""output"": 32},
+  {""input"": [[{""weight"":2,""value"":1},{""weight"":2,""value"":2},{""weight"":2,""value"":3}], 2], ""output"": 3},
+  {""input"": [[{""weight"":5,""value"":10},{""weight"":4,""value"":40}], 4], ""output"": 40},
+  {""input"": [[{""weight"":5,""value"":10},{""weight"":4,""value"":40}], 3], ""output"": 0},
+  {""input"": [[{""weight"":3,""value"":60},{""weight"":2,""value"":100},{""weight"":4,""value"":120}], 5], ""output"": 160},
+  {""input"": [[{""weight"":1,""value"":10},{""weight"":1,""value"":20},{""weight"":1,""value"":30}], 2], ""output"": 50},
+  {""input"": [[{""weight"":10,""value"":200},{""weight"":20,""value"":300}], 10], ""output"": 200},
+  {""input"": [[{""weight"":10,""value"":60},{""weight"":20,""value"":100},{""weight"":30,""value"":120}], 50], ""output"": 220},
+  {""input"": [[{""weight"":5,""value"":100}], 0], ""output"": 0}
+]"
+Acronym,"Write a program that converts a long phrase to it's acronym.
+Punctuation is handled as follows: hyphens are word separators (like whitespace); all other punctuation can be removed from the input.
+
+Examples:
+As Soon As Possible -> ASAP
+Liquid-crystal display -> LCD
+Thank George It's Friday! -> TGIF
+
+Input Type: String
+Output Type: String",Hard,abbreviate,fun abbreviate (phrase: string): string =,"fun abbreviate (phrase: string): string =
+  let
+    fun is_delim c = Char.contains "" -_,"" c
+    val tokens = String.tokens is_delim phrase
+    fun first_char_up word = Char.toUpper (String.sub (word, 0))
+  in
+    String.implode (List.map first_char_up tokens)
+  end;","[
+  {""input"": ""As Soon As Possible"", ""output"": ""ASAP""},
+  {""input"": ""Liquid-crystal display"", ""output"": ""LCD""},
+  {""input"": ""Thank George It's Friday!"", ""output"": ""TGIF""},
+  {""input"": ""Personalized AI Learning System"", ""output"": ""PALS""},
+  {""input"": ""First In, First Out"", ""output"": ""FIFO""},
+  {""input"": ""GNU Image Manipulation Program"", ""output"": ""GIMP""},
+  {""input"": ""Complementary metal-oxide semiconductor"", ""output"": ""CMOS""},
+  {""input"": ""Hyper-text Markup Language"", ""output"": ""HTML""},
+  {""input"": ""Everything. Everywhere. All At Once."", ""output"": ""EEAAO""},
+  {""input"": ""Self-contained underwater breathing apparatus"", ""output"": ""SCUBA""}
+]"
+Collatz Conjecture,"The Collatz Conjecture:
+Pick any positive integer.
+
+If it's even, divide it by 2.
+If it's odd, multiply it by 3 and add 1.
+Then, repeat these steps with the result, continuing indefinitely.
+
+Curious, you picked number 12 to test and began the journey:
+
+12 ➜ 6 ➜ 3 ➜ 10 ➜ 5 ➜ 16 ➜ 8 ➜ 4 ➜ 2 ➜ 1
+
+---------------------------------------------------------------------------
+Return the number of steps it takes to reach 1 according to the rules of the Collatz Conjecture.
+If reaching 1 is impossible, return None.
+
+Input Type: Integer
+Output Type: Optional Integer",Hard,collatz,fun collatz n =,"fun collatz n =
+    if n < 1
+    then NONE
+    else let
+        fun c 1 a = a
+          | c x a =
+                case x mod 2 of
+                  0 => c (x div 2) (a + 1)
+                | 1 => c ((3 * x) + 1) (a + 1)
+    in
+        SOME (c n 0)
+    end","[
+  {""input"": 1, ""output"": {""SOME"": 0}},
+  {""input"": 2, ""output"": {""SOME"": 1}},
+  {""input"": 3, ""output"": {""SOME"": 7}},
+  {""input"": 6, ""output"": {""SOME"": 8}},
+  {""input"": 7, ""output"": {""SOME"": 16}},
+  {""input"": 12, ""output"": {""SOME"": 9}},
+  {""input"": 19, ""output"": {""SOME"": 20}},
+  {""input"": 27, ""output"": {""SOME"": 111}},
+  {""input"": 100, ""output"": {""SOME"": 25}},
+  {""input"": 0, ""output"": null}
+]"
+Resistor Color,"If you want to build something using a Raspberry Pi, you'll probably use resistors. For this exercise, you need to know two things about them:
+
+Each resistor has a resistance value.
+Resistors are small - so small in fact that if you printed the resistance value on them, it would be hard to read.
+
+These colors are encoded as follows:
+
+black: 0
+brown: 1
+red: 2
+orange: 3
+yellow: 4
+green: 5
+blue: 6
+violet: 7
+grey: 8
+white: 9
+The goal of this exercise is to create a way:
+- to look up the numerical value associated with a particular color band
+- to list the different band colors
+
+Input Type: String
+Output Type: Integer",Exam,colorCode,fun colorCode color =,"val colors = [ ""black"", ""brown"", ""red"", ""orange"", ""yellow""
+             , ""green"", ""blue"", ""violet"", ""grey"", ""white""
+             ]
+fun colorCode color =
+  let fun code ([], _)    = raise Domain
+        | code (c::cs, i) = if c = color then i else code (cs, i + 1)
+  in  code (colors, 0)
+  end","[
+  {""input"": ""black"", ""output"": 0},
+  {""input"": ""brown"", ""output"": 1},
+  {""input"": ""red"", ""output"": 2},
+  {""input"": ""green"", ""output"": 5},
+  {""input"": ""white"", ""output"": 9},
+  {""input"": ""violet"", ""output"": 7},
+  {""input"": ""grey"", ""output"": 8},
+  {""input"": ""blue"", ""output"": 6},
+  {""input"": ""orange"", ""output"": 3},
+  {""input"": ""green"", ""output"": 5}
+]"

@@ -12,11 +12,10 @@ class Profile(models.Model):
 # Holds the coding question
 class Question (models.Model): # Object that holds the coding question
     DIFFICULTY_CHOICES = [
-        (1, 'Very Easy'),
-        (2, 'Easy'),
-        (3, 'Medium'),
-        (4, 'Hard'),
-        (5, 'Exam'),
+        (1, 'Easy'),
+        (2, 'Medium'),
+        (3, 'Hard'),
+        (4, 'Exam'),
     ]
 
     question_title = models.CharField(max_length = 255, default="Question_Title", primary_key=True)
