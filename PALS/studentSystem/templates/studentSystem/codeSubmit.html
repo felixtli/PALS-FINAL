@@ -26,12 +26,15 @@
                 </div>
             </div>
 
-            <div class="problem-compiler-container">
-                <div class="problem-container">
+            <div class="problem-compiler-container" id="split-container">
+                <div class="problem-container" id="top-pane">
                     <h1 class="problem-header"> {{ session.question.question_title }} </h1>
-                    <p class="problem-description"> {{ session.question.question_description }}</p>
+                    <p class="problem-description"> {{ session.question.question_description|linebreaksbr }}</p>
                 </div>
-                <div class="compiler-container">
+
+                <div id="dragBar" class="drag-bar" role="separator" aria-label="Resize problem and compiler"></div>
+
+                <div class="compiler-container" id="bottom-pane">
                     <p class="compiler-output" id="original-compiler-message"> This is the SML Compiler. Your code's output will be shown here. </p>
                 </div>
             </div>

@@ -31,10 +31,10 @@ img {
 }
 
 #main {
-    margin-top: 1vh;
+    margin-top: 0.1vh;
     display: grid;
     grid-template-columns: 1fr 5fr;
-    grid-template-rows: 80.5vh 10vh;
+    grid-template-rows: 79.5vh 10vh;
     background-image: linear-gradient(var( --primary-color), var(--secondary-color));
     grid-template-areas:
     "chat chat chat"
@@ -120,8 +120,8 @@ div.inputArea { /* User input area */
 }
 
 #response { /* User text input area */
-    min-height: 50px;
-    height: 50px;
+    min-height: 45px;
+    height: 45px;
     max-height: 225px;
     width: 80%;
     margin-left: 8px;
@@ -131,7 +131,7 @@ div.inputArea { /* User input area */
     color: var(--gray);
     font-family: sans-serif;
     font-size: 15px;
-    padding: 10px;
+    padding: 5px;
     box-shadow: 0.5px 3px 8px #00000066;
     resize: none;
 }

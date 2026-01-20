@@ -182,7 +182,14 @@ def getAIResponse(request, id):
     if request.method == "POST":
         session = Session.objects.get(pk = id)
         conversationHistory = session.chatLog
-        conversationHistory.insert(0, {"role": "system", "content": "You are a helpful programming assistant that has expertise in StandardML."})
+        question_description = session.question.question_description
+
+        conversationHistory.insert(0, {"role": "system", "content": "You are a helpful programming assistant that has expertise in StandardML."
+                                    + "\nThe user will ask you for help on a programming question." +
+                                    "\nNever provide a complete working solution or full function definition."
+                                    + "\nYou may provide at most 3–5 lines of code at a time, and only as illustrative fragments."
+                                    + "\nFocus on algorithm, decomposition, invariants, test cases, and debugging steps."
+                                    + "\nIf you do suggest a code change, it is vital that you explain the details of why you made that change."})
         conversationHistory.insert(1, {"role": "assistant", "content": "Hello, I am a helpful programming assistant specialized in StandardML! Let me know if you have any questions about the language, and I'm here to help!"})
         for entry in range(2, len(conversationHistory)):
             if entry % 2 == 1:
@@ -238,13 +245,48 @@ def askAI(request, id):
 
         submission = body.get("submission")
         compiler_output = body.get("compiler_output")
+        question_description = Session.objects.get(pk=id).question.question_description
 
-        response = generateCloudResponse([{"role" : "system", "content" : "You are a helpful programming assistant that has expertise in StandardML."},
-                                      {"role" : "user", "content" : "Analyze the following StandardML code: " + submission
-                                    +"This what the code currently outputs in the compiler when it is run: " + compiler_output
-                                    +"If there is an error, explain what the error means and how to fix it." + 
-                                    " If there is no error, suggest improvements to the code or optimizations that can be made." }])
+        response = generateCloudResponse([{"role": "system", "content": "You are a helpful programming assistant that has expertise in StandardML."
+                                    + "\nThe user will ask you for help on a programming question." +
+                                    "\nNever provide a complete working solution or full function definition."
+                                    + "\nYou may provide at most 3–5 lines of code at a time, and only as illustrative fragments."
+                                    + "\nFocus on algorithm, decomposition, invariants, test cases, and debugging steps."
+                                    + "\nIf you do suggest a code change, it is vital that you explain the details of why you made that change."},
+                                      {"role" : "user", "content" : "\nAnalyze the following StandardML code: " + submission
+                                    +"\nThis what the code currently outputs in the compiler when it is run: " + compiler_output
+                                    +"\nIf there is an error, explain what the error means and how to fix it." + 
+                                    " \nIf there is no error, suggest improvements to the code or optimizations that can be made." }])
         return JsonResponse({"AI_response" : response})
+
+@require_POST
+def save_system_hint(request, id):
+    try:
+        session = Session.objects.get(pk=id)
+    except Session.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Session not found"}, status=404)
+
+    if not request.user.is_authenticated or session.user_id != request.user.id:
+        return JsonResponse({"status": "error", "message": "Forbidden"}, status=403)
+
+    try:
+        print ("WE GOT TO THE MAIN VIEW")
+        body = json.loads(request.body.decode("utf-8"))
+        contents = (body.get("contents") or "").strip()
+        if not contents:
+            return JsonResponse({"status": "error", "message": "Empty contents"}, status=400)
+
+        SystemHint.objects.create(
+            user=request.user,
+            session=session,
+            contents=contents,
+            code_contents=session.codeSubmission # This line may cause issues
+        )
+
+        return JsonResponse({"status": "ok"})
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
 
 def runCompile(request): 
     if request.method == "POST":
@@ -404,142 +446,6 @@ def track_cursor(request):
         CursorEvent.objects.bulk_create(events)
 
     return JsonResponse({"status": "ok", "saved": len(events), "timestamp": timezone.now().isoformat()})
-
-import csv
-from django.http import HttpResponse
-from openpyxl import Workbook
-from .models import CursorEvent
-
-def analyticsCSV(request): # Export analytics data as an XLSX file
-
-    wb = Workbook()
-
-    # Sheet 1: CursorEvent
-    sheet = wb.active
-    sheet.title = "CursorEvents"
-
-    cursor_qs = CursorEvent.objects.filter(user=request.user).order_by("created_at")
-
-    cursor_headers = [
-        "id",
-        "created_at",
-        "path",
-        "session_id",
-        "x",
-        "y",
-        "viewport_width",
-        "viewport_height",
-        "scroll_y",
-    ]
-    sheet.append(cursor_headers)
-
-    for e in cursor_qs:
-        sheet.append([
-            e.id,
-            e.created_at.isoformat(),
-            e.path,
-            e.session_id,
-            e.x,
-            e.y,
-            e.viewport_width,
-            e.viewport_height,
-            e.scroll_y,
-        ])
-
-    # Sheet 2: PageView
-    sheet = wb.create_sheet("PageViews")
-
-    page_qs = PageView.objects.filter(user=request.user).order_by("created_at")
-
-    page_headers = [
-        "id",
-        "session_key",
-        "path",
-        "referrer",
-        "user_agent",
-        "started_at",
-        "ended_at",
-        "duration_ms",
-        "extra",
-        "created_at",
-    ]
-    sheet.append(page_headers)
-
-    for p in page_qs:
-        sheet.append([
-            p.id,
-            p.session_key,
-            p.path,
-            p.referrer,
-            p.user_agent,
-            p.started_at.isoformat() if p.started_at else "",
-            p.ended_at.isoformat() if p.ended_at else "",
-            p.duration_ms,
-            json.dumps(p.extra),
-            p.created_at.isoformat(),
-        ])
-
-    # Sheet 3: WebsiteSession
-    sheet = wb.create_sheet("WebsiteSessions")
-
-    session_qs = WebsiteSession.objects.filter(user=request.user).order_by("created_at")
-    print ("Website session QS length: " + str(session_qs.count()))
-
-    session_headers = [
-        "id",
-        "session_key",
-        "user_id",
-        "total_active_ms",
-        "last_ping",
-        "created_at",
-        "updated_at",
-    ]
-    sheet.append(session_headers)
-
-    for s in session_qs:
-        sheet.append([
-            s.id,
-            s.session_key,
-            s.user_id,
-            s.total_active_ms,
-            s.last_ping.isoformat() if s.last_ping else "",
-            s.created_at.isoformat(),
-            s.updated_at.isoformat(),
-        ])
-
-    # Sheet 4: Deletion Events
-    sheet = wb.create_sheet("DeletionEvents")
-
-    deletion_qs = DeletionEvent.objects.filter(user=request.user).order_by("timestamp")
-
-    deletion_headers = [
-        "id",
-        "session_id",
-        "position",
-        "length",
-        "content",
-        "timestamp",
-    ]
-    sheet.append(deletion_headers)
-
-    for d in deletion_qs:
-        sheet.append([
-            d.id,
-            d.session_id,
-            d.position,
-            d.length,
-            d.content,
-            d.timestamp.isoformat(),
-        ])
-
-    # Create HTTP that downloads the XLSX file
-    response = HttpResponse(
-        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
-    response["Content-Disposition"] = 'attachment; filename="analytics.xlsx"'
-
-    wb.save(response)
-    return response
 
 def track_deletion(request):
     print ("Successfully got to deletion view")

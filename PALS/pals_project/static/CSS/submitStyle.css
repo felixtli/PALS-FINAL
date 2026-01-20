@@ -95,6 +95,8 @@
     width: 45%;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    overflow: auto;
 }
 
 .problem-container {
@@ -120,13 +122,26 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .compiler-output {
     padding: 12px 15px;
     border-top: 4px dashed var(--tertiary-color);
     white-space: pre-wrap;
+}
+
+.drag-bar{
+  height: 6px;
+  flex: 0 0 10px;
+  cursor: row-resize;
+  background: rgba(255,255,255,0.10);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(0,0,0,0.35);
+}
+
+.drag-bar:hover{
+  background: rgba(255,255,255,0.16);
 }
 
 /* width */
@@ -139,28 +154,20 @@
     border-radius: 8px;
 }
 
-/* ---------------------------
-   CodeMirror (PALS theme)
-   --------------------------- */
 
-/* Make CodeMirror occupy the same visual styling as your textarea */
 .input-area-container .CodeMirror {
-  /* fill the flex space like the textarea did */
   flex: 1;
   width: 100%;
 
-  /* match your input styling */
   font-size: 1.00rem;
   border: 3px solid var(--primary-color-light);
-  border-radius: 0; /* change if you want rounded */
-  padding: 0;       /* CodeMirror manages inner padding via lines */
+  border-radius: 0; 
+  padding: 0;       
 
-  /* important: ensure the editor background fits your page */
   background: var(--primary-color);
   color: var(--text-color);
 }
 
-/* Cursor + selection */
 .input-area-container .CodeMirror-cursor {
   border-left: 2px solid var(--text-color);
 }
@@ -168,7 +175,6 @@
   background: var(--highlight);
 }
 
-/* When focused, match your textarea focus border */
 .input-area-container .CodeMirror-focused {
   border: 3px solid var(--highlight);
 }
@@ -177,7 +183,6 @@
   background: rgba(255, 255, 255, 0.12) !important;
 }
 
-/* Gutter (line numbers) */
 .input-area-container .CodeMirror-gutters {
   background: var(--primary-color-light);
   border-right: 1px solid var(--secondary-color-dark);
@@ -186,7 +191,6 @@
   color: rgba(255,255,255,0.35);
 }
 
-/* Token colors – tune these to match your site palette */
 .cm-s-pals .cm-keyword   { color: var(--highlight-2); font-weight: 600; }
 .cm-s-pals .cm-string    { color: var(--highlight-green); }
 .cm-s-pals .cm-comment   { color: rgba(255,255,255,0.45); font-style: italic; }
@@ -195,7 +199,6 @@
 .cm-s-pals .cm-variable,
 .cm-s-pals .cm-variable-2{ color: rgba(255,255,255,0.9); }
 
-/* Optional: active line highlight */
 .cm-s-pals .CodeMirror-activeline-background {
   background: rgba(255,255,255,0.04);
 }
@@ -210,7 +213,6 @@
   font-family: monospace;
 }
 
-/* ensure the internal scroll area fills height */
 .input-area-container .CodeMirror-scroll {
   min-height: 0;
 }

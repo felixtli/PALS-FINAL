@@ -60,7 +60,11 @@ function createNewChat(type, text) {
   newArea.appendChild(newText);
   const textNode = document.createTextNode(text);
   newText.appendChild(textNode);
-  document.getElementById("conversationArea").appendChild(newArea);
+
+  conversationArea = document.getElementById("conversationArea")
+  conversationArea.appendChild(newArea);
+
+  conversationArea.scrollTop = conversationArea.scrollHeight;
 }
 
 function loadChat(chatLog) {
@@ -142,4 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
             update(sessionID);
         }
     });
+});
+
+window.addEventListener('load', function () {
+    window.scrollTo(0, document.body.scrollHeight);
 });

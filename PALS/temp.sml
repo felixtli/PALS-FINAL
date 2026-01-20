@@ -1,1 +1,1 @@
-fun maxNumber (a, b) =
+fun collatz n = if n = 1 then 1 else if n mod 2 = 0 then collatz (n div 2) else collatz (3*n+1)

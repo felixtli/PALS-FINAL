@@ -124,6 +124,27 @@ async function createCompilerOutputElement(compiled_output) {
     document.querySelector(".compiler-container").appendChild(newOutput);
 }
 
+
+async function saveSystemHint(id, contents) {
+    const csrftoken = getCookie("csrftoken");
+    try {
+        const response = await fetch(`/${id}/save-system-hint/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken
+            },
+            body: JSON.stringify({ contents })
+        });
+
+        if (!response.ok) {
+            throw new Error(`saveSystemHint failed: ${response.status}`);
+        }
+    } catch (err) {
+        console.error("saveSystemHint error:", err.message);
+    }
+}
+
 async function askAI(id) {
     const code = window.codeMirrorEditor.getValue();
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
@@ -148,6 +169,7 @@ async function askAI(id) {
         const AI_response = returned_json.AI_response;
         
         createCompilerOutputElement(AI_response); // Display compiler output
+        await saveSystemHint(id, AI_response); // Save AI system hint to database
         saveCode(id); // Save code after compilation
         
     } catch (error) {
@@ -281,4 +303,48 @@ window.addEventListener("beforeunload", function() {
     const url = `/${window.sessionID}/save/`;
 
     navigator.sendBeacon(url, blob);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("split-container");
+    const top = document.getElementById("top-pane");
+    const bottom = document.getElementById("bottom-pane");
+    const bar = document.getElementById("dragBar");
+
+    if (!container || !top || !bottom || !bar) return;
+
+    const minTop = 40;
+    const minBottom = 40;
+
+    let dragging = false;
+
+    bar.addEventListener("mousedown", (e) => {
+        dragging = true;
+        document.body.style.userSelect = "none";
+        e.preventDefault();
+    });
+
+    window.addEventListener("mousemove", (e) => {
+        if (!dragging) return;
+
+        const rect = container.getBoundingClientRect();
+        const barH = bar.offsetHeight;
+
+        // mouse position relative to container top
+        let newTop = e.clientY - rect.top;
+
+        // clamp
+        const maxTop = rect.height - minBottom - barH;
+        newTop = Math.max(minTop, Math.min(newTop, maxTop));
+
+        // set heights
+        top.style.height = `${newTop}px`;
+        bottom.style.height = `${rect.height - newTop - barH}px`;
+    });
+
+    window.addEventListener("mouseup", () => {
+        if (!dragging) return;
+        dragging = false;
+        document.body.style.userSelect = "";
+    });
 });

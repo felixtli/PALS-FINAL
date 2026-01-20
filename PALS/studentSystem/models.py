@@ -47,6 +47,17 @@ class Session (models.Model):
     chatLog = models.JSONField(default=list, blank=True)
     codeSubmission = models.CharField(max_length=2500, default="") 
 
+class SystemHint(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    contents = models.TextField()
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="system_hints")
+    session = models.ForeignKey("Session", on_delete=models.CASCADE, related_name="system_hints")
+    code_contents = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"SystemHint(session={self.session_id}, user={self.user_id}, created_at={self.created_at})"
+
 # Tracks user progress per question
 class QuestionAttempt(models.Model):
     associated_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)

@@ -10,6 +10,7 @@ admin.site.register(WebsiteSession)
 admin.site.register(CursorEvent)
 admin.site.register(DeletionEvent)
 admin.site.register(EndSurveyResponse)
+admin.site.register(SystemHint)
 
 
 
