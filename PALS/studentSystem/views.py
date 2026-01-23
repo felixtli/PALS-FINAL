@@ -466,7 +466,9 @@ def track_deletion(request):
             length = data.get("length", 0),
             deleted_content = data.get("deleted_content", ""),
             new_content = data.get("new_content", ""),
-            timestamp = timestamp
+            timestamp = timestamp,
+            old_code = data.get("old_code"),
+            new_code = data.get("new_code"),
         )
 
     except Exception:

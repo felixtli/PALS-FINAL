@@ -12,14 +12,34 @@ document.addEventListener("DOMContentLoaded", function () {
   oldValue = editor.getValue();
 
   // Track changes via CodeMirror
-  editor.on("change", () => {
+  editor.on("change", (cm, changeObj) => {
     const newValue = editor.getValue();
 
-    const diff = getDiff(oldValue, newValue);
+    // What CodeMirror says was deleted/replaced
+    const replaced = (changeObj.removed || []).join("\n");
+    const inserted = (changeObj.text || []).join("\n");
+
+    // Start index in the full document (0-based character index)
+    const startIndex = cm.indexFromPos(changeObj.from);
+
+    // Length of deleted/replaced text (in characters)
+    const deletionLength = replaced.length;
+
+    // IMPORTANT:
+    const isDeletion = deletionLength > 0;
+
+    const diff = {
+      replaced,
+      inserted,
+      startIndex,
+      isDeletion,
+      deletionLength,
+    };
+
     console.log(JSON.stringify(diff, null, 2));
 
-    if (diff.isDeletion === true) {
-      trackDeletion(diff);
+    if (diff.isDeletion) {
+      trackDeletion(diff, oldValue, newValue);
     }
 
     oldValue = newValue;
@@ -79,7 +99,7 @@ function getCookie(name) {
   return cookieValue;
 }
 
-async function trackDeletion(diff) {
+async function trackDeletion(diff, oldValue, newValue) {
   const csrftoken = getCookie("csrftoken");
 
   try {
@@ -95,6 +115,8 @@ async function trackDeletion(diff) {
         new_content: diff.inserted,
         position: diff.startIndex,
         length: diff.deletionLength,
+        old_code : oldValue,
+        new_code: newValue,
       }),
     });
 

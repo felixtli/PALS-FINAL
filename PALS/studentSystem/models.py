@@ -123,6 +123,8 @@ class DeletionEvent(models.Model):
     deleted_content = models.TextField() # Content that was deleted
     new_content = models.TextField(null=True, blank=True) # Content that was written
     timestamp = models.DateTimeField(auto_now_add=True)
+    old_code = models.TextField() # Old content pre-deletion
+    new_code = models.TextField() # Resultant content post-deletion
 
 class EndSurveyResponse(models.Model):
     user = models.ForeignKey(
