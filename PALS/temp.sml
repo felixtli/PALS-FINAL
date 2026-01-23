@@ -1,1 +1,9 @@
-fun collatz n = if n = 1 then 1 else if n mod 2 = 0 then collatz (n div 2) else collatz (3*n+1)
+fun eggCount (number: int): int =
+  let
+    infix 5 &
+    val op& = Word.andb
+    fun popCount (0w0, n) = n
+      | popCount (w, n) = popCount (w & (w - 0w1), n + 1)
+  in
+    popCount (Word.fromInt number, 0)
+  end

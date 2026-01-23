@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Length of deleted/replaced text (in characters)
     const deletionLength = replaced.length;
 
-    // IMPORTANT:
     const isDeletion = deletionLength > 0;
 
     const diff = {

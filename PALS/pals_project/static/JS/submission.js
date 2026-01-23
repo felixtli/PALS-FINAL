@@ -313,8 +313,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!container || !top || !bottom || !bar) return;
 
-    const minTop = 40;
-    const minBottom = 40;
+    const minTop = 0;
+    const minBottom = 0;
 
     let dragging = false;
 
