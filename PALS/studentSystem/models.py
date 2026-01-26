@@ -5,7 +5,14 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Extension of Django's prebuilt "User" module
 class Profile(models.Model):
+    USER_TYPES = (
+        ("A", "Group A"),
+        ("B", "Group B"),
+    )
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user_type = models.CharField(max_length=1, choices=USER_TYPES)
+
     question_history = models.ManyToManyField('QuestionAttempt', blank=True)
     next_questions = models.ManyToManyField('Question', blank=True, related_name='next_for_profiles')
 
@@ -146,7 +153,7 @@ class EndSurveyResponse(models.Model):
 
     ml_familiarity = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(7)],
-        help_text="Self-rated ML / StandardML familiarity (1–7)"
+        help_text="Self-rated ML / Standard ML familiarity (1–7)"
     )
 
     current_fatigue = models.PositiveSmallIntegerField(

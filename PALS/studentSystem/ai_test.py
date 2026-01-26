@@ -46,7 +46,7 @@ if __name__ == "__main__":
     payload = {
         "model": model,
         "messages": [
-                {"role": "user", "content": "Output the following text exactly as is: Hello, I am a helpful programming assistant specialized in StandardML! Let me know if you have any questions about the language, and I'm here to help!"}
+                {"role": "user", "content": "Output the following text exactly as is: Hello, I am a helpful programming assistant specialized in Standard ML! Let me know if you have any questions about the language, and I'm here to help!"}
             ],
         "keep_alive": -1,  # keep model hot
         "stream": True,
@@ -62,7 +62,7 @@ if __name__ == "__main__":
                 pass
             if data.get("done"):
                 break
-    messages = [{"role": "system", "content": "You are a helpful programming assistant that has expertise in StandardML."}]
+    messages = [{"role": "system", "content": "You are a helpful programming assistant that has expertise in Standard ML."}]
 
     try:
         while True:

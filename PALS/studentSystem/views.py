@@ -9,7 +9,7 @@ from .chatbot import generateResponse, generateCloudResponse
 from .forms import StyledUserCreationForm, StyledAuthenticationForm
 from django.contrib.auth import login, logout
 from .compiler import compileCode, handler
-from .question_assignment import initialQuestion, assignment
+from .question_assignment import initialQuestion, assignment, non_adaptive_assignment
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpRequest
 from json import JSONDecodeError
@@ -29,13 +29,25 @@ def signupView(request): # TODO - Style error messages
             new_user = form.save()
             login(request, new_user)
 
-            # Call initialization logic
+            # Get current profile
             currentProfile = Profile.objects.get(user=new_user)
-            initialQuestion(currentProfile)
+            
+            # Save group choice
+            currentProfile.user_type = form.cleaned_data["user_type"]
+            currentProfile.save()
+
+            # Initialize initial set of questions for group A
+            if currentProfile.user_type == "A":
+                initialQuestion(currentProfile)
+
+            # Initialize non-adaptive question assignment for group B
+            if currentProfile.user_type == "B":
+                non_adaptive_assignment(currentProfile)
 
             # Queue the first set of questions
             nextQuestions = currentProfile.next_questions.all()
 
+            # If there are queued questions, create the first session and attempt
             if nextQuestions.exists():
                 queuedQuestion = nextQuestions.first()
                 session = Session.objects.create(user=new_user, question=queuedQuestion)
@@ -89,6 +101,11 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
     currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
     sessions = Session.objects.filter(user=currentUser).order_by('-pk') # All sessions associated with the user, ordered by most recent
     nextQuestions = currentProfile.next_questions.all()
+    attempt_count = currentProfile.question_history.count()
+    completed_count = max(0, attempt_count - 1)
+
+    if currentProfile.user_type == "B" and completed_count >= 6:
+        return render(request, "studentSystem/userEndSurvey.html")
 
     request_type = None
     if request.method == "POST": # Use POST request to request the next question
@@ -112,6 +129,7 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
             currentProfile.next_questions.remove(nextQuestions.first())
 
         elif request_type == "next_question" and not nextQuestions.exists():
+
             assignment(currentProfile)
             queuedQuestion = nextQuestions.first()
 

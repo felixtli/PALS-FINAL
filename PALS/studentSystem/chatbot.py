@@ -44,7 +44,7 @@ def generateResponse (messages):
 def generateCloudResponse(messages):
     client = Client(
         host="https://ollama.com",
-        headers={'Authorization': 'Bearer ' + os.environ.get('OLLAMA_API_KEY')}
+        headers={'Authorization': 'Bearer ' + 'd70bb7b59f934982bb2f5a31fe589f5c.QTMkwMi-QS3FDBJ3r3M1PEmu'}
     )
 
     # System instruction

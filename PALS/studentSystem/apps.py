@@ -27,7 +27,7 @@ class StudentsystemConfig(AppConfig): # Warms up AI model before server opens
             payload = {
                 "model": model,
                 "messages": [
-                        {"role": "user", "content": "Output the following text exactly as is: Hello, I am a helpful programming assistant specialized in StandardML! Let me know if you have any questions about the language, and I'm here to help!"}
+                        {"role": "user", "content": "Output the following text exactly as is: Hello, I am a helpful programming assistant specialized in Standard ML! Let me know if you have any questions about the language, and I'm here to help!"}
                     ],
                 "keep_alive": -1,  # keep model hot
                 "stream": True,
