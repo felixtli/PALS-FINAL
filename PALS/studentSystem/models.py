@@ -235,7 +235,8 @@ class EndSurveyResponse(models.Model):
             ("yes", "Yes"),
             ("no", "No"),
             ("unsure", "Not sure"),
-        ]
+        ],
+        null=True, blank=True
     )
 
     def __str__(self):

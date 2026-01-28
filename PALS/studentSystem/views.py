@@ -202,13 +202,13 @@ def getAIResponse(request, id):
         conversationHistory = session.chatLog
         question_description = session.question.question_description
 
-        conversationHistory.insert(0, {"role": "system", "content": "You are a helpful programming assistant that has expertise in StandardML."
+        conversationHistory.insert(0, {"role": "system", "content": "You are a helpful programming assistant that has expertise in Standard ML."
                                     + "\nThe user will ask you for help on a programming question." +
                                     "\nNever provide a complete working solution or full function definition."
                                     + "\nYou may provide at most 3–5 lines of code at a time, and only as illustrative fragments."
                                     + "\nFocus on algorithm, decomposition, invariants, test cases, and debugging steps."
                                     + "\nIf you do suggest a code change, it is vital that you explain the details of why you made that change."})
-        conversationHistory.insert(1, {"role": "assistant", "content": "Hello, I am a helpful programming assistant specialized in StandardML! Let me know if you have any questions about the language, and I'm here to help!"})
+        conversationHistory.insert(1, {"role": "assistant", "content": "Hello, I am a helpful programming assistant specialized in Standard ML! Let me know if you have any questions about the language, and I'm here to help!"})
         for entry in range(2, len(conversationHistory)):
             if entry % 2 == 1:
                 conversationHistory[entry] = {"role": "assistant", "content": conversationHistory[entry]}
@@ -265,13 +265,13 @@ def askAI(request, id):
         compiler_output = body.get("compiler_output")
         question_description = Session.objects.get(pk=id).question.question_description
 
-        response = generateCloudResponse([{"role": "system", "content": "You are a helpful programming assistant that has expertise in StandardML."
+        response = generateCloudResponse([{"role": "system", "content": "You are a helpful programming assistant that has expertise in Standard ML."
                                     + "\nThe user will ask you for help on a programming question." +
                                     "\nNever provide a complete working solution or full function definition."
                                     + "\nYou may provide at most 3–5 lines of code at a time, and only as illustrative fragments."
                                     + "\nFocus on algorithm, decomposition, invariants, test cases, and debugging steps."
                                     + "\nIf you do suggest a code change, it is vital that you explain the details of why you made that change."},
-                                      {"role" : "user", "content" : "\nAnalyze the following StandardML code: " + submission
+                                      {"role" : "user", "content" : "\nAnalyze the following Standard ML code: " + submission
                                     +"\nThis what the code currently outputs in the compiler when it is run: " + compiler_output
                                     +"\nIf there is an error, explain what the error means and how to fix it." + 
                                     " \nIf there is no error, suggest improvements to the code or optimizations that can be made." }])
@@ -557,7 +557,7 @@ def post_experiment_survey_submission(request):
             # ======================
             # H. Manipulation Check
             # ======================
-            difficulty_notice=data.get("difficulty_notice"),
+            # difficulty_notice=data.get("difficulty_notice"),
         )
 
         return JsonResponse({

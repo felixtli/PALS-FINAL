@@ -86,9 +86,9 @@ async function postSurveyResponse() {
         // ======================
         // H. Manipulation Check
         // ======================
-        difficulty_notice: form.querySelector(
-            'input[name="noticed_adaptation"]:checked'
-        )?.value || null
+        // difficulty_notice: form.querySelector(
+            // 'input[name="noticed_adaptation"]:checked'
+        // )?.value || null
     };
 
     try {
