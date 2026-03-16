@@ -31,6 +31,12 @@
           </div>
 
           <div class="input-field-container">
+            <label for="{{ form.user_type.id_for_label }}">Study Group</label>
+            {{ form.user_type }}
+            {{ form.user_type.errors }}
+          </div>
+
+          <div class="input-field-container">
             <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
             {{ form.password2 }}
             {{ form.password2.errors }}

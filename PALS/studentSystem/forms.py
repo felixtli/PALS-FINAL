@@ -1,11 +1,18 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Profile
 
 class StyledUserCreationForm(UserCreationForm):
+    user_type = forms.ChoiceField(
+        choices=Profile.USER_TYPES,
+        widget=forms.Select,
+        label="Study Group",
+    )
+
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2']
+        fields = ['username', 'user_type', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -13,6 +20,8 @@ class StyledUserCreationForm(UserCreationForm):
             field.widget.attrs.update({
                 'class': 'input-field',
             })
+
+        self.fields["user_type"].initial = "B"
 
 class StyledAuthenticationForm(AuthenticationForm): # Custom subclass of AuthenticationForm that allows for CSS customization
     

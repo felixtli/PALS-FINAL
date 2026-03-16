@@ -128,9 +128,8 @@ def signupView(request): # TODO - Style error messages
 
                 # Get current profile
                 currentProfile = Profile.objects.get(user=new_user)
-                
-                # New accounts default to Group B unless reassigned for the study.
-                currentProfile.user_type = "B"
+
+                currentProfile.user_type = form.cleaned_data["user_type"]
                 currentProfile.save()
                 logger.info("signup profile ready profile_id=%s", currentProfile.id)
 
