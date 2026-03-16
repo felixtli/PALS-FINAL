@@ -6,6 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 # Extension of Django's prebuilt "User" module
 class Profile(models.Model):
     USER_TYPES = (
+        ("A", "Group A"),
         ("B", "Group B"),
     )
 
@@ -14,6 +15,10 @@ class Profile(models.Model):
 
     question_history = models.ManyToManyField('QuestionAttempt', blank=True)
     next_questions = models.ManyToManyField('Question', blank=True, related_name='next_for_profiles')
+
+    @property
+    def has_ai_access(self):
+        return self.user_type == "A"
 
 # Holds the coding question
 class Question (models.Model): # Object that holds the coding question

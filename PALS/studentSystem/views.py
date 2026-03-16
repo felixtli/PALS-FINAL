@@ -18,9 +18,27 @@ from django.db.models import F
 from django.utils import timezone
 from django.db.models.functions import Random
 import logging
+from django.core.exceptions import PermissionDenied
 
 
 logger = logging.getLogger(__name__)
+
+
+def user_has_ai_access(user):
+    if not getattr(user, "is_authenticated", False):
+        return False
+
+    profile = getattr(user, "profile", None)
+    return bool(profile and profile.user_type == "A")
+
+
+def get_owned_session_or_404(user, session_id):
+    return get_object_or_404(Session, pk=session_id, user=user)
+
+
+def require_ai_access(user):
+    if not user_has_ai_access(user):
+        raise PermissionDenied("AI features are only available to Group A users.")
 
 
 def home(request): 
@@ -111,7 +129,7 @@ def signupView(request): # TODO - Style error messages
                 # Get current profile
                 currentProfile = Profile.objects.get(user=new_user)
                 
-                # New accounts are always placed in the non-adaptive cohort.
+                # New accounts default to Group B unless reassigned for the study.
                 currentProfile.user_type = "B"
                 currentProfile.save()
                 logger.info("signup profile ready profile_id=%s", currentProfile.id)
@@ -242,7 +260,10 @@ def createChat (request):
     return redirect('chat', id=session.pk)
 
 def chat(request, id):
-    session = Session.objects.get(pk = id) # Current session and associated fields
+    session = get_owned_session_or_404(request.user, id) # Current session and associated fields
+    if not user_has_ai_access(request.user):
+        return redirect("codeSubmit", id=id)
+
     chatLog = json.dumps(session.chatLog) # Chats of the current session
     existingChats = Session.objects.filter(user=session.user).exclude(pk=id) # Other chats asssociated with the user
 
@@ -250,16 +271,18 @@ def chat(request, id):
         "session" : session,
         "sessionID" : id,
         "chatLog" : chatLog,
-        "existingChats" : existingChats
+        "existingChats" : existingChats,
+        "ai_enabled": True,
     }
     return render(request, "studentSystem/chat.html", context)
 
 def updateChat(request, id):
     if request.method == 'POST':
         try:
+            session = get_owned_session_or_404(request.user, id)
+            require_ai_access(request.user)
             data = json.loads(request.body)
             new_chat = data.get('chat')
-            session = Session.objects.get(pk = id)
 
             if not isinstance(session.chatLog, list):
                 session.chatLog = []
@@ -275,7 +298,8 @@ def updateChat(request, id):
     
 def getAIResponse(request, id):
     if request.method == "POST":
-        session = Session.objects.get(pk = id)
+        session = get_owned_session_or_404(request.user, id)
+        require_ai_access(request.user)
         conversationHistory = session.chatLog
         question_description = session.question.question_description
 
@@ -301,13 +325,14 @@ def getAIResponse(request, id):
         return JsonResponse(data)
     
 def codeSubmit(request, id): # TODO: Add tooltips to buttons
-    session = Session.objects.get(pk = id) 
+    session = get_owned_session_or_404(request.user, id)
     submission = session.codeSubmission
     context = {
         "codeSubmission" : submission,
         "session" : session,
         "nextSession" : id + 1,
         "previousSession" : id - 1,
+        "ai_enabled": user_has_ai_access(request.user),
     }
     return render(request, "studentSystem/codeSubmit.html", context)
 
@@ -335,12 +360,14 @@ def saveSubmission(request, id):
 
 def askAI(request, id):
     if request.method == "POST":
+        session = get_owned_session_or_404(request.user, id)
+        require_ai_access(request.user)
 
         body = json.loads(request.body)
 
         submission = body.get("submission")
         compiler_output = body.get("compiler_output")
-        question_description = Session.objects.get(pk=id).question.question_description
+        question_description = session.question.question_description
 
         response = generateCloudResponse([{"role": "system", "content": "You are a helpful programming assistant that has expertise in Standard ML."
                                     + "\nThe user will ask you for help on a programming question." +
@@ -357,12 +384,10 @@ def askAI(request, id):
 @require_POST
 def save_system_hint(request, id):
     try:
-        session = Session.objects.get(pk=id)
-    except Session.DoesNotExist:
-        return JsonResponse({"status": "error", "message": "Session not found"}, status=404)
-
-    if not request.user.is_authenticated or session.user_id != request.user.id:
-        return JsonResponse({"status": "error", "message": "Forbidden"}, status=403)
+        session = get_owned_session_or_404(request.user, id)
+        require_ai_access(request.user)
+    except PermissionDenied as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=403)
 
     try:
         body = json.loads(request.body.decode("utf-8"))

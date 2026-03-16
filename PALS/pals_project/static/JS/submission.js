@@ -146,6 +146,10 @@ async function saveSystemHint(id, contents) {
 }
 
 async function askAI(id) {
+    if (!window.aiEnabled) {
+        return;
+    }
+
     const code = window.codeMirrorEditor.getValue();
     const csrftoken = getCookie("csrftoken"); // Get CSRF token from cookie
 
@@ -251,6 +255,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     const ask_ai_button = document.getElementById("ask-ai");
+    if (!ask_ai_button) {
+        return;
+    }
+
     ask_ai_button.addEventListener("click", function () {
         askAI(window.sessionID);
     })

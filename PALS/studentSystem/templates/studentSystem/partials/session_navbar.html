@@ -12,9 +12,11 @@
                 <li class="nav-item">
                     <a href="{% url 'codeSubmit' session.pk %}" class="nav-link">Code Submission</a>
                 </li>
+                {% if ai_enabled %}
                 <li class="nav-item">
                     <a href="{% url 'chat' session.pk %}" class="nav-link">Chat</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
 
