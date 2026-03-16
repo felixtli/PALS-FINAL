@@ -17,6 +17,10 @@ from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
 from django.db.models.functions import Random
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def home(request): 
@@ -24,57 +28,104 @@ def home(request):
 
 
 def ensure_current_question_attempt(profile, user):
-    current_attempt = profile.question_history.order_by("-created_at").first()
-    if current_attempt is not None:
-        return current_attempt
+    try:
+        logger.info(
+            "ensure_current_question_attempt start profile_id=%s user_id=%s",
+            getattr(profile, "id", None),
+            getattr(user, "id", None),
+        )
 
-    if not Question.objects.exists():
-        return None
+        current_attempt = profile.question_history.order_by("-created_at").first()
+        if current_attempt is not None:
+            logger.info(
+                "existing question attempt found attempt_id=%s session_id=%s",
+                current_attempt.id,
+                current_attempt.session_id,
+            )
+            return current_attempt
 
-    if not profile.next_questions.exists():
-        assignment(profile)
+        question_count = Question.objects.count()
+        logger.info("question bank count=%s", question_count)
+        if question_count == 0:
+            return None
 
-    queued_question = profile.next_questions.first()
-    if queued_question is None:
-        return None
+        queued_count_before = profile.next_questions.count()
+        logger.info("queued questions before assignment=%s", queued_count_before)
+        if queued_count_before == 0:
+            assignment(profile)
+            logger.info(
+                "assignment completed queued questions after assignment=%s",
+                profile.next_questions.count(),
+            )
 
-    session = Session.objects.create(user=user, question=queued_question)
-    session.codeSubmission = (
-        queued_question.target_function_definition +
-        " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
-    )
-    session.save()
+        queued_question = profile.next_questions.first()
+        if queued_question is None:
+            logger.warning(
+                "no queued question available after assignment profile_id=%s",
+                getattr(profile, "id", None),
+            )
+            return None
 
-    attempt = QuestionAttempt.objects.create(
-        associated_profile=profile,
-        question=queued_question,
-        solved_test_cases=0,
-        session=session
-    )
-    profile.question_history.add(attempt)
-    profile.next_questions.remove(queued_question)
-    return attempt
+        logger.info(
+            "creating bootstrap session for question=%s",
+            queued_question.question_title,
+        )
+        session = Session.objects.create(user=user, question=queued_question)
+        session.codeSubmission = (
+            queued_question.target_function_definition +
+            " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
+        )
+        session.save()
+
+        attempt = QuestionAttempt.objects.create(
+            associated_profile=profile,
+            question=queued_question,
+            solved_test_cases=0,
+            session=session
+        )
+        profile.question_history.add(attempt)
+        profile.next_questions.remove(queued_question)
+        logger.info(
+            "bootstrap attempt created attempt_id=%s session_id=%s",
+            attempt.id,
+            session.id,
+        )
+        return attempt
+    except Exception:
+        logger.exception(
+            "ensure_current_question_attempt failed profile_id=%s user_id=%s",
+            getattr(profile, "id", None),
+            getattr(user, "id", None),
+        )
+        raise
 
 def signupView(request): # TODO - Style error messages
     if request.method == "POST":
         form = StyledUserCreationForm(request.POST)
         if form.is_valid():
-            new_user = form.save()
-            login(request, new_user)
+            try:
+                new_user = form.save()
+                logger.info("signup created user_id=%s username=%s", new_user.id, new_user.username)
+                login(request, new_user)
 
-            # Get current profile
-            currentProfile = Profile.objects.get(user=new_user)
-            
-            # New accounts are always placed in the non-adaptive cohort.
-            currentProfile.user_type = "B"
-            currentProfile.save()
+                # Get current profile
+                currentProfile = Profile.objects.get(user=new_user)
+                
+                # New accounts are always placed in the non-adaptive cohort.
+                currentProfile.user_type = "B"
+                currentProfile.save()
+                logger.info("signup profile ready profile_id=%s", currentProfile.id)
 
-            ensure_current_question_attempt(currentProfile, new_user)
+                ensure_current_question_attempt(currentProfile, new_user)
 
-            # Render the dashboard like a GET
-            return redirect("/dashboard/")  
+                # Render the dashboard like a GET
+                return redirect("/dashboard/")
+            except Exception:
+                logger.exception("signupView failed during user bootstrap")
+                raise
 
         else:
+            logger.warning("signup form invalid errors=%s", form.errors.as_json())
             pass
     else:
         form = StyledUserCreationForm()
@@ -101,76 +152,89 @@ def logoutView(request):
     return redirect("home") 
  
 def dashboard(request): # TODO: Style "# of cases passed" tooltips to float above past problem blocks
-    currentUser = request.user
-    currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
-    currentQuestionAttempt = ensure_current_question_attempt(currentProfile, currentUser)
-    if currentQuestionAttempt is None:
-        return render(request, "studentSystem/dashboard.html", {
-            "sessions": Session.objects.filter(user=currentUser).order_by('-pk'),
-            "user": currentUser,
-            "pastQuestions": [],
-            "currentQuestion": None,
-            "questionBankLoaded": Question.objects.exists(),
-        })
+    try:
+        currentUser = request.user
+        logger.info("dashboard load start user_id=%s authenticated=%s", getattr(currentUser, "id", None), currentUser.is_authenticated)
+        currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
+        logger.info("dashboard profile loaded profile_id=%s", currentProfile.id)
+        currentQuestionAttempt = ensure_current_question_attempt(currentProfile, currentUser)
+        if currentQuestionAttempt is None:
+            logger.warning("dashboard has no current question attempt profile_id=%s", currentProfile.id)
+            return render(request, "studentSystem/dashboard.html", {
+                "sessions": Session.objects.filter(user=currentUser).order_by('-pk'),
+                "user": currentUser,
+                "pastQuestions": [],
+                "currentQuestion": None,
+                "questionBankLoaded": Question.objects.exists(),
+            })
 
-    sessions = Session.objects.filter(user=currentUser).order_by('-pk') # All sessions associated with the user, ordered by most recent
-    nextQuestions = currentProfile.next_questions.all()
-    attempt_count = currentProfile.question_history.count()
-    completed_count = max(0, attempt_count - 1)
+        sessions = Session.objects.filter(user=currentUser).order_by('-pk') # All sessions associated with the user, ordered by most recent
+        nextQuestions = currentProfile.next_questions.all()
+        attempt_count = currentProfile.question_history.count()
+        completed_count = max(0, attempt_count - 1)
+        logger.info(
+            "dashboard state attempt_count=%s completed_count=%s queued_count=%s",
+            attempt_count,
+            completed_count,
+            nextQuestions.count(),
+        )
 
-    if completed_count >= 6:
-        return render(request, "studentSystem/userEndSurvey.html")
+        if completed_count >= 6:
+            return render(request, "studentSystem/userEndSurvey.html")
 
-    request_type = None
-    if request.method == "POST": # Use POST request to request the next question
-        if request.content_type == "application/json":
-            body = json.loads(request.body.decode("utf-8"))
-            request_type = body.get("request_type")
-        else:
-            request_type = request.POST.get("request_type")
+        request_type = None
+        if request.method == "POST": # Use POST request to request the next question
+            if request.content_type == "application/json":
+                body = json.loads(request.body.decode("utf-8"))
+                request_type = body.get("request_type")
+            else:
+                request_type = request.POST.get("request_type")
 
-        if request_type == "next_question" and nextQuestions.exists():
-            queuedQuestion = nextQuestions.first()
+            if request_type == "next_question" and nextQuestions.exists():
+                queuedQuestion = nextQuestions.first()
 
-            attempt = QuestionAttempt.objects.create(
-                associated_profile=currentProfile,
-                question=queuedQuestion,
-                solved_test_cases=0,
-                session=Session.objects.create(user=currentUser, question=queuedQuestion)
-            )
+                attempt = QuestionAttempt.objects.create(
+                    associated_profile=currentProfile,
+                    question=queuedQuestion,
+                    solved_test_cases=0,
+                    session=Session.objects.create(user=currentUser, question=queuedQuestion)
+                )
 
-            currentProfile.question_history.add(attempt)
-            currentProfile.next_questions.remove(queuedQuestion)
+                currentProfile.question_history.add(attempt)
+                currentProfile.next_questions.remove(queuedQuestion)
 
-        elif request_type == "next_question" and not nextQuestions.exists():
+            elif request_type == "next_question" and not nextQuestions.exists():
 
-            assignment(currentProfile)
-            queuedQuestion = currentProfile.next_questions.first()
+                assignment(currentProfile)
+                queuedQuestion = currentProfile.next_questions.first()
 
-            attempt = QuestionAttempt.objects.create(
-                associated_profile=currentProfile,
-                question=queuedQuestion,
-                solved_test_cases=0,
-                session=Session.objects.create(user=currentUser, question=queuedQuestion)
-            )
+                attempt = QuestionAttempt.objects.create(
+                    associated_profile=currentProfile,
+                    question=queuedQuestion,
+                    solved_test_cases=0,
+                    session=Session.objects.create(user=currentUser, question=queuedQuestion)
+                )
 
-            currentProfile.question_history.add(attempt)
-            currentProfile.next_questions.remove(queuedQuestion)
+                currentProfile.question_history.add(attempt)
+                currentProfile.next_questions.remove(queuedQuestion)
 
-        currentQuestionAttempt = currentProfile.question_history.latest('created_at')
-        currentQuestionAttempt.session.codeSubmission = currentQuestionAttempt.question.target_function_definition + " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
-        currentQuestionAttempt.session.save()
-    
-    pastQuestions = currentProfile.question_history.all().order_by('-pk') [1:] # Exclude the current question from past questions & order by most recent
+            currentQuestionAttempt = currentProfile.question_history.latest('created_at')
+            currentQuestionAttempt.session.codeSubmission = currentQuestionAttempt.question.target_function_definition + " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
+            currentQuestionAttempt.session.save()
+        
+        pastQuestions = currentProfile.question_history.all().order_by('-pk') [1:] # Exclude the current question from past questions & order by most recent
 
-    context = {
-        "sessions" : sessions,
-        "user" : currentUser,
-        "pastQuestions" : pastQuestions,
-        "currentQuestion" : currentQuestionAttempt,
-        "questionBankLoaded": True,
-    }
-    return render(request, "studentSystem/dashboard.html", context)
+        context = {
+            "sessions" : sessions,
+            "user" : currentUser,
+            "pastQuestions" : pastQuestions,
+            "currentQuestion" : currentQuestionAttempt,
+            "questionBankLoaded": True,
+        }
+        return render(request, "studentSystem/dashboard.html", context)
+    except Exception:
+        logger.exception("dashboard failed for user_id=%s", getattr(request.user, "id", None))
+        raise
 
 def createChat (request):
     currentUser = request.user
