@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='user_type',
-            field=models.CharField(choices=[('A', 'Group A'), ('B', 'Group B')], default='Group A', max_length=1),
+            field=models.CharField(choices=[('A', 'Group A'), ('B', 'Group B')], default='A', max_length=1),
             preserve_default=False,
         ),
     ]

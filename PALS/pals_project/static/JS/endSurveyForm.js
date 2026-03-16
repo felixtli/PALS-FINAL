@@ -70,13 +70,7 @@ async function postSurveyResponse() {
         fairness: getRadioValue("fair_system"),
 
         // ======================
-        // F. Adaptive Features
-        // ======================
-        adaptation_quality: getRadioValue("adaptive_skill"),
-        adaptive_hint_helpfulness: getRadioValue("adaptive_hints"),
-
-        // ======================
-        // G. Open-Ended
+        // F. Open-Ended
         // ======================
         liked_most: getTextValue("like_most"),
         liked_least: getTextValue("like_least"),
@@ -84,7 +78,7 @@ async function postSurveyResponse() {
         additional_comments: getTextValue("additional_comments"),
 
         // ======================
-        // H. Manipulation Check
+        // G. Manipulation Check
         // ======================
         // difficulty_notice: form.querySelector(
             // 'input[name="noticed_adaptation"]:checked'

@@ -6,12 +6,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 # Extension of Django's prebuilt "User" module
 class Profile(models.Model):
     USER_TYPES = (
-        ("A", "Group A"),
         ("B", "Group B"),
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    user_type = models.CharField(max_length=1, choices=USER_TYPES)
+    user_type = models.CharField(max_length=1, choices=USER_TYPES, default="B")
 
     question_history = models.ManyToManyField('QuestionAttempt', blank=True)
     next_questions = models.ManyToManyField('Question', blank=True, related_name='next_for_profiles')
@@ -213,22 +212,13 @@ class EndSurveyResponse(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(7)]
     )
 
-    # Section F: Adaptive Features
-    adaptation_quality = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(7)]
-    )
-
-    adaptive_hint_helpfulness = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(7)]
-    )
-
-    # Section G: Open-Ended Feedback
+    # Section F: Open-Ended Feedback
     liked_most = models.TextField(blank=True)
     liked_least = models.TextField(blank=True)
     change_one_thing = models.TextField(blank=True)
     additional_comments = models.TextField(blank=True)
 
-    # Section H: Attention & manipulation Check
+    # Section G: Attention & manipulation Check
     difficulty_notice = models.CharField(
         max_length=10,
         choices=[

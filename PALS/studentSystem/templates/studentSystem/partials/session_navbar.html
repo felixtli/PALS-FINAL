@@ -10,10 +10,10 @@
         <div class="navbar-links">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="/{{session.pk}}/codesubmission/" class="nav-link">Code Submission</a>
+                    <a href="{% url 'codeSubmit' session.pk %}" class="nav-link">Code Submission</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/{{session.pk}}/chat/" class="nav-link">Chat</a>
+                    <a href="{% url 'chat' session.pk %}" class="nav-link">Chat</a>
                 </li>
             </ul>
         </div>

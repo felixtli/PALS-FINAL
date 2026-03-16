@@ -23,7 +23,13 @@
         <p>Welcome! The next problem in your personalized learning pathway is available.</p>
       </div>
 
-      <a class="btn-primary" href="/{{currentQuestion.session.pk}}/codesubmission/">View Problem</a>
+      {% if currentQuestion %}
+      <a class="btn-primary" href="{% url 'codeSubmit' currentQuestion.session.pk %}">View Problem</a>
+      {% elif not questionBankLoaded %}
+      <p>No problem bank is loaded yet. Run `python load_questions.py` against this database, then refresh the dashboard.</p>
+      {% else %}
+      <p>No problem is currently assigned. Refresh the page or sign out and back in to retry assignment.</p>
+      {% endif %}
       <a class="btn-primary" href="/post-experiment-survey/"> End Session </a>
 
       <div class="past-problems-container">
@@ -33,7 +39,7 @@
             <li class="past-problem-item"
                 tabindex="0"
                 aria-label="{{ q.question.question_title }}: {{ q.question.question_description|truncatechars:120 }}"
-                data-summary="{{ q..question.question_description|truncatechars:200 }}">
+                data-summary="{{ q.question.question_description|truncatechars:200 }}">
               <span class="title">{{ q.question.question_title }}</span>
               <div class="tooltip" role="tooltip">
                 {{ q.solved_test_cases }} / 10 test cases passed

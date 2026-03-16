@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (!allAnswered) {
-      alert(`Please answer all questions.\nMissing: "${firstMissingQuestion}"`);
+      alert(`Please answer all questions.\nMissing: "${firstMissingQuestion}"`); // TODO: Improve this alert by not allowing users to move past the page if they haven't completed the form.
       return;
     }
 

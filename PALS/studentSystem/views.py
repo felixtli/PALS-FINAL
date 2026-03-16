@@ -5,11 +5,11 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import *
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .chatbot import generateResponse, generateCloudResponse
+from .chatbot import generateCloudResponse
 from .forms import StyledUserCreationForm, StyledAuthenticationForm
 from django.contrib.auth import login, logout
 from .compiler import compileCode, handler
-from .question_assignment import initialQuestion, assignment, non_adaptive_assignment
+from .question_assignment import assignment
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpRequest
 from json import JSONDecodeError
@@ -22,6 +22,39 @@ from django.db.models.functions import Random
 def home(request): 
     return render(request, "studentSystem/index.html")
 
+
+def ensure_current_question_attempt(profile, user):
+    current_attempt = profile.question_history.order_by("-created_at").first()
+    if current_attempt is not None:
+        return current_attempt
+
+    if not Question.objects.exists():
+        return None
+
+    if not profile.next_questions.exists():
+        assignment(profile)
+
+    queued_question = profile.next_questions.first()
+    if queued_question is None:
+        return None
+
+    session = Session.objects.create(user=user, question=queued_question)
+    session.codeSubmission = (
+        queued_question.target_function_definition +
+        " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
+    )
+    session.save()
+
+    attempt = QuestionAttempt.objects.create(
+        associated_profile=profile,
+        question=queued_question,
+        solved_test_cases=0,
+        session=session
+    )
+    profile.question_history.add(attempt)
+    profile.next_questions.remove(queued_question)
+    return attempt
+
 def signupView(request): # TODO - Style error messages
     if request.method == "POST":
         form = StyledUserCreationForm(request.POST)
@@ -32,40 +65,11 @@ def signupView(request): # TODO - Style error messages
             # Get current profile
             currentProfile = Profile.objects.get(user=new_user)
             
-            # Save group choice
-            currentProfile.user_type = form.cleaned_data["user_type"]
+            # New accounts are always placed in the non-adaptive cohort.
+            currentProfile.user_type = "B"
             currentProfile.save()
 
-            # Initialize initial set of questions for group A
-            if currentProfile.user_type == "A":
-                initialQuestion(currentProfile)
-
-            # Initialize non-adaptive question assignment for group B
-            if currentProfile.user_type == "B":
-                non_adaptive_assignment(currentProfile)
-
-            # Queue the first set of questions
-            nextQuestions = currentProfile.next_questions.all()
-
-            # If there are queued questions, create the first session and attempt
-            if nextQuestions.exists():
-                queuedQuestion = nextQuestions.first()
-                session = Session.objects.create(user=new_user, question=queuedQuestion)
-
-                session.codeSubmission = (
-                    queuedQuestion.target_function_definition +
-                    " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
-                )
-                session.save()
-
-                attempt = QuestionAttempt.objects.create(
-                    associated_profile=currentProfile,
-                    question=queuedQuestion,
-                    solved_test_cases=0,
-                    session=session
-                )
-                currentProfile.question_history.add(attempt)
-                currentProfile.next_questions.remove(queuedQuestion)
+            ensure_current_question_attempt(currentProfile, new_user)
 
             # Render the dashboard like a GET
             return redirect("/dashboard/")  
@@ -99,12 +103,22 @@ def logoutView(request):
 def dashboard(request): # TODO: Style "# of cases passed" tooltips to float above past problem blocks
     currentUser = request.user
     currentProfile = Profile.objects.get(user=request.user) # Get the current user's profile
+    currentQuestionAttempt = ensure_current_question_attempt(currentProfile, currentUser)
+    if currentQuestionAttempt is None:
+        return render(request, "studentSystem/dashboard.html", {
+            "sessions": Session.objects.filter(user=currentUser).order_by('-pk'),
+            "user": currentUser,
+            "pastQuestions": [],
+            "currentQuestion": None,
+            "questionBankLoaded": Question.objects.exists(),
+        })
+
     sessions = Session.objects.filter(user=currentUser).order_by('-pk') # All sessions associated with the user, ordered by most recent
     nextQuestions = currentProfile.next_questions.all()
     attempt_count = currentProfile.question_history.count()
     completed_count = max(0, attempt_count - 1)
 
-    if currentProfile.user_type == "B" and completed_count >= 6:
+    if completed_count >= 6:
         return render(request, "studentSystem/userEndSurvey.html")
 
     request_type = None
@@ -126,12 +140,12 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
             )
 
             currentProfile.question_history.add(attempt)
-            currentProfile.next_questions.remove(nextQuestions.first())
+            currentProfile.next_questions.remove(queuedQuestion)
 
         elif request_type == "next_question" and not nextQuestions.exists():
 
             assignment(currentProfile)
-            queuedQuestion = nextQuestions.first()
+            queuedQuestion = currentProfile.next_questions.first()
 
             attempt = QuestionAttempt.objects.create(
                 associated_profile=currentProfile,
@@ -141,13 +155,11 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
             )
 
             currentProfile.question_history.add(attempt)
-            currentProfile.next_questions.remove(nextQuestions.first())
+            currentProfile.next_questions.remove(queuedQuestion)
 
         currentQuestionAttempt = currentProfile.question_history.latest('created_at')
         currentQuestionAttempt.session.codeSubmission = currentQuestionAttempt.question.target_function_definition + " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
         currentQuestionAttempt.session.save()
-
-    currentQuestionAttempt = currentProfile.question_history.latest('created_at')
     
     pastQuestions = currentProfile.question_history.all().order_by('-pk') [1:] # Exclude the current question from past questions & order by most recent
 
@@ -156,6 +168,7 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
         "user" : currentUser,
         "pastQuestions" : pastQuestions,
         "currentQuestion" : currentQuestionAttempt,
+        "questionBankLoaded": True,
     }
     return render(request, "studentSystem/dashboard.html", context)
 
@@ -288,7 +301,6 @@ def save_system_hint(request, id):
         return JsonResponse({"status": "error", "message": "Forbidden"}, status=403)
 
     try:
-        print ("WE GOT TO THE MAIN VIEW")
         body = json.loads(request.body.decode("utf-8"))
         contents = (body.get("contents") or "").strip()
         if not contents:
@@ -337,7 +349,6 @@ def user_survey(request, id):
 
 def post_survey_response(request, id):
     if request.method == "POST":
-        print ("Successfully got to view")
         body = json.loads(request.body)
         survey_response = body.get("survey_response")
         session = Session.objects.get(pk = id)
@@ -375,7 +386,7 @@ def track_page_time(request):
                   or request.COOKIES.get("sessionid", "")
 
     # We want one record per submit, so create() is used
-    page_view = PageView.objects.create(
+    PageView.objects.create(
         user=request.user if request.user.is_authenticated else None,
         session_key=session_key or "",
         path=path,
@@ -390,27 +401,21 @@ def track_page_time(request):
             "trigger": "submit",
         },
     )
-    print ("Created page view!")
 
     return JsonResponse({"ok": True})
 
 @csrf_exempt
-# TODO: Fix error where the session key stays the same if a user tries multiple different accounts in the same browser session
-# This is causing us to mix up website session data between different users
-def track_website_time(request): 
-    print ("Successfully got to website time view")
+def track_website_time(request): # TODO: IMPORTANT! Reduce redundancy. Can probably remove this and track_page_time. Just have more detailed cursor analytics and calculate time using that.
     if request.method != "POST":
         return JsonResponse({"ok": False, "error": "POST only"}, status=405)
 
     try:
         data = json.loads(request.body.decode("utf-8"))
-        print ("Data received: " + str(data))
     except Exception:
         return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
 
     session_key = data.get("session_key") or request.COOKIES.get("sessionid", "")
     duration_ms = int(max(0, data.get("duration_ms", 0)))
-    print ("About to increment: " + str(duration_ms))
 
     # Create or update the session
     session, created = WebsiteSession.objects.get_or_create(
@@ -419,8 +424,6 @@ def track_website_time(request):
             "user": request.user if request.user.is_authenticated else None,
         },
     )
-    print (session)
-    print (WebsiteSession.objects.filter(session_key=session_key).count())
     if duration_ms > 0:
         WebsiteSession.objects.filter(pk=session.pk).update(
             total_active_ms=F("total_active_ms") + duration_ms,
@@ -429,7 +432,7 @@ def track_website_time(request):
 
     return JsonResponse({"ok": True})
 
-def track_cursor(request):
+def track_cursor(request): # TODO: IMPORTANT!! Improve cursor tracking. Send batches of cursor points more frequently. 
     if request.method != "POST":
         return JsonResponse({"ok": False, "error": "POST only"}, status=405)
 
@@ -466,8 +469,6 @@ def track_cursor(request):
     return JsonResponse({"status": "ok", "saved": len(events), "timestamp": timezone.now().isoformat()})
 
 def track_deletion(request):
-    print ("Successfully got to deletion view")
-
     if request.method != "POST":
         return JsonResponse({"ok": False, "error": "POST only"}, status=405)
 
@@ -541,13 +542,7 @@ def post_experiment_survey_submission(request):
             fairness_of_system=data.get("fairness"),
 
             # ======================
-            # F. Adaptive Features
-            # ======================
-            adaptation_quality=data.get("adaptation_quality"),
-            adaptive_hint_helpfulness=data.get("adaptive_hint_helpfulness"),
-
-            # ======================
-            # G. Open-Ended Feedback
+            # F. Open-Ended Feedback
             # ======================
             liked_most=data.get("liked_most", ""),
             liked_least=data.get("liked_least", ""),
@@ -555,7 +550,7 @@ def post_experiment_survey_submission(request):
             additional_comments=data.get("additional_comments", ""),
 
             # ======================
-            # H. Manipulation Check
+            # G. Manipulation Check
             # ======================
             # difficulty_notice=data.get("difficulty_notice"),
         )

@@ -14,7 +14,7 @@ PALS (Personalized AI Learning System) is designed to facilitate interactive lea
 - **Code Compilation**: Compile and test Standard ML code submissions with real-time feedback
 - **Test Case Evaluation**: Automatic test case execution and scoring for coding problems
 - **Session Management**: Each chat/code session is stored and associated with the user
-- **Question Assignment**: Adaptive difficulty system that assigns questions based on user performance
+- **Question Assignment**: Fixed non-adaptive question pools for study participants
 - **Modern UI**: Custom CSS for chat, login, signup, and code submission pages
 
 ## Prerequisites

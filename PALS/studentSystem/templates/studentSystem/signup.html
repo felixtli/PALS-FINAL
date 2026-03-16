@@ -37,20 +37,6 @@
           </div>
 
           <div class="input-field-container">
-            <label>User Group</label>
-
-            <div class="radio-group">
-              {% for radio in form.user_type %}
-                <label class="radio-option">
-                  {{ radio.tag }}
-                  <span>{{ radio.choice_label }}</span>
-                </label>
-              {% endfor %}
-            </div>
-
-            {{ form.user_type.errors }}
-          </div>
-          <div class="input-field-container">
             <button type="submit"> Sign Up </button>
           </div>
           <a href="{% url 'login' %}" class="secondary-btn">Already have an account? Log In</a>

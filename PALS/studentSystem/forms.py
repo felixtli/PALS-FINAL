@@ -3,20 +3,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 class StyledUserCreationForm(UserCreationForm):
-    USER_TYPES = (
-        ("A", "Group A"),
-        ("B", "Group B"),
-    )
-
-    user_type = forms.ChoiceField(
-        choices=USER_TYPES,
-        widget=forms.RadioSelect,
-        required=True
-    )
-
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'user_type']
+        fields = ['username', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
