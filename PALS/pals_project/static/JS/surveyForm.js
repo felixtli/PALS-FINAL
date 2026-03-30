@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (!allAnswered) {
-      alert(`Please answer all questions.\nMissing: "${firstMissingQuestion}"`); // TODO: Improve this alert by not allowing users to move past the page if they haven't completed the form.
+      alert("Please answer all questions.");
       return;
     }
 
@@ -83,37 +83,14 @@ async function postSurveyResponse(surveyResponse) {
     }
 }
 
-async function navigateToDashboard() {
-    const csrftoken = getCookie('csrftoken');
-    const response = await fetch("/dashboard/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": csrftoken
-        },
-        body: JSON.stringify({ request_type: "next_question" })
-    });
-
-    if (response.redirected) {
-        window.location.href = response.url;
-    } else {
-        window.location.href = "/dashboard/";
-    }
+async function navigateToNextProblem() {
+    window.location.href = "/next-problem/";
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const surveySubmit = document.getElementById('survey-submit');
-    const feedbackContainer = document.getElementById('feedback-container');
-    surveySubmit.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        feedbackContainer.style.visibility = 'visible';
-    });
-});
 
 document.addEventListener("DOMContentLoaded", function () {
     const navigationButton = document.getElementById("navigation-btn");
     navigationButton.addEventListener("click", function () {
-        navigateToDashboard();
+        navigateToNextProblem();
     });
 });

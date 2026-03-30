@@ -4,6 +4,28 @@ import json
 from typing import Any
 
 
+def categorize_error(raw_output: str) -> str:
+    """Classify SML compiler output into an error category."""
+    if not raw_output or not raw_output.strip():
+        return "success"
+
+    lower = raw_output.lower()
+
+    # Syntax errors
+    if "syntax error" in lower or "unclosed" in lower:
+        return "syntax"
+
+    # Type errors
+    if "type mismatch" in lower or "operator and operand" in lower or "types of if branches" in lower or "pattern and expression" in lower:
+        return "type"
+
+    # Runtime / unbound / other errors
+    if "error:" in lower or "unbound" in lower or "exception" in lower:
+        return "runtime"
+
+    return "success"
+
+
 def clean_sml_output(output: str) -> str:
     """
     Cleans SML/NJ compiler output to only include:

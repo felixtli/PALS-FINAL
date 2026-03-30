@@ -12,6 +12,7 @@
 <div id="main">
     <div id="survey-container">
         <p id="survey-header">Post-Experiment Survey</p>
+        <p class="scale-anchor">For all 1–7 scales: 1 = Strongly disagree · 7 = Strongly agree</p>
 
         <form id="survey-form">
             {% csrf_token %}
@@ -44,14 +45,16 @@
                     </select>
                 </label>
 
-                <p class="scale-label">Self-rated ML / Standard ML familiarity (1-7)</p>
+                <p class="scale-label">I am familiar with ML / Standard ML.</p>
+
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label><input type="radio" name="ml_familiarity" value="{{ i }}"> {{ i }}</label>
                     {% endfor %}
                 </div>
 
-                <p class="scale-label">How rested do you feel right now? (1-7)</p>
+                <p class="scale-label">I feel well-rested right now.</p>
+
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label><input type="radio" name="rested" value="{{ i }}"> {{ i }}</label>
@@ -63,28 +66,29 @@
             <fieldset class="survey-block">
                 <legend>B. Usability</legend>
 
-                <p>The learning system was easy to use. (1-7)</p>
+
+                <p>The learning system was easy to use.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label><input type="radio" name="easy_to_use" value="{{ i }}"> {{ i }}</label>
                     {% endfor %}
                 </div>
 
-                <p>The feedback I received helped me solve problems. (1-7)</p>
+                <p>The feedback I received helped me solve problems.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label><input type="radio" name="helpful_feedback" value="{{ i }}"> {{ i }}</label>
                     {% endfor %}
                 </div>
 
-                <p>The level of challenge matched my abilities. (1-7)</p>
+                <p>The level of challenge matched my abilities.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label><input type="radio" name="challenge_match" value="{{ i }}"> {{ i }}</label>
                     {% endfor %}
                 </div>
 
-                <p>I would use this system again to practice programming. (1-7)</p>
+                <p>I would use this system again to practice programming.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label><input type="radio" name="reuse_intent" value="{{ i }}"> {{ i }}</label>
@@ -96,7 +100,8 @@
             <fieldset class="survey-block">
                 <legend>C. Engagement & Attention</legend>
 
-                <p>While using the system I was fully focused on the task. (1-7)</p>
+
+                <p>While using the system I was fully focused on the task.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label>
@@ -105,7 +110,7 @@
                     {% endfor %}
                 </div>
 
-                <p>Time flew by while I worked on the tasks. (1-7)</p>
+                <p>Time flew by while I worked on the tasks.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label>
@@ -119,7 +124,8 @@
             <fieldset class="survey-block">
                 <legend>D. Cognitive Load</legend>
 
-                <p>How mentally demanding were the tasks? (1-7)</p>
+
+                <p>The tasks were mentally demanding.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label>
@@ -128,7 +134,7 @@
                     {% endfor %}
                 </div>
 
-                <p>How hard did you have to work? (1-7)</p>
+                <p>I had to work very hard to complete the tasks.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label>
@@ -137,7 +143,7 @@
                     {% endfor %}
                 </div>
 
-                <p>Frustration level (1-7)</p>
+                <p>I felt frustrated while working on the tasks.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label>
@@ -151,7 +157,8 @@
             <fieldset class="survey-block">
                 <legend>E. Trust & Fairness</legend>
 
-                <p>I trusted the advice the system gave. (1-7)</p>
+
+                <p>I trusted the advice the system gave.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label>
@@ -160,7 +167,7 @@
                     {% endfor %}
                 </div>
 
-                <p>The system treated me fairly. (1-7)</p>
+                <p>The system treated me fairly.</p>
                 <div class="scale">
                     {% for i in "1234567" %}
                     <label>

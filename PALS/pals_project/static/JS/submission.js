@@ -14,64 +14,6 @@ function getCookie(name) {
     return cookieValue;
 }
 
-
-// Analytics tracking code starts here
-const endpoint = "/analytics/track-time/";
-const startedAt = Date.now();
-let visibleAccum = 0;
-let lastTick = startedAt;
-let isVisible = !document.hidden;
-let idle = false;
-const IDLE_MS = 120000; // pause if no activity for 2 mins
-let idleTimer = null;
-
-function tick() {
-    const now = Date.now();
-    if (isVisible && !idle) {
-        visibleAccum += now - lastTick;
-    }
-    lastTick = now;
-}
-
-function resetIdle() {
-    tick();
-    idle = false;
-    if (idleTimer) clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => { 
-        idle = true;
-        tick();     
-    }, IDLE_MS);
-}
-
-// Activity listeners for idle detection
-["mousemove","keydown","wheel","touchstart"].forEach(ev => {
-    window.addEventListener(ev, resetIdle, {passive: true});
-});
-resetIdle();
-
-document.addEventListener("visibilitychange", () => {
-    tick();
-    isVisible = !document.hidden;
-    lastTick = Date.now();
-});
-
-function send(durationMs, endedAtMs) {
-    const payload = {
-        duration_ms: Math.max(0, Math.round(durationMs)),
-        started_at_ms: startedAt,
-        ended_at_ms: endedAtMs,
-        path: location.pathname + location.search + location.hash,
-        referrer: document.referrer || "",
-        visible_only: true,
-        idle_threshold_ms: IDLE_MS,
-        heartbeat: false        // always false now: this is a final submit
-    };
-    const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-    navigator.sendBeacon(endpoint, blob);
-}
-// Analytics tracking code ends here
-
-
 // Loads saved code submission on page load // CHECK IF THIS IS BROKEN
 document.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById('code-input-area');
@@ -194,7 +136,7 @@ async function testCode(id)
                 "Content-Type" : "application/json",
                 "X-CSRFToken" : csrftoken
             },
-            body: JSON.stringify ({"submission" : code})
+            body: JSON.stringify ({"submission" : code, "session_id" : id})
         })
 
         if (!response.ok) {
@@ -235,11 +177,6 @@ async function submitCode(id) {
         const returned_json = await response.json();
         const status = returned_json.status;
         const casesSolved = returned_json.casesSolved;
-
-        // Create a final heartbeat send at submission time
-        tick();
-        clearInterval(hb);
-        send(visibleAccum, Date.now(), false);
 
     } catch (error) {
         console.error("Error in submitCode:", error.message);
@@ -285,13 +222,6 @@ document.addEventListener("DOMContentLoaded", function () {
         await submitCode(window.sessionID);
 
         window.location.href = `/${window.sessionID}/survey/`
-
-        // Final tick and analytics send before continuing
-        tick();
-        if (idleTimer) clearTimeout(idleTimer);
-
-        const end = Date.now();
-        send(visibleAccum, end);
     });
 });
 

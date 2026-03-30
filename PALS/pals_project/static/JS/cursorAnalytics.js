@@ -17,8 +17,8 @@ function getCookie(name) {
     const CSRFTOKEN = getCookie("csrftoken");
     const endpoint = "/analytics/track-cursor/";
     const points = [];
-    const BATCH_SIZE = 50;        // send after 50 points
-    const SEND_INTERVAL_MS = 3000; // or every 3s
+    const BATCH_SIZE = 50;
+    const SEND_INTERVAL_MS = 3000;
 
     const SESSION_KEY = sessionStorage.getItem("site_session_key") ||
     (function() {
@@ -27,41 +27,39 @@ function getCookie(name) {
       return key;
     })();
 
-    let lastSent = Date.now();
     let lastMoveTime = 0;
-    const MOVE_THROTTLE_MS = 50; // capture at most ~20 times/second
+    const MOVE_THROTTLE_MS = 50;
 
-    function onMouseMove(e) {
+    function recordPoint(x, y) {
         const now = Date.now();
         if (now - lastMoveTime < MOVE_THROTTLE_MS) return;
         lastMoveTime = now;
 
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const sy = window.scrollY || window.pageYOffset;
-
         points.push({
-            x: e.clientX,
-            y: e.clientY,
-            vw: vw,
-            vh: vh,
-            sy: sy,
+            x: x,
+            y: y,
+            vw: window.innerWidth,
+            vh: window.innerHeight,
+            sy: window.scrollY || window.pageYOffset,
             t: now
         });
 
-        if (points.length >= BATCH_SIZE || now - lastSent > SEND_INTERVAL_MS) {
+        if (points.length >= BATCH_SIZE) {
             sendBatch();
         }
     }
 
-    function sendBatch() {
+    function onMouseMove(e) {
+        recordPoint(e.clientX, e.clientY);
+    }
+
+function sendBatch() {
         if (!points.length) return;
         const payload = {
             path: window.location.pathname,
             session_id: SESSION_KEY,
             points: points.splice(0, points.length)
         };
-        lastSent = Date.now();
 
         fetch(endpoint, {
             method: "POST",
@@ -70,15 +68,17 @@ function getCookie(name) {
                 "X-CSRFToken": (typeof CSRFTOKEN !== "undefined" ? CSRFTOKEN : "")
             },
             body: JSON.stringify(payload),
-            keepalive: true // So it can send on unload
-        }).catch(() => {
-        });
+            keepalive: true
+        }).catch(() => {});
     }
 
-    // send remaining points when leaving the page
+    // Flush buffer every 3 seconds regardless of mouse activity
+    setInterval(sendBatch, SEND_INTERVAL_MS);
+
+    // Send remaining points when leaving the page
     window.addEventListener("beforeunload", sendBatch);
 
-    // only track on non-admin pages
+    // Only track on non-admin pages
     if (!window.location.pathname.startsWith("/admin/")) {
         window.addEventListener("mousemove", onMouseMove);
     }

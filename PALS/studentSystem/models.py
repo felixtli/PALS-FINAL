@@ -58,6 +58,23 @@ class Session (models.Model):
     chatLog = models.JSONField(default=list, blank=True)
     codeSubmission = models.CharField(max_length=2500, default="") 
 
+# Tracks every compile attempt for error reduction analysis
+class CompileAttempt(models.Model):
+    ERROR_CATEGORIES = [
+        ("syntax", "Syntax"),
+        ("type", "Type"),
+        ("runtime", "Runtime"),
+        ("success", "Success"),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="compile_attempts")
+    sequence_number = models.PositiveIntegerField()  # 1st, 2nd, 3rd attempt etc.
+    raw_output = models.TextField(blank=True)
+    error_category = models.CharField(max_length=10, choices=ERROR_CATEGORIES)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class SystemHint(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     contents = models.TextField()
@@ -75,8 +92,11 @@ class QuestionAttempt(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="attempts", default="2")
     solved_test_cases = models.IntegerField(default=0)
+    total_test_cases = models.IntegerField(default=0)
     survey_response = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    opened_at = models.DateTimeField(null=True, blank=True)
+    submitted_at = models.DateTimeField(null=True, blank=True)
 
     
 # Tracks page analytics
@@ -120,6 +140,7 @@ class CursorEvent(models.Model):
     viewport_width = models.IntegerField()
     viewport_height = models.IntegerField()
     scroll_y = models.IntegerField()                 # scroll offset
+    timestamp = models.DateTimeField(null=True, blank=True)  # client-side event time
     created_at = models.DateTimeField(auto_now_add=True)
 
 # Tracks code deletion events

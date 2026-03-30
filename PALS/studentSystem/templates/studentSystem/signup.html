@@ -32,7 +32,14 @@
 
           <div class="input-field-container">
             <label for="{{ form.user_type.id_for_label }}">Study Group</label>
-            {{ form.user_type }}
+            <div class="radio-group">
+              {% for choice in form.user_type %}
+                <label class="radio-option">
+                  {{ choice.tag }}
+                  <span>{{ choice.choice_label }}</span>
+                </label>
+              {% endfor %}
+            </div>
             {{ form.user_type.errors }}
           </div>
 

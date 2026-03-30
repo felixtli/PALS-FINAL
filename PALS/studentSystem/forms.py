@@ -6,7 +6,7 @@ from .models import Profile
 class StyledUserCreationForm(UserCreationForm):
     user_type = forms.ChoiceField(
         choices=Profile.USER_TYPES,
-        widget=forms.Select,
+        widget=forms.RadioSelect,
         label="Study Group",
     )
 
@@ -17,11 +17,14 @@ class StyledUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
+            if field_name == "user_type":
+                continue
+
             field.widget.attrs.update({
                 'class': 'input-field',
             })
 
-        self.fields["user_type"].initial = "B"
+        self.fields["user_type"].initial = "A"
 
 class StyledAuthenticationForm(AuthenticationForm): # Custom subclass of AuthenticationForm that allows for CSS customization
     

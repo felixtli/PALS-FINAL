@@ -8,13 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 from .chatbot import generateCloudResponse
 from .forms import StyledUserCreationForm, StyledAuthenticationForm
 from django.contrib.auth import login, logout
-from .compiler import compileCode, handler
+from .compiler import compileCode, handler, categorize_error
 from .question_assignment import assignment
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse, HttpRequest
 from json import JSONDecodeError
 from django.db import transaction
-from django.db.models import F
 from django.utils import timezone
 from django.db.models.functions import Random
 import logging
@@ -133,10 +132,11 @@ def signupView(request): # TODO - Style error messages
                 currentProfile.save()
                 logger.info("signup profile ready profile_id=%s", currentProfile.id)
 
-                ensure_current_question_attempt(currentProfile, new_user)
+                attempt = ensure_current_question_attempt(currentProfile, new_user)
 
-                # Render the dashboard like a GET
-                return redirect("/dashboard/")
+                if attempt:
+                    return redirect("codeSubmit", id=attempt.session.pk)
+                return redirect("next_problem")
             except Exception:
                 logger.exception("signupView failed during user bootstrap")
                 raise
@@ -156,8 +156,12 @@ def loginView(request): # TODO - Style error messages
             loggedUser = form.get_user()
             login(request, loggedUser)
 
-            session = Session.objects.filter(user=loggedUser).first()
-            return redirect("dashboard")
+            currentProfile = Profile.objects.get(user=loggedUser)
+            attempt = ensure_current_question_attempt(currentProfile, loggedUser)
+
+            if attempt:
+                return redirect("codeSubmit", id=attempt.session.pk)
+            return redirect("next_problem")
         else:
             pass
     else:
@@ -253,6 +257,47 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
         logger.exception("dashboard failed for user_id=%s", getattr(request.user, "id", None))
         raise
 
+def next_problem(request):
+    """Assign the next question and redirect straight to its code editor."""
+    currentUser = request.user
+    currentProfile = Profile.objects.get(user=currentUser)
+
+    attempt_count = currentProfile.question_history.count()
+    completed_count = max(0, attempt_count - 1)
+
+    if completed_count >= 6:
+        return redirect("post_experiment_survey")
+
+    nextQuestions = currentProfile.next_questions.all()
+
+    if nextQuestions.exists():
+        queuedQuestion = nextQuestions.first()
+    else:
+        assignment(currentProfile)
+        queuedQuestion = currentProfile.next_questions.first()
+
+    if queuedQuestion is None:
+        return redirect("post_experiment_survey")
+
+    session = Session.objects.create(user=currentUser, question=queuedQuestion)
+    session.codeSubmission = (
+        queuedQuestion.target_function_definition
+        + " (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)"
+    )
+    session.save()
+
+    attempt = QuestionAttempt.objects.create(
+        associated_profile=currentProfile,
+        question=queuedQuestion,
+        solved_test_cases=0,
+        session=session,
+    )
+    currentProfile.question_history.add(attempt)
+    currentProfile.next_questions.remove(queuedQuestion)
+
+    return redirect("codeSubmit", id=session.pk)
+
+
 def createChat (request):
     currentUser = request.user
     session = Session.objects.create(user=currentUser)
@@ -325,6 +370,13 @@ def getAIResponse(request, id):
     
 def codeSubmit(request, id): # TODO: Add tooltips to buttons
     session = get_owned_session_or_404(request.user, id)
+
+    # Record when the student first opens this problem
+    attempt = session.attempts.first()
+    if attempt and attempt.opened_at is None:
+        attempt.opened_at = timezone.now()
+        attempt.save(update_fields=["opened_at"])
+
     submission = session.codeSubmission
     context = {
         "codeSubmission" : submission,
@@ -406,20 +458,43 @@ def save_system_hint(request, id):
         return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
 
-def runCompile(request): 
+def runCompile(request):
     if request.method == "POST":
         body = json.loads(request.body)
         submission = body.get("submission")
-        print (submission)
+        session_id = body.get("session_id")
         compiled_output = str(compileCode(submission))
+
+        # Log the compile attempt
+        if session_id and request.user.is_authenticated:
+            try:
+                session = Session.objects.get(pk=session_id)
+                seq = session.compile_attempts.count() + 1
+                CompileAttempt.objects.create(
+                    user=request.user,
+                    session=session,
+                    sequence_number=seq,
+                    raw_output=compiled_output,
+                    error_category=categorize_error(compiled_output),
+                )
+            except Session.DoesNotExist:
+                pass
+
         return JsonResponse({"compiled_output" : compiled_output})
 
 def submitCode(request, id):
-    if request.method == "POST": 
+    if request.method == "POST":
         currentProfile = Profile.objects.get(user=request.user)
         session = Session.objects.get(pk=id)
 
         casesSolved = handler(currentProfile, session=session)
+
+        # Record submission timestamp and total test cases
+        attempt = session.attempts.first()
+        if attempt:
+            attempt.submitted_at = timezone.now()
+            attempt.total_test_cases = len(session.question.test_cases)
+            attempt.save(update_fields=["submitted_at", "total_test_cases"])
 
         return JsonResponse({"status": "ok", "casesSolved": casesSolved})
 
@@ -448,79 +523,8 @@ def post_survey_response(request, id):
         return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
-@csrf_exempt  # Using sendBeacon, so CSRF token is not available
-def track_page_time(request):
-    if request.method != "POST":
-        return JsonResponse({"ok": False, "error": "POST only"}, status=405)
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-    except Exception:
-        return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
-
-    # Total time from page load until submit, in ms
-    duration_ms = int(max(0, data.get("duration_ms", 0)))
-    path = data.get("path") or request.path
-
-    started_at_ms = data.get("started_at_ms")
-    if started_at_ms:
-        started_at = timezone.datetime.fromtimestamp(started_at_ms / 1000)
-        ended_at = started_at + timezone.timedelta(milliseconds=duration_ms)
-    else:
-        ended_at = timezone.now()
-        started_at = ended_at - timezone.timedelta(milliseconds=duration_ms)
-
-    session_key = getattr(getattr(request, "session", None), "session_key", None) \
-                  or request.COOKIES.get("sessionid", "")
-
-    # We want one record per submit, so create() is used
-    PageView.objects.create(
-        user=request.user if request.user.is_authenticated else None,
-        session_key=session_key or "",
-        path=path,
-        referrer=data.get("referrer", ""),
-        user_agent=request.META.get("HTTP_USER_AGENT", ""),
-        started_at=started_at,
-        ended_at=ended_at,
-        duration_ms=duration_ms,
-        extra={
-            "visible_only": bool(data.get("visible_only", True)),
-            "idle_threshold_ms": data.get("idle_threshold_ms", 120000),
-            "trigger": "submit",
-        },
-    )
-
-    return JsonResponse({"ok": True})
-
 @csrf_exempt
-def track_website_time(request): # TODO: IMPORTANT! Reduce redundancy. Can probably remove this and track_page_time. Just have more detailed cursor analytics and calculate time using that.
-    if request.method != "POST":
-        return JsonResponse({"ok": False, "error": "POST only"}, status=405)
-
-    try:
-        data = json.loads(request.body.decode("utf-8"))
-    except Exception:
-        return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
-
-    session_key = data.get("session_key") or request.COOKIES.get("sessionid", "")
-    duration_ms = int(max(0, data.get("duration_ms", 0)))
-
-    # Create or update the session
-    session, created = WebsiteSession.objects.get_or_create(
-        session_key=session_key,
-        defaults={
-            "user": request.user if request.user.is_authenticated else None,
-        },
-    )
-    if duration_ms > 0:
-        WebsiteSession.objects.filter(pk=session.pk).update(
-            total_active_ms=F("total_active_ms") + duration_ms,
-            last_ping=timezone.now()
-        )
-
-    return JsonResponse({"ok": True})
-
-def track_cursor(request): # TODO: IMPORTANT!! Improve cursor tracking. Send batches of cursor points more frequently. 
+def track_cursor(request):
     if request.method != "POST":
         return JsonResponse({"ok": False, "error": "POST only"}, status=405)
 
@@ -538,6 +542,11 @@ def track_cursor(request): # TODO: IMPORTANT!! Improve cursor tracking. Send bat
     events = []
     for p in points:
         try:
+            ts = None
+            if "t" in p:
+                ts = timezone.datetime.fromtimestamp(
+                    p["t"] / 1000, tz=timezone.get_current_timezone()
+                )
             events.append(CursorEvent(
                 user=user,
                 session_id=session_id,
@@ -547,6 +556,7 @@ def track_cursor(request): # TODO: IMPORTANT!! Improve cursor tracking. Send bat
                 viewport_width=p["vw"],
                 viewport_height=p["vh"],
                 scroll_y=p["sy"],
+                timestamp=ts,
             ))
         except KeyError:
             continue
@@ -733,4 +743,3 @@ def final_frq_advance(request):
 
 def final(request):
     return render(request, "studentSystem/final.html")
-
