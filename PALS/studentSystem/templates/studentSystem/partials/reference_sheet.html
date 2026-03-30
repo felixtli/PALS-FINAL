@@ -1,0 +1,179 @@
+<div class="reference-modal" id="reference-modal" aria-hidden="true">
+  <div class="reference-backdrop" data-reference-close></div>
+  <section
+    class="reference-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="reference-title"
+  >
+    <div class="reference-header">
+      <div>
+        <p class="reference-kicker">SML Quick Guide</p>
+        <h2 id="reference-title">Standard ML Reference Sheet</h2>
+      </div>
+      <button
+        type="button"
+        class="reference-close"
+        id="reference-close"
+        aria-label="Close reference sheet"
+      >
+        Close
+      </button>
+    </div>
+
+    <div class="reference-content">
+      <section class="reference-section">
+        <h3>1. Fundamentals</h3>
+        <p>
+          Standard ML uses immutable variable bindings declared with <code>val</code>.
+          Values include integers, reals, booleans, characters, strings, tuples, and lists.
+        </p>
+        <pre><code>val x = 5                        (* integer *)
+val pi = 3.14                    (* real *)
+val pair = (1, "hello")          (* tuple *)
+val nums = [1, 2, 3]             (* list *)</code></pre>
+
+        <h4>Operators and Expressions</h4>
+        <div class="reference-grid">
+          <div><strong>Arithmetic</strong><span><code>+ - * div mod /</code> for reals</span></div>
+          <div><strong>String concatenation</strong><span><code>"Hello, " ^ "world!"</code></span></div>
+          <div><strong>Comparison</strong><span><code>= &lt;&gt; &lt; &gt; &lt;= &gt;=</code></span></div>
+          <div><strong>Logical</strong><span><code>andalso orelse not</code></span></div>
+          <div><strong>Printing</strong><span><code>print "Hello\n"</code></span></div>
+          <div><strong>Type conversion</strong><span><code>Int.toString 5</code>, <code>Real.toString 3.0</code></span></div>
+        </div>
+
+        <h4>Conditional Expression</h4>
+        <p>Both branches of an <code>if</code> expression must have the same type.</p>
+        <pre><code>val r = if x &gt; 0 then "positive" else "non-positive"</code></pre>
+      </section>
+
+      <section class="reference-section">
+        <h3>2. Functions and Bindings</h3>
+        <h4>Function Definition</h4>
+        <p>
+          Named functions use <code>fun</code>. Anonymous functions use <code>fn</code>.
+          Functions are first-class values.
+        </p>
+        <pre><code>fun square x = x * x
+val double = fn x =&gt; x * 2</code></pre>
+
+        <h4>Let and Local Bindings</h4>
+        <p>
+          <code>let ... in ... end</code> creates scoped bindings in an expression.
+          <code>local ... in ... end</code> creates helper declarations visible only inside the block.
+        </p>
+        <pre><code>(* let binding *)
+val result = let val x = 3 in x + 2 end
+
+(* local binding *)
+local
+  fun helper x = x + 1
+in
+  fun useHelper y = helper y * 2
+end</code></pre>
+
+        <h4>Curried and Polymorphic Functions</h4>
+        <pre><code>fun add x y = x + y       (* curried *)
+val addTwo = add 2        (* partial application *)
+fun identity x = x        (* 'a -&gt; 'a, polymorphic *)</code></pre>
+      </section>
+
+      <section class="reference-section">
+        <h3>3. Pattern Matching</h3>
+        <p>
+          SML matches values against patterns in function definitions and <code>case</code>
+          expressions. The wildcard <code>_</code> matches anything.
+        </p>
+        <pre><code>(* Function pattern matching *)
+fun describe 0 = "zero"
+  | describe _ = "non-zero"
+
+(* Case expression *)
+val result = case x of
+               0 =&gt; "zero"
+             | 1 =&gt; "one"
+             | _ =&gt; "other"
+
+(* Nested conditionals *)
+val r = if x &gt; 0 then (if x &gt; 10 then "big" else "small")
+        else "negative"</code></pre>
+      </section>
+
+      <section class="reference-section">
+        <h3>4. Recursion</h3>
+        <p>
+          Recursion is the main looping mechanism in SML. Tail recursion is preferred because
+          the compiler can optimize it into a loop.
+        </p>
+
+        <h4>Non-Tail vs. Tail Recursion</h4>
+        <pre><code>(* Non-tail: addition happens after recursive call *)
+fun sum [] = 0
+  | sum (x::xs) = x + sum xs
+
+(* Tail-recursive: uses an accumulator *)
+fun sum xs =
+  let fun loop ([], acc) = acc
+        | loop (x::xs, acc) = loop (xs, acc + x)
+  in loop (xs, 0) end</code></pre>
+
+        <h4>Mutually Recursive Functions</h4>
+        <pre><code>fun isEven 0 = true
+  | isEven n = isOdd (n - 1)
+and isOdd 0 = false
+  | isOdd n = isEven (n - 1)</code></pre>
+      </section>
+
+      <section class="reference-section">
+        <h3>5. Basis Library</h3>
+        <p>
+          The Standard Basis Library provides common modules such as <code>List</code>,
+          <code>String</code>, <code>Math</code>, and <code>IntInf</code>.
+        </p>
+
+        <h4>String Processing</h4>
+        <pre><code>val chars = explode "hi"                (* [#"h", #"i"] *)
+val str = implode [#"h", #"i"]         (* "hi" *)
+val n = String.size "hello"            (* 5 *)
+val s = String.substring ("hello", 1, 3) (* "ell" *)</code></pre>
+
+        <h4>List Operations</h4>
+        <pre><code>val mapped = List.map (fn x =&gt; x * 2) [1, 2, 3]      (* [2, 4, 6] *)
+val evens = List.filter (fn x =&gt; x mod 2 = 0) [1, 2, 3, 4] (* [2, 4] *)
+val rev = List.rev [1, 2, 3]                               (* [3, 2, 1] *)
+val joined = [1, 2] @ [3, 4]                               (* [1, 2, 3, 4] *)
+val len = List.length [1, 2, 3]                            (* 3 *)</code></pre>
+
+        <h4>Fold Operations</h4>
+        <pre><code>val sum = List.foldl (op +) 0 [1, 2, 3]        (* 6 *)
+val s = List.foldr (op ^) "" ["a", "b", "c"]   (* "abc" *)</code></pre>
+
+        <h4>Math and IntInf</h4>
+        <pre><code>val sqrt2 = Math.sqrt 2.0
+val big = IntInf.pow (IntInf.fromInt 2, 100)   (* arbitrary precision *)</code></pre>
+      </section>
+
+      <section class="reference-section">
+        <h3>6. Other Features</h3>
+        <h4>Exception Raising</h4>
+        <pre><code>raise Fail "error occurred"
+exception MyError of string
+raise MyError "something went wrong"</code></pre>
+
+        <h4>Custom Infix Operator</h4>
+        <pre><code>infix +-
+fun x +- y = 2 * x - y
+val result = 3 +- 1             (* 5 *)</code></pre>
+
+        <h4>Datatype Definition</h4>
+        <pre><code>datatype color = Red | Green | Blue
+datatype shape = Circle of real
+              | Rectangle of real * real
+
+fun area (Circle r) = Math.pi * r * r
+  | area (Rectangle (w, h)) = w * h</code></pre>
+      </section>
+    </div>
+  </section>
+</div>

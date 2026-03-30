@@ -29,6 +29,7 @@
           <button class="input-button" id="final-submit">Submit</button>
           <button class="input-button" id="test">Test</button>
           <button class="input-button" id="clear-compiler">Clear Outputs</button>
+          <button class="input-button" id="reference-toggle" type="button">Reference</button>
 
           <!--
             IMPORTANT:
@@ -58,6 +59,7 @@
 
     {{ codeSubmission|json_script:"code-submission-data" }}
     {{ session.compilerOutputs|json_script:"compiler-outputs-data" }}
+    {% include "studentSystem/partials/reference_sheet.html" %}
 
     <script>
       window.codeSubmission = JSON.parse(document.getElementById("code-submission-data").textContent);
@@ -68,6 +70,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
 
     <script src="{% static 'JS/submission.js' %}"></script>
+    <script src="{% static 'JS/referenceSheet.js' %}"></script>
 
     <script src="{% static 'JS/sml_Editor.js' %}"></script>
 

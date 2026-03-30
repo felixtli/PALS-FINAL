@@ -1,1 +1,1 @@
-fun response s = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)
+fun collatz n = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)
