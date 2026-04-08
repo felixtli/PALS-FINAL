@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python manage.py makemigrations studentSystem)"
+      "Bash(python manage.py makemigrations studentSystem)",
+      "Bash(python manage.py flush --no-input)"
     ]
   }
 }

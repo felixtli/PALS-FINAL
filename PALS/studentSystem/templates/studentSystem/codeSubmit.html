@@ -14,32 +14,30 @@
     <body>
         {% include "studentSystem/partials/session_navbar.html" %}
         <div id="main">
-            <div class="input-area-container">
-                <textarea placeholder="Begin response here..." class="input-area" id="code-input-area" spellcheck="false"></textarea>
-                <div class="input-button-area">
-                    <button class="input-button" id="submit"> Submit </button>
-                    {% if ai_enabled %}
-                    <button class="input-button" id="ask-ai"> System Hint </button>
-                    {% endif %}
-                    <button class="input-button" id="test"> Test </button>
-                    <button class="input-button" id="clear-compiler"> Clear Outputs </button>
-                    <button class="input-button" id="reference-toggle" type="button"> Reference </button>
-                    <!-- <a class="input-button" href="/{{nextSession}}/codesubmission/"> FORWARD 1 Q </a> -->
-                    <!-- <a class="input-button" href="/{{previousSession}}/codesubmission/"> BACK 1 Q </a> -->
-                </div>
-            </div>
-
-            <div class="problem-compiler-container" id="split-container">
+            <div class="left-panel" id="split-container">
                 <div class="problem-container" id="top-pane">
                     <h1 class="problem-header"> {{ session.question.question_title }} </h1>
                     <p class="problem-description"> {{ session.question.question_description|linebreaksbr }}</p>
                 </div>
 
-                <div id="dragBar" class="drag-bar" role="separator" aria-label="Resize problem and compiler"></div>
+                <div id="dragBar" class="drag-bar" role="separator" aria-label="Resize problem and editor"></div>
 
-                <div class="compiler-container" id="bottom-pane">
-                    <p class="compiler-output" id="original-compiler-message"> This is the SML Compiler. Your code's output will be shown here. </p>
+                <div class="input-area-container" id="bottom-pane">
+                    <textarea placeholder="Begin response here..." class="input-area" id="code-input-area" spellcheck="false"></textarea>
+                    <div class="input-button-area">
+                        <button class="input-button" id="submit"> Submit </button>
+                        {% if ai_enabled %}
+                        <button class="input-button" id="ask-ai"> System Hint </button>
+                        {% endif %}
+                        <button class="input-button" id="test"> Test </button>
+                        <button class="input-button" id="clear-compiler"> Clear Outputs </button>
+                        <button class="input-button" id="reference-toggle" type="button"> Reference </button>
+                    </div>
                 </div>
+            </div>
+
+            <div class="compiler-container">
+                <p class="compiler-output" id="original-compiler-message"> This is the SML Compiler. Your code's output will be shown here. </p>
             </div>
         </div>
 

@@ -9,7 +9,7 @@ django.setup()
 
 from studentSystem.models import Question
 
-def createQuestion(title, description, difficulty, target_function, test_cases):
+def createQuestion(title, description, difficulty, target_function, target_function_definition, test_cases):
     difficulty_map = {"Easy" : 1, "Medium" : 2, "Hard" : 3, "Exam" : 4}
 
     question, created = Question.objects.get_or_create(
@@ -32,4 +32,4 @@ if __name__ == "__main__":
         reader = csv.DictReader(csvfile)
         for row in reader:
             title, description, difficulty, target_function, target_function_definition, test_cases = row["Problem Title"], row["Problem Description"], row["Difficulty"], row["Target Function"], row["Target Function Definition"], json.loads(row["Final JSON"])
-            createQuestion(title, description, difficulty, target_function, test_cases)
+            createQuestion(title, description, difficulty, target_function, target_function_definition, test_cases)

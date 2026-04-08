@@ -278,6 +278,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // set heights
         top.style.height = `${newTop}px`;
         bottom.style.height = `${rect.height - newTop - barH}px`;
+
+        // refresh CodeMirror so it fills the resized pane
+        if (window.codeMirrorEditor) {
+            window.codeMirrorEditor.refresh();
+        }
     });
 
     window.addEventListener("mouseup", () => {

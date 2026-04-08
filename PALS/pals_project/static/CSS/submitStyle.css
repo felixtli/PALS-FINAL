@@ -25,12 +25,20 @@
     height: calc(100vh - var(--navbar-height));
     display: flex;
     flex-direction: row;
-    align-items: center;
+}
+
+.left-panel {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .input-area-container {
-  height: 99%;
-  width: 55%;
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -90,18 +98,12 @@
     background-color: var(--highlight);
 }
 
-.problem-compiler-container {
-    height: 100%;
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    overflow: auto;
-}
 
 .problem-container {
+    flex: 0 0 auto;
     padding: 15px 20px;
     background-color: linear-gradient(var(--secondary-color-dark), var(--secondary-color));
+    overflow: auto;
 }
 
 .problem-header {
@@ -115,10 +117,11 @@
 
 .compiler-container {
     height: 100%;
+    width: 50%;
     font-family: monospace;
     background-color: var(--primary-color);
     font-size: 0.95rem;
-    border-top: 2px solid var(--primary-color-light);
+    border-left: 2px solid var(--primary-color-light);
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -201,10 +204,6 @@
 
 .cm-s-pals .CodeMirror-activeline-background {
   background: rgba(255,255,255,0.04);
-}
-
-.input-area-container {
-  min-height: 0;
 }
 
 .input-area-container .CodeMirror {
@@ -388,14 +387,16 @@ body.reference-open {
     min-height: calc(100vh - var(--navbar-height));
   }
 
-  .input-area-container,
-  .problem-compiler-container {
+  .left-panel,
+  .compiler-container {
     width: 100%;
     height: auto;
   }
 
-  .problem-compiler-container {
+  .compiler-container {
     min-height: 45vh;
+    border-left: none;
+    border-top: 2px solid var(--primary-color-light);
   }
 
   .input-button-area {

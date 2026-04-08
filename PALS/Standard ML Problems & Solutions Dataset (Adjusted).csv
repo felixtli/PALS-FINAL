@@ -213,27 +213,99 @@ Output Type: 2-Element Tuple of Type (integer, integer)",Easy,swap,"fun swap (a,
   {""input"": [-5, 20], ""output"": [20, -5]},
   {""input"": [8, -8], ""output"": [-8, 8]}
 ]"
-Max,"Given a tuple containing two integers, write a function to find the larger of the two.
+Sum of Digits,"Write a function that takes a non-negative integer and returns the sum of its digits. For example, sumDigits 123 should return 6 because 1 + 2 + 3 = 6.
 
-Input Type: 2 Element Tuple of Type (integer, integer)
-Output Type: Integer",Exam,maxNumber,"fun maxNumber (a, b) =","fun maxNumber (a, b) = if a >= b then a else b","[
-  {""input"": [0, 0], ""output"": 0},
-  {""input"": [1, 2], ""output"": 2},
-  {""input"": [2, 1], ""output"": 2},
-  {""input"": [-1, -5], ""output"": -1},
-  {""input"": [-5, -1], ""output"": -1},
-  {""input"": [100, 50], ""output"": 100},
-  {""input"": [50, 100], ""output"": 100},
-  {""input"": [-10, 10], ""output"": 10},
-  {""input"": [999, 1000], ""output"": 1000},
-  {""input"": [1000, 999], ""output"": 1000}
+Input Type: Integer (non-negative)
+Output Type: Integer",Medium,sumDigits,fun sumDigits n =,"fun sumDigits n =
+  if n = 0 then 0
+  else (n mod 10) + sumDigits (n div 10)","[
+  {""input"": 0, ""output"": 0},
+  {""input"": 5, ""output"": 5},
+  {""input"": 10, ""output"": 1},
+  {""input"": 23, ""output"": 5},
+  {""input"": 99, ""output"": 18},
+  {""input"": 123, ""output"": 6},
+  {""input"": 456, ""output"": 15},
+  {""input"": 1000, ""output"": 1},
+  {""input"": 9999, ""output"": 36},
+  {""input"": 12345, ""output"": 15}
+]"
+Clamp,"Write a function that takes a tuple of three integers: a value, a minimum bound, and a maximum bound. Return the value if it falls within the bounds (inclusive). If the value is less than the minimum, return the minimum. If the value is greater than the maximum, return the maximum.
+
+Input Type: 3 Element Tuple of Type (int, int, int)
+Output Type: Integer",Medium,clamp,"fun clamp (value, lo, hi) =","fun clamp (value, lo, hi) =
+  if value < lo then lo
+  else if value > hi then hi
+  else value","[
+  {""input"": [5, 1, 10], ""output"": 5},
+  {""input"": [0, 0, 10], ""output"": 0},
+  {""input"": [10, 0, 10], ""output"": 10},
+  {""input"": [-5, 0, 100], ""output"": 0},
+  {""input"": [50, 0, 10], ""output"": 10},
+  {""input"": [3, 3, 3], ""output"": 3},
+  {""input"": [-10, -5, 5], ""output"": -5},
+  {""input"": [100, -100, 100], ""output"": 100},
+  {""input"": [7, 1, 100], ""output"": 7},
+  {""input"": [-1, -10, -1], ""output"": -1}
+]"
+Is Vowel,"Write a function that takes a character and returns true if it is a vowel (a, e, i, o, u) and false otherwise. The function should handle both uppercase and lowercase characters.
+
+Input Type: Character
+Output Type: Boolean",Medium,isVowel,fun isVowel (c: char) =,"fun isVowel (c: char) =
+  let val lower = Char.toLower c
+  in lower = #""a"" orelse lower = #""e"" orelse lower = #""i"" orelse lower = #""o"" orelse lower = #""u""
+  end","[
+  {""input"": ""a"", ""output"": true},
+  {""input"": ""e"", ""output"": true},
+  {""input"": ""i"", ""output"": true},
+  {""input"": ""o"", ""output"": true},
+  {""input"": ""u"", ""output"": true},
+  {""input"": ""A"", ""output"": true},
+  {""input"": ""E"", ""output"": true},
+  {""input"": ""b"", ""output"": false},
+  {""input"": ""Z"", ""output"": false},
+  {""input"": ""x"", ""output"": false}
+]"
+Repeat String,"Write a function that takes a tuple of a string and a non-negative integer, and returns the string repeated that many times. If the count is 0, return an empty string.
+
+Input Type: 2 Element Tuple of Type (string, int)
+Output Type: String",Medium,repeatStr,"fun repeatStr (s, n) =","fun repeatStr (s, n) =
+  if n = 0 then """"
+  else s ^ repeatStr (s, n - 1)","[
+  {""input"": [""ha"", 3], ""output"": ""hahaha""},
+  {""input"": [""hi"", 0], ""output"": """"},
+  {""input"": [""a"", 5], ""output"": ""aaaaa""},
+  {""input"": [""ab"", 2], ""output"": ""abab""},
+  {""input"": [""hello"", 1], ""output"": ""hello""},
+  {""input"": [""!"", 4], ""output"": ""!!!!""},
+  {""input"": [""xyz"", 0], ""output"": """"},
+  {""input"": ["" "", 3], ""output"": ""   ""},
+  {""input"": [""01"", 3], ""output"": ""010101""},
+  {""input"": [""cat"", 2], ""output"": ""catcat""}
+]"
+Starts With,"Write a function that takes a tuple of two strings and returns true if the first string starts with the second string, and false otherwise. An empty prefix should return true for any string.
+
+Input Type: 2 Element Tuple of Type (string, string)
+Output Type: Boolean",Medium,startsWith,"fun startsWith (s, prefix) =","fun startsWith (s, prefix) =
+  if String.size prefix > String.size s then false
+  else String.substring (s, 0, String.size prefix) = prefix","[
+  {""input"": [""hello"", ""hel""], ""output"": true},
+  {""input"": [""hello"", ""world""], ""output"": false},
+  {""input"": [""hello"", ""hello""], ""output"": true},
+  {""input"": [""hello"", """"], ""output"": true},
+  {""input"": ["""", """"], ""output"": true},
+  {""input"": [""hi"", ""hello""], ""output"": false},
+  {""input"": [""abcdef"", ""abc""], ""output"": true},
+  {""input"": [""abcdef"", ""abd""], ""output"": false},
+  {""input"": [""standard"", ""stan""], ""output"": true},
+  {""input"": [""ml"", ""ML""], ""output"": false}
 ]"
 Two-Fer,"Write a program that creates a sentence of the form ""One for X, one for me."", based on whether or not a name is given.
 If you know the person's name (e.g. if they're named Do-yun), then you will say: One for Do-yun, one for me.
 If you don't know the person's name, you will say you instead: One for you, one for me.
 
 Input Type: String Option Typed Parameter Pattern
-Output Type: String",Medium,name,fun name (input: string option) =,"fun name (input: string option) =
+Output Type: String",Hard,name,fun name (input: string option) =,"fun name (input: string option) =
     ""One for "" ^ Option.getOpt (input, ""you"") ^ "", one for me.""","[
   {""input"": null, ""output"": ""One for you, one for me.""},
   {""input"": {""SOME"": ""Alice""}, ""output"": ""One for Alice, one for me.""},
@@ -249,7 +321,7 @@ Output Type: String",Medium,name,fun name (input: string option) =,"fun name (in
 Leap Year,"Write a program to determine whether a given year is a leap year.
 
 Input Type: Integer
-Output Type: Boolean",Medium,isLeapYear,fun isLeapYear year =,"fun isLeapYear year =
+Output Type: Boolean",Hard,isLeapYear,fun isLeapYear year =,"fun isLeapYear year =
   year mod 4 = 0 andalso (year mod 100 <> 0 orelse year mod 400 = 0)","[
   {""input"": 1996, ""output"": true},
   {""input"": 2000, ""output"": true},
@@ -262,6 +334,29 @@ Output Type: Boolean",Medium,isLeapYear,fun isLeapYear year =,"fun isLeapYear ye
   {""input"": 1, ""output"": false},
   {""input"": 400, ""output"": true}
 ]"
+Reverse String,"Reversing strings (reading them from right to left, rather than from left to right) is a surprisingly common task in programming.
+
+Your task is to reverse a given string.
+
+Some examples:
+
+Turn ""stressed"" into ""desserts"".
+Turn ""strops"" into ""sports"".
+Turn ""racecar"" into ""racecar"".
+
+Input Type: String
+Output Type: String",Hard,reverseStr,fun reverseStr (value: string): string =,fun reverseStr (value: string): string = implode(rev(explode(value))),"[
+  {""input"": ""stressed"", ""output"": ""desserts""},
+  {""input"": ""strops"", ""output"": ""sports""},
+  {""input"": ""racecar"", ""output"": ""racecar""},
+  {""input"": ""hello"", ""output"": ""olleh""},
+  {""input"": """", ""output"": """"},
+  {""input"": ""abc"", ""output"": ""cba""},
+  {""input"": ""12345"", ""output"": ""54321""},
+  {""input"": ""!@#$%"", ""output"": ""%$#@!""},
+  {""input"": ""Able was I"", ""output"": ""I saw elbA""},
+  {""input"": ""Palindrome"", ""output"": ""emordnilaP""}
+]"
 Pangram,"Your task is to figure out if a sentence is a pangram.
 
 A pangram is a sentence using every letter of the alphabet at least once. It is case insensitive, so it doesn't matter if a letter is lower-case (e.g. k) or upper-case (e.g. K).
@@ -269,7 +364,7 @@ A pangram is a sentence using every letter of the alphabet at least once. It is 
 For this exercise, a sentence is a pangram if it contains each of the 26 letters in the English alphabet.
 
 Input Type: String
-Output Type: Boolean",Medium,isPangram,fun isPangram s =,"fun isPangram s = List.all(Char.contains(String.map Char.toLower s)) (explode ""abcdefghijklmnopqrstuvwxyz"")","[
+Output Type: Boolean",Hard,isPangram,fun isPangram s =,"fun isPangram s = List.all(Char.contains(String.map Char.toLower s)) (explode ""abcdefghijklmnopqrstuvwxyz"")","[
   {""input"": ""The quick brown fox jumps over the lazy dog."", ""output"": true},
   {""input"": ""The quick brown fox jumps over the lay dog."", ""output"": false},
   {""input"": ""Sphinx of black quartz, judge my vow."", ""output"": true},
@@ -297,7 +392,7 @@ The outer circle has a radius of 10 units (this is equivalent to the total radiu
 Given a point in the target (defined by its Cartesian coordinates x and y, where x and y are real), calculate the correct score earned by a dart landing at that point.
 
 Input Type: 2 Element Tuple of Type (real, real)
-Output Type: Integer",Medium,scoreCalc,"fun scoreCalc (x: real, y: real): int =","fun scoreCalc (x: real, y: real): int =
+Output Type: Integer",Hard,scoreCalc,"fun scoreCalc (x: real, y: real): int =","fun scoreCalc (x: real, y: real): int =
   let
     val r = Math.sqrt(x * x + y * y)
   in
@@ -327,7 +422,7 @@ The sum of the squares of the first ten natural numbers is 1² + 2² + ... + 10�
 Hence the difference between the square of the sum of the first ten natural numbers and the sum of the squares of the first ten natural numbers is 3025 - 385 = 2640.
 
 Input Type: Integer
-Output Type: Integer",Medium,differenceOfSquares,"fun squareOfSum n =
+Output Type: Integer",Hard,differenceOfSquares,"fun squareOfSum n =
 fun sumOfSquares n =
 fun differenceOfSquares n =","fun squareOfSum n =
   let val sum = n * (n + 1) div 2
@@ -348,28 +443,36 @@ fun differenceOfSquares n =
   {""input"": 100, ""output"": 25164150},
   {""input"": 4, ""output"": 70}
 ]"
-Reverse String,"Reversing strings (reading them from right to left, rather than from left to right) is a surprisingly common task in programming.
+Max,"Given a tuple containing two integers, write a function to find the larger of the two.
 
-Your task is to reverse a given string.
+Input Type: 2 Element Tuple of Type (integer, integer)
+Output Type: Integer",Exam,maxNumber,"fun maxNumber (a, b) =","fun maxNumber (a, b) = if a >= b then a else b","[
+  {""input"": [0, 0], ""output"": 0},
+  {""input"": [1, 2], ""output"": 2},
+  {""input"": [2, 1], ""output"": 2},
+  {""input"": [-1, -5], ""output"": -1},
+  {""input"": [-5, -1], ""output"": -1},
+  {""input"": [100, 50], ""output"": 100},
+  {""input"": [50, 100], ""output"": 100},
+  {""input"": [-10, 10], ""output"": 10},
+  {""input"": [999, 1000], ""output"": 1000},
+  {""input"": [1000, 999], ""output"": 1000}
+]"
+Count Char,"Write a function that takes a tuple of a string and a character, and returns the number of times that character appears in the string. If the character does not appear, return 0.
 
-Some examples:
-
-Turn ""stressed"" into ""desserts"".
-Turn ""strops"" into ""sports"".
-Turn ""racecar"" into ""racecar"".
-
-Input Type: String
-Output Type: String",Medium,reverseStr,fun reverseStr (value: string): string =,fun reverseStr (value: string): string = implode(rev(explode(value))),"[
-  {""input"": ""stressed"", ""output"": ""desserts""},
-  {""input"": ""strops"", ""output"": ""sports""},
-  {""input"": ""racecar"", ""output"": ""racecar""},
-  {""input"": ""hello"", ""output"": ""olleh""},
-  {""input"": """", ""output"": """"},
-  {""input"": ""abc"", ""output"": ""cba""},
-  {""input"": ""12345"", ""output"": ""54321""},
-  {""input"": ""!@#$%"", ""output"": ""%$#@!""},
-  {""input"": ""Able was I"", ""output"": ""I saw elbA""},
-  {""input"": ""Palindrome"", ""output"": ""emordnilaP""}
+Input Type: 2 Element Tuple of Type (string, char)
+Output Type: Integer",Exam,countChar,"fun countChar (s, c) =","fun countChar (s, c) =
+  length (List.filter (fn x => x = c) (explode s))","[
+  {""input"": [""hello"", ""l""], ""output"": 2},
+  {""input"": [""hello"", ""z""], ""output"": 0},
+  {""input"": [""hello"", ""h""], ""output"": 1},
+  {""input"": [""aaaaaa"", ""a""], ""output"": 6},
+  {""input"": ["""", ""a""], ""output"": 0},
+  {""input"": [""abcabc"", ""c""], ""output"": 2},
+  {""input"": [""Mississippi"", ""s""], ""output"": 4},
+  {""input"": [""banana"", ""n""], ""output"": 2},
+  {""input"": [""test"", ""t""], ""output"": 2},
+  {""input"": [""SML"", ""S""], ""output"": 1}
 ]"
 Triangle,"Write a program that determines if a shape is a triangle, and if that triangle is equilateral, isosceles, or scalene. Return ""equilateral"" if a triangle is equilateral, ""isosceles"" if a triangle is isosceles, ""scalene"" if a triangle is scalene, and ""not a triangle"" if a shape is not a triangle.
 
@@ -393,185 +496,4 @@ Output Type: String",Exam,triangleType,"fun triangleType (a, b, c) =","fun trian
   {""input"": [0, 0, 0], ""output"": ""not a triangle""},
   {""input"": [5, 5, 5], ""output"": ""equilateral""},
   {""input"": [2, 3, 5], ""output"": ""not a triangle""}
-]"
-Bob,"Your task is to determine what Bob will reply to someone when they say something to him or ask him a question.
-
-Bob only ever answers one of five things:
-
-""Sure."" This is his response if you ask him a question, such as ""How are you?"" The convention used for questions is that it ends with a question mark.
-""Whoa, chill out!"" This is his answer if you YELL AT HIM. The convention used for yelling is ALL CAPITAL LETTERS.
-""Calm down, I know what I'm doing!"" This is what he says if you yell a question at him.
-""Fine. Be that way!"" This is how he responds to silence. The convention used for silence is nothing, or various combinations of whitespace characters.
-""Whatever."" This is what he answers to anything else.
-
-Input Type: String
-Output Type: String",Hard,response,fun response s =,"fun response s =
-    let
-      val chars = List.filter (not o Char.isSpace) (String.explode s)
-      val letters = List.filter Char.isAlpha chars
-      val last = if not(List.null chars) then List.last chars else #"" ""
-      val hasLetter = not(List.null(letters))
-      val allUppercase = List.all Char.isUpper letters
-      val isEmpty = List.null(chars)
-      val isYelling = allUppercase andalso hasLetter
-      val isQuestion = last = #""?""
-    in
-      case (isEmpty, isYelling, isQuestion)
-       of (true, _, _) => ""Fine. Be that way!""
-        | (_, true, true) => ""Calm down, I know what I'm doing!""
-        | (_, true, _) => ""Whoa, chill out!""
-        | (_, _, true) => ""Sure.""
-        | _ => ""Whatever.""
-    end","[
-  {""input"": ""How are you?"", ""output"": ""Sure.""},
-  {""input"": ""HELLO!"", ""output"": ""Whoa, chill out!""},
-  {""input"": ""Hey there!"", ""output"": ""Whatever.""},
-  {""input"": ""HOW ARE YOU?"", ""output"": ""Calm down, I know what I'm doing!""},
-  {""input"": """", ""output"": ""Fine. Be that way!""},
-  {""input"": ""   "", ""output"": ""Fine. Be that way!""},
-  {""input"": ""What's up."", ""output"": ""Whatever.""},
-  {""input"": ""Are you okay???"", ""output"": ""Sure.""},
-  {""input"": ""STOP IT?"", ""output"": ""Calm down, I know what I'm doing!""},
-  {""input"": ""This is fine."", ""output"": ""Whatever.""}
-]"
-Raindrops,"Your task is to convert a number into its corresponding raindrop sounds.
-
-If a given number:
-
-is divisible by 3, add ""Pling"" to the result.
-is divisible by 5, add ""Plang"" to the result.
-is divisible by 7, add ""Plong"" to the result.
-is not divisible by 3, 5, or 7, the result should be the number as a string.
-
-Examples
-28 is divisible by 7, but not 3 or 5, so the result would be ""Plong"".
-30 is divisible by 3 and 5, but not 7, so the result would be ""PlingPlang"".
-34 is not divisible by 3, 5, or 7, so the result would be ""34"".
-
-Input: Integer
-Output: String",Hard,raindrop,fun raindrop n =,"fun raindrop n =
-    if n mod 3 <> 0 andalso n mod 5 <> 0 andalso n mod 7 <> 0 then
-       Int.toString n
-    else
-       (if n mod 3 = 0 then ""Pling"" else """") ^
-       (if n mod 5 = 0 then ""Plang"" else """") ^
-       (if n mod 7 = 0 then ""Plong"" else """")","[
-  {""input"": 28, ""output"": ""Plong""},
-  {""input"": 30, ""output"": ""PlingPlang""},
-  {""input"": 34, ""output"": ""34""},
-  {""input"": 21, ""output"": ""PlingPlong""},
-  {""input"": 35, ""output"": ""PlangPlong""},
-  {""input"": 105, ""output"": ""PlingPlangPlong""},
-  {""input"": 3, ""output"": ""Pling""},
-  {""input"": 5, ""output"": ""Plang""},
-  {""input"": 7, ""output"": ""Plong""},
-  {""input"": 1, ""output"": ""1""}
-]"
-Acronym,"Write a program that converts a long phrase to it's acronym.
-Punctuation is handled as follows: hyphens are word separators (like whitespace); all other punctuation can be removed from the input.
-
-Examples:
-As Soon As Possible -> ASAP
-Liquid-crystal display -> LCD
-Thank George It's Friday! -> TGIF
-
-Input Type: String
-Output Type: String",Hard,abbreviate,fun abbreviate (phrase: string): string =,"fun abbreviate (phrase: string): string =
-  let
-    fun is_delim c = Char.contains "" -_,"" c
-    val tokens = String.tokens is_delim phrase
-    fun first_char_up word = Char.toUpper (String.sub (word, 0))
-  in
-    String.implode (List.map first_char_up tokens)
-  end;","[
-  {""input"": ""As Soon As Possible"", ""output"": ""ASAP""},
-  {""input"": ""Liquid-crystal display"", ""output"": ""LCD""},
-  {""input"": ""Thank George It's Friday!"", ""output"": ""TGIF""},
-  {""input"": ""Personalized AI Learning System"", ""output"": ""PALS""},
-  {""input"": ""First In, First Out"", ""output"": ""FIFO""},
-  {""input"": ""GNU Image Manipulation Program"", ""output"": ""GIMP""},
-  {""input"": ""Complementary metal-oxide semiconductor"", ""output"": ""CMOS""},
-  {""input"": ""Hyper-text Markup Language"", ""output"": ""HTML""},
-  {""input"": ""Everything. Everywhere. All At Once."", ""output"": ""EEAAO""},
-  {""input"": ""Self-contained underwater breathing apparatus"", ""output"": ""SCUBA""}
-]"
-Collatz Conjecture,"The Collatz Conjecture:
-Pick any positive integer.
-
-If it's even, divide it by 2.
-If it's odd, multiply it by 3 and add 1.
-Then, repeat these steps with the result, continuing indefinitely.
-
-Curious, you picked number 12 to test and began the journey:
-
-12 ➜ 6 ➜ 3 ➜ 10 ➜ 5 ➜ 16 ➜ 8 ➜ 4 ➜ 2 ➜ 1
-
----------------------------------------------------------------------------
-Return the number of steps it takes to reach 1 according to the rules of the Collatz Conjecture.
-If reaching 1 is impossible, return None.
-
-Input Type: Integer
-Output Type: Optional Integer",Hard,collatz,fun collatz n =,"fun collatz n =
-    if n < 1
-    then NONE
-    else let
-        fun c 1 a = a
-          | c x a =
-                case x mod 2 of
-                  0 => c (x div 2) (a + 1)
-                | 1 => c ((3 * x) + 1) (a + 1)
-    in
-        SOME (c n 0)
-    end","[
-  {""input"": 1, ""output"": {""SOME"": 0}},
-  {""input"": 2, ""output"": {""SOME"": 1}},
-  {""input"": 3, ""output"": {""SOME"": 7}},
-  {""input"": 6, ""output"": {""SOME"": 8}},
-  {""input"": 7, ""output"": {""SOME"": 16}},
-  {""input"": 12, ""output"": {""SOME"": 9}},
-  {""input"": 19, ""output"": {""SOME"": 20}},
-  {""input"": 27, ""output"": {""SOME"": 111}},
-  {""input"": 100, ""output"": {""SOME"": 25}},
-  {""input"": 0, ""output"": null}
-]"
-Resistor Color,"If you want to build something using a Raspberry Pi, you'll probably use resistors. For this exercise, you need to know two things about them:
-
-Each resistor has a resistance value.
-Resistors are small - so small in fact that if you printed the resistance value on them, it would be hard to read.
-
-These colors are encoded as follows:
-
-black: 0
-brown: 1
-red: 2
-orange: 3
-yellow: 4
-green: 5
-blue: 6
-violet: 7
-grey: 8
-white: 9
-The goal of this exercise is to create a way:
-- to look up the numerical value associated with a particular color band
-- to list the different band colors
-
-Input Type: String
-Output Type: Integer",Exam,colorCode,fun colorCode color =,"val colors = [ ""black"", ""brown"", ""red"", ""orange"", ""yellow""
-             , ""green"", ""blue"", ""violet"", ""grey"", ""white""
-             ]
-fun colorCode color =
-  let fun code ([], _)    = raise Domain
-        | code (c::cs, i) = if c = color then i else code (cs, i + 1)
-  in  code (colors, 0)
-  end","[
-  {""input"": ""black"", ""output"": 0},
-  {""input"": ""brown"", ""output"": 1},
-  {""input"": ""red"", ""output"": 2},
-  {""input"": ""green"", ""output"": 5},
-  {""input"": ""white"", ""output"": 9},
-  {""input"": ""violet"", ""output"": 7},
-  {""input"": ""grey"", ""output"": 8},
-  {""input"": ""blue"", ""output"": 6},
-  {""input"": ""orange"", ""output"": 3},
-  {""input"": ""green"", ""output"": 5}
 ]"

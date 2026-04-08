@@ -1,1 +1,1 @@
-fun maxNumber (a, b) =
+fun firstChar s = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)

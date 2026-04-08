@@ -75,7 +75,7 @@ def ensure_current_question_attempt(profile, user):
                 profile.next_questions.count(),
             )
 
-        queued_question = profile.next_questions.first()
+        queued_question = profile.next_questions.order_by('difficulty').first()
         if queued_question is None:
             logger.warning(
                 "no queued question available after assignment profile_id=%s",
@@ -212,7 +212,7 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
                 request_type = request.POST.get("request_type")
 
             if request_type == "next_question" and nextQuestions.exists():
-                queuedQuestion = nextQuestions.first()
+                queuedQuestion = nextQuestions.order_by('difficulty').first()
 
                 attempt = QuestionAttempt.objects.create(
                     associated_profile=currentProfile,
@@ -227,7 +227,7 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
             elif request_type == "next_question" and not nextQuestions.exists():
 
                 assignment(currentProfile)
-                queuedQuestion = currentProfile.next_questions.first()
+                queuedQuestion = currentProfile.next_questions.order_by('difficulty').first()
 
                 attempt = QuestionAttempt.objects.create(
                     associated_profile=currentProfile,
@@ -271,10 +271,10 @@ def next_problem(request):
     nextQuestions = currentProfile.next_questions.all()
 
     if nextQuestions.exists():
-        queuedQuestion = nextQuestions.first()
+        queuedQuestion = nextQuestions.order_by('difficulty').first()
     else:
         assignment(currentProfile)
-        queuedQuestion = currentProfile.next_questions.first()
+        queuedQuestion = currentProfile.next_questions.order_by('difficulty').first()
 
     if queuedQuestion is None:
         return redirect("post_experiment_survey")
