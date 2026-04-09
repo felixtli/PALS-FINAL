@@ -35,10 +35,17 @@ class Question (models.Model): # Object that holds the coding question
     target_function = models.CharField(max_length = 100)
     target_function_definition = models.CharField(max_length = 1000, default="")
 
+    GROUP_CHOICES = [
+        ('A', 'Group A'),
+        ('B', 'Group B'),
+    ]
+
     difficulty = models.PositiveSmallIntegerField(
         choices=DIFFICULTY_CHOICES,
         default=1
     )
+
+    group = models.CharField(max_length=1, choices=GROUP_CHOICES, default='A')
 
     def get_difficulty_label(self):
         #Convenience method to get the label string for this difficulty.

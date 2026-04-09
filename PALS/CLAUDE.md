@@ -1,7 +1,7 @@
 # PALS - Personalized AI Learning System
 
 A Django research platform studying AI's impact on learning. Students solve Standard ML (SML) coding problems in two groups:
-- **Group A**: Has AI chat assistance (Ollama gemma3:4b)
+- **Group A**: Has AI chat assistance (Ollama gpt-oss-120b)
 - **Group B**: No AI assistance (control group)
 
 The system collects detailed analytics (cursor tracking, code deletions, page views, idle detection) and survey responses for research analysis.
