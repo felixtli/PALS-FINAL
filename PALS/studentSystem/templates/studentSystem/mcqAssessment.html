@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PALS - Assessment</title>
+    <link rel="stylesheet" href="{% static 'CSS/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/mcqStyle.css' %}">
+</head>
+
+<body>
+<nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-brand">
+            <a href="#" class="brand-link" aria-label="brand">PALS</a>
+        </div>
+        <div class="navbar-links"></div>
+        <div class="navbar-actions">
+            <a class="secondary-btn" id="logout" href="{% url 'logout' %}">Log Out</a>
+        </div>
+    </div>
+</nav>
+
+<div id="main">
+    <div id="mcq-container">
+        <p id="mcq-header">Standard ML Post-Session Assessment</p>
+        <p id="mcq-subheader">Answer all 10 questions, then click Submit.</p>
+
+        <form id="mcq-form">
+            {% csrf_token %}
+
+            <!-- Question 1 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">1.</span> What is the output of the following StandardML code?</legend>
+                <pre class="code-block">fun mystery x = if x &lt;= 1 then 1 else x * mystery(x - 1);
+val result = mystery 4;</pre>
+                <div class="choices">
+                    <label><input type="radio" name="q1" value="A"> A) 4</label>
+                    <label><input type="radio" name="q1" value="B"> B) 10</label>
+                    <label><input type="radio" name="q1" value="C"> C) 24</label>
+                    <label><input type="radio" name="q1" value="D"> D) 120</label>
+                </div>
+            </fieldset>
+
+            <!-- Question 2 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">2.</span> In StandardML, what is the key difference between <code>val</code> and <code>fun</code> declarations?</legend>
+                <div class="choices">
+                    <label><input type="radio" name="q2" value="A"> A) <code>val</code> is for mutable variables while <code>fun</code> is for immutable ones</label>
+                    <label><input type="radio" name="q2" value="B"> B) <code>fun</code> is syntactic sugar specifically for defining functions, while <code>val</code> is for general value bindings</label>
+                    <label><input type="radio" name="q2" value="C"> C) <code>val</code> can only bind integers while <code>fun</code> can bind any type</label>
+                    <label><input type="radio" name="q2" value="D"> D) There is no difference; they are interchangeable</label>
+                </div>
+            </fieldset>
+
+            <!-- Question 3 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">3.</span> Which function correctly computes the length of a list in StandardML?</legend>
+                <div class="choices">
+                    <label><input type="radio" name="q3" value="A"> A) <code>fun length [] = 0 | length (x::xs) = 1 + length xs;</code></label>
+                    <label><input type="radio" name="q3" value="B"> B) <code>fun length xs = if null xs then 0 else 1 + length xs;</code></label>
+                    <label><input type="radio" name="q3" value="C"> C) <code>fun length (x::xs) = 1 + length xs;</code></label>
+                    <label><input type="radio" name="q3" value="D"> D) <code>fun length xs = fold (fn (x,acc) =&gt; x + acc) 0 xs;</code></label>
+                </div>
+            </fieldset>
+
+            <!-- Question 4 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">4.</span> What is the type of the following function?</legend>
+                <pre class="code-block">fun compose f g x = f (g x);</pre>
+                <div class="choices">
+                    <label><input type="radio" name="q4" value="A"> A) ('a -&gt; 'b) -&gt; ('b -&gt; 'c) -&gt; 'a -&gt; 'c</label>
+                    <label><input type="radio" name="q4" value="B"> B) ('a -&gt; 'b) -&gt; ('c -&gt; 'a) -&gt; 'c -&gt; 'b</label>
+                    <label><input type="radio" name="q4" value="C"> C) ('b -&gt; 'c) -&gt; ('a -&gt; 'b) -&gt; 'a -&gt; 'c</label>
+                    <label><input type="radio" name="q4" value="D"> D) 'a -&gt; 'b -&gt; 'c</label>
+                </div>
+            </fieldset>
+
+            <!-- Question 5 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">5.</span> What does the following code evaluate to?</legend>
+                <pre class="code-block">val nums = [1, 2, 3, 4];
+val result = map (fn x => x * 2) nums;</pre>
+                <div class="choices">
+                    <label><input type="radio" name="q5" value="A"> A) [2, 4, 6, 8]</label>
+                    <label><input type="radio" name="q5" value="B"> B) [1, 2, 3, 4]</label>
+                    <label><input type="radio" name="q5" value="C"> C) 20</label>
+                    <label><input type="radio" name="q5" value="D"> D) Type error</label>
+                </div>
+            </fieldset>
+
+            <!-- Question 6 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">6.</span> What does the <code>::</code> operator do in StandardML?</legend>
+                <div class="choices">
+                    <label><input type="radio" name="q6" value="A"> A) Concatenates two lists</label>
+                    <label><input type="radio" name="q6" value="B"> B) Constructs a new list by adding an element to the front of an existing list</label>
+                    <label><input type="radio" name="q6" value="C"> C) Accesses an element at a specific index</label>
+                    <label><input type="radio" name="q6" value="D"> D) Compares two lists for equality</label>
+                </div>
+            </fieldset>
+
+            <!-- Question 7 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">7.</span> Which implementation correctly filters even numbers from a list?</legend>
+                <div class="choices">
+                    <label><input type="radio" name="q7" value="A"> A) <code>fun filterEven [] = [] | filterEven (x::xs) = if x mod 2 = 0 then x :: filterEven xs else filterEven xs;</code></label>
+                    <label><input type="radio" name="q7" value="B"> B) <code>fun filterEven xs = map (fn x =&gt; x mod 2 = 0) xs;</code></label>
+                    <label><input type="radio" name="q7" value="C"> C) <code>fun filterEven (x::xs) = if x mod 2 = 0 then x :: filterEven xs;</code></label>
+                    <label><input type="radio" name="q7" value="D"> D) <code>fun filterEven xs = fold (fn (x,acc) =&gt; if x mod 2 = 0 then x else acc) [] xs;</code></label>
+                </div>
+            </fieldset>
+
+            <!-- Question 8 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">8.</span> What is the result of evaluating this expression?</legend>
+                <pre class="code-block">let
+    val x = 5
+    val y = 10
+in
+    x + y
+end;</pre>
+                <div class="choices">
+                    <label><input type="radio" name="q8" value="A"> A) 15</label>
+                    <label><input type="radio" name="q8" value="B"> B) 510</label>
+                    <label><input type="radio" name="q8" value="C"> C) (5, 10)</label>
+                    <label><input type="radio" name="q8" value="D"> D) Type error</label>
+                </div>
+            </fieldset>
+
+            <!-- Question 9 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">9.</span> What is pattern matching in StandardML primarily used for?</legend>
+                <div class="choices">
+                    <label><input type="radio" name="q9" value="A"> A) Optimizing code performance</label>
+                    <label><input type="radio" name="q9" value="B"> B) Deconstructing data structures and handling different cases in function definitions</label>
+                    <label><input type="radio" name="q9" value="C"> C) Creating new data types</label>
+                    <label><input type="radio" name="q9" value="D"> D) Importing external libraries</label>
+                </div>
+            </fieldset>
+
+            <!-- Question 10 -->
+            <fieldset class="mcq-block">
+                <legend><span class="q-number">10.</span> Given the following datatype definition, what is the type of <code>Red</code>?</legend>
+                <pre class="code-block">datatype color = Red | Green | Blue;</pre>
+                <div class="choices">
+                    <label><input type="radio" name="q10" value="A"> A) int</label>
+                    <label><input type="radio" name="q10" value="B"> B) string</label>
+                    <label><input type="radio" name="q10" value="C"> C) color</label>
+                    <label><input type="radio" name="q10" value="D"> D) 'a</label>
+                </div>
+            </fieldset>
+
+            <button id="mcq-submit" type="submit">Submit Assessment</button>
+        </form>
+    </div>
+
+    <div id="mcq-feedback" style="display:none;">
+        <p id="mcq-score"></p>
+        <button id="mcq-continue">Continue</button>
+    </div>
+</div>
+
+<script src="{% static 'JS/mcqForm.js' %}"></script>
+<script src="{% static 'JS/cursorAnalytics.js' %}"></script>
+</body>
+</html>

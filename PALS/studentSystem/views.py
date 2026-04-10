@@ -201,7 +201,7 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
         )
 
         if completed_count >= 6:
-            return render(request, "studentSystem/userEndSurvey.html")
+            return redirect("mcq_assessment")
 
         request_type = None
         if request.method == "POST": # Use POST request to request the next question
@@ -266,7 +266,7 @@ def next_problem(request):
     completed_count = max(0, attempt_count - 1)
 
     if completed_count >= 6:
-        return redirect("post_experiment_survey")
+        return redirect("mcq_assessment")
 
     nextQuestions = currentProfile.next_questions.all()
 
@@ -277,7 +277,7 @@ def next_problem(request):
         queuedQuestion = currentProfile.next_questions.order_by('difficulty').first()
 
     if queuedQuestion is None:
-        return redirect("post_experiment_survey")
+        return redirect("mcq_assessment")
 
     session = Session.objects.create(user=currentUser, question=queuedQuestion)
     session.codeSubmission = (
@@ -669,6 +669,63 @@ def post_experiment_survey_submission(request):
             {"status": "error", "message": str(e)},
             status=500
         )
+
+
+MCQ_ANSWER_KEY = {
+    "q1": "C", "q2": "B", "q3": "A", "q4": "C", "q5": "A",
+    "q6": "B", "q7": "A", "q8": "A", "q9": "B", "q10": "C",
+}
+
+MCQ_QUESTION_TEXT = {
+    "q1": "What is the output of the following StandardML code? fun mystery x = if x <= 1 then 1 else x * mystery(x - 1); val result = mystery 4;",
+    "q2": "In StandardML, what is the key difference between val and fun declarations?",
+    "q3": "Which function correctly computes the length of a list in StandardML?",
+    "q4": "What is the type of the following function? fun compose f g x = f (g x);",
+    "q5": "What does the following code evaluate to? val nums = [1, 2, 3, 4]; val result = map (fn x => x * 2) nums;",
+    "q6": "What does the :: operator do in StandardML?",
+    "q7": "Which implementation correctly filters even numbers from a list?",
+    "q8": "What is the result of evaluating this expression? let val x = 5 val y = 10 in x + y end;",
+    "q9": "What is pattern matching in StandardML primarily used for?",
+    "q10": "Given the following datatype definition, what is the type of Red? datatype color = Red | Green | Blue;",
+}
+
+
+def mcq_assessment(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    return render(request, "studentSystem/mcqAssessment.html")
+
+
+@require_POST
+def mcq_assessment_submit(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({"status": "error", "message": "Not authenticated"}, status=401)
+
+    try:
+        body = json.loads(request.body.decode("utf-8"))
+        answers = body.get("answers", {})
+
+        score = 0
+        for key in MCQ_ANSWER_KEY:
+            correct = MCQ_ANSWER_KEY[key]
+            user_ans = answers.get(key, "")
+            is_correct = user_ans == correct
+            if is_correct:
+                score += 1
+
+            MCQResponse.objects.create(
+                user=request.user,
+                question_number=int(key[1:]),
+                question_text=MCQ_QUESTION_TEXT[key],
+                correct_answer=correct,
+                user_answer=user_ans,
+                is_correct=is_correct,
+            )
+
+        return JsonResponse({"status": "ok", "score": score, "total": 10})
+
+    except (json.JSONDecodeError, Exception) as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
 
 def final_FRQ(request):

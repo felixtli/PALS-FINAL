@@ -24,8 +24,8 @@ urlpatterns = [
     path('<int:id>/chat/next-response/', views.getAIResponse, name='nextResponse'), # Function to get the next AI response
     path("post-experiment-survey/", views.post_experiment_survey, name="post_experiment_survey"), # Post experiment survey page
     path("post-experiment-survey-submission/", views.post_experiment_survey_submission, name="post_experiment_survey_submission"), # Function to handle end survey response submission
-    path("final-frq/", views.final_FRQ, name="final_FRQ"), # Function to handle end survey response submission
-    path("final-frq/advance/", views.final_frq_advance, name="final_frq_advance"),
-    path("final/", views.final, name="final_FRQ"), # Final display
+    path("mcq-assessment/", views.mcq_assessment, name="mcq_assessment"),
+    path("mcq-assessment/submit/", views.mcq_assessment_submit, name="mcq_assessment_submit"),
+    path("final/", views.final, name="final"),
 
 ]

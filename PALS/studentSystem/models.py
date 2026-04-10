@@ -264,3 +264,19 @@ class EndSurveyResponse(models.Model):
 
     def __str__(self):
         return f"SurveyResponse #{self.id} ({self.created_at.date()})"
+
+
+class MCQResponse(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.SET_NULL
+    )
+    question_number = models.PositiveSmallIntegerField()
+    question_text = models.TextField()
+    correct_answer = models.CharField(max_length=1)
+    user_answer = models.CharField(max_length=1)
+    is_correct = models.BooleanField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"MCQ #{self.question_number} by user {self.user_id} — {'correct' if self.is_correct else 'wrong'}"

@@ -16,9 +16,8 @@ function getCookie(name) {
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("survey-form");
   const submitBtn = document.getElementById("survey-submit");
-  const feedbackContainer = document.getElementById('feedback-container');
 
-  submitBtn.addEventListener("click", function(event) {
+  submitBtn.addEventListener("click", async function(event) {
     event.preventDefault();
 
     const fieldsets = form.querySelectorAll("fieldset");
@@ -56,9 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Session ID:", window.sessionID);
     console.groupEnd();
 
-    feedbackContainer.style.visibility = 'visible';
-
-    postSurveyResponse(responses);
+    await postSurveyResponse(responses);
+    window.location.href = "/next-problem/";
   });
 });
 
@@ -77,20 +75,8 @@ async function postSurveyResponse(surveyResponse) {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
-        
+
     } catch (error) {
         console.error(error.message);
     }
 }
-
-async function navigateToNextProblem() {
-    window.location.href = "/next-problem/";
-}
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const navigationButton = document.getElementById("navigation-btn");
-    navigationButton.addEventListener("click", function () {
-        navigateToNextProblem();
-    });
-});
