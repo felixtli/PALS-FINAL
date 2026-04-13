@@ -3,7 +3,7 @@ from django.db.models.functions import Random
 import random
 
 def assignment(profile: Profile):
-    pool = Question.objects.filter(group=profile.user_type)
+    pool = Question.objects.all()
 
     easy = list(pool.filter(difficulty=1).order_by(Random())[:2])
     medium = list(pool.filter(difficulty=2).order_by(Random())[:2])
