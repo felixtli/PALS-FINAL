@@ -4,6 +4,7 @@ from studentSystem import views
 urlpatterns = [
     path("", views.home, name="home"), # Homepages
     path("analytics/track-cursor/", views.track_cursor, name="track_cursor"), # Track cursor movements
+    path("analytics/track-reference-sheet/", views.track_reference_sheet, name="track_reference_sheet"), # Track reference sheet open/close
     path("analytics/track-deletion/", views.track_deletion, name="track_deletion"), # Track code deletions
     path("signup/", views.signupView, name="signup"), # Signup screen
     path("login/", views.loginView, name="login"), # Login screen

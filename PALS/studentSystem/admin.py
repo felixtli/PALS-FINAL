@@ -12,6 +12,7 @@ admin.site.register(DeletionEvent)
 admin.site.register(EndSurveyResponse)
 admin.site.register(SystemHint)
 admin.site.register(MCQResponse)
+admin.site.register(ReferenceSheetView)
 
 
 

@@ -523,6 +523,28 @@ def post_survey_response(request, id):
         return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
+@require_POST
+def track_reference_sheet(request):
+    try:
+        body = json.loads(request.body)
+        session_id = body.get("session_id")
+        opened_at = body.get("opened_at")
+        closed_at = body.get("closed_at")
+
+        session = Session.objects.get(pk=session_id)
+        profile = Profile.objects.get(user=request.user)
+
+        ReferenceSheetView.objects.create(
+            profile=profile,
+            session=session,
+            opened_at=opened_at,
+            closed_at=closed_at,
+        )
+        return JsonResponse({"status": "ok"})
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+
 @csrf_exempt
 def track_cursor(request):
     if request.method != "POST":

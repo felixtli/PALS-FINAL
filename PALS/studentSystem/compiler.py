@@ -41,27 +41,33 @@ def clean_sml_output(output: str) -> str:
     # Remove the leading prompt dashes from each line
     output = re.sub(r"^\s*-\s*", "", output, flags=re.MULTILINE)
 
+    # Remove Windows batch file noise (REM comments, command prompt lines)
+    output = re.sub(r"^.*>REM.*$", "", output, flags=re.MULTILINE)
+    output = re.sub(r"^REM.*$", "", output, flags=re.MULTILINE)
+
     # Case 1: Error present
     error_match = re.search(r"(stdIn:\d+\.\d+\s+Error:.*)", output, re.DOTALL)
     if error_match:
         return error_match.group(1).strip()
-    
+
     # Case 2: Regular program output
     # Remove compiler intro line
-    cleaned = re.sub(r"^Standard ML of New Jersey.*?\]", "", output, flags=re.DOTALL)
-    
+    cleaned = re.sub(r"Standard ML of New Jersey.*?\]", "", output, flags=re.DOTALL)
+
     # Remove autoloading/library noise
     cleaned = re.sub(r"\[autoloading.*?\]", "", cleaned, flags=re.DOTALL)
     cleaned = re.sub(r"\[library.*?\]", "", cleaned, flags=re.DOTALL)
     cleaned = re.sub(r"\[autoloading done\]", "", cleaned, flags=re.DOTALL)
-    
+
     # Remove val bindings and type info
     cleaned = re.sub(r"val\s+\w+\s*=\s*fn\s*:\s*.*", "", cleaned)
     cleaned = re.sub(r"val\s+\w+\s*=\s*.*:\s*.*", "", cleaned)
     
     # Strip whitespace and return
-    print ("CODE HAS BEEN CLEANED")
-    return cleaned.strip()
+    cleaned = cleaned.strip()
+    if not cleaned:
+        return "Compilation successful — no errors found."
+    return cleaned
 
 def compileCode(codeInput):
     codeInput = textwrap.dedent(codeInput)

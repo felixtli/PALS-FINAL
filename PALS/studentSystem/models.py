@@ -266,6 +266,16 @@ class EndSurveyResponse(models.Model):
         return f"SurveyResponse #{self.id} ({self.created_at.date()})"
 
 
+class ReferenceSheetView(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="reference_views")
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="reference_views")
+    opened_at = models.DateTimeField()
+    closed_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"ReferenceSheetView(profile={self.profile_id}, session={self.session_id}, opened={self.opened_at})"
+
+
 class MCQResponse(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, blank=True,
