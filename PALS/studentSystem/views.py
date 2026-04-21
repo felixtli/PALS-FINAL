@@ -201,7 +201,7 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
         )
 
         if completed_count >= 6:
-            return redirect("final")
+            return redirect("post_experiment_survey")
 
         request_type = None
         if request.method == "POST": # Use POST request to request the next question
@@ -266,7 +266,7 @@ def next_problem(request):
     completed_count = max(0, attempt_count - 1)
 
     if completed_count >= 6:
-        return redirect("final")
+        return redirect("post_experiment_survey")
 
     nextQuestions = currentProfile.next_questions.all()
 
@@ -277,7 +277,7 @@ def next_problem(request):
         queuedQuestion = currentProfile.next_questions.order_by('difficulty').first()
 
     if queuedQuestion is None:
-        return redirect("final")
+        return redirect("post_experiment_survey")
 
     session = Session.objects.create(user=currentUser, question=queuedQuestion)
     session.codeSubmission = (
@@ -776,7 +776,7 @@ def final_FRQ(request):
 
     # If done, go to final page
     if idx >= len(queue) or not queue:
-        return redirect("final")
+        return redirect("post_experiment_survey")
 
     question = get_object_or_404(Question, pk=queue[idx])
 
