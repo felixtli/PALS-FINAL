@@ -201,7 +201,7 @@ def dashboard(request): # TODO: Style "# of cases passed" tooltips to float abov
         )
 
         if completed_count >= 6:
-            return redirect("mcq_assessment")
+            return redirect("final")
 
         request_type = None
         if request.method == "POST": # Use POST request to request the next question
@@ -266,7 +266,7 @@ def next_problem(request):
     completed_count = max(0, attempt_count - 1)
 
     if completed_count >= 6:
-        return redirect("mcq_assessment")
+        return redirect("final")
 
     nextQuestions = currentProfile.next_questions.all()
 
@@ -277,7 +277,7 @@ def next_problem(request):
         queuedQuestion = currentProfile.next_questions.order_by('difficulty').first()
 
     if queuedQuestion is None:
-        return redirect("mcq_assessment")
+        return redirect("final")
 
     session = Session.objects.create(user=currentUser, question=queuedQuestion)
     session.codeSubmission = (
