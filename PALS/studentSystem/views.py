@@ -263,9 +263,8 @@ def next_problem(request):
     currentProfile = Profile.objects.get(user=currentUser)
 
     attempt_count = currentProfile.question_history.count()
-    completed_count = max(0, attempt_count - 1)
 
-    if completed_count >= 6:
+    if attempt_count >= 6:
         return redirect("post_experiment_survey")
 
     nextQuestions = currentProfile.next_questions.all()

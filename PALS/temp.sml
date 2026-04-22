@@ -1,1 +1,1 @@
-fun multiply (a, b) = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)
+fun name (input: string option) = (* <- Keep the provided function name. It needs to be maintained for the compiler to work properly. *)
