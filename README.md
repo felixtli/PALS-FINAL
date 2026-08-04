@@ -286,7 +286,3 @@ The application uses the following default settings:
 - **Author**: Felix Li
 - **Email**: felixtl1014@gmail.com
 - **GitHub**: [Ftl1014](https://github.com/Ftl1014)
-
-## License
-
-[Add your license information here]
