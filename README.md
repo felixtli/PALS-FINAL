@@ -10,7 +10,7 @@ PALS (Personalized AI Learning System) is designed to facilitate interactive lea
 
 - **User Authentication**: Sign up and log in with styled forms
 - **Chat Interface**: Create and manage chat sessions, with persistent chat logs per user
-- **AI Integration**: Uses Ollama's phi4:14b model to generate thoughtful responses to user prompts
+- **AI Integration**: Access gpt-oss-120b through Ollama to generate thoughtful responses to user prompts
 - **Code Compilation**: Compile and test Standard ML code submissions with real-time feedback
 - **Test Case Evaluation**: Automatic test case execution and scoring for coding problems
 - **Session Management**: Each chat/code session is stored and associated with the user
@@ -236,23 +236,7 @@ PALS/
   ```bash
   python manage.py runserver 8001
   ```
-
-## Development Notes
-
-### Unfinished Components / Areas Needing Development
-- **Home Page**: `index.html` and the corresponding view are placeholders
-- **Error Styling**: Login form error messages need styled display (see TODO in `login.html`)
-- **Code Submission**: Some code submission features are still in development
-- **Testing**: Automated tests are not yet implemented
-
-### Configuration
-
-The application uses the following default settings:
-- **Ollama Model**: `phi4:14b` (configured in `studentSystem/chatbot.py`)
-- **Ollama URL**: `http://localhost:11434` (configured in `studentSystem/chatbot.py`)
-- **Database**: SQLite (`db.sqlite3`)
-- **Debug Mode**: Enabled (set `DEBUG = False` in `pals_project/settings.py` for production)
-
+  
 ## Dependencies Summary
 
 ### Python Packages (from requirements.txt)
@@ -284,5 +268,5 @@ The application uses the following default settings:
 ## Author & Contact
 
 - **Author**: Felix Li
-- **Email**: felixtl1014@gmail.com
-- **GitHub**: [Ftl1014](https://github.com/Ftl1014)
+- **Email**: felixtli701@gmail.com
+- **GitHub**: [Ftl1014](https://github.com/felixtli)
